@@ -37,36 +37,36 @@
 
 inline Vectormath::Aos::Vector3	getVmVector3(const btVector3& bulletVec)
 {
-	return Vectormath::Aos::Vector3((float)bulletVec.getX(),(float)bulletVec.getY(),(float)bulletVec.getZ());
+  return Vectormath::Aos::Vector3((float)bulletVec.getX(), (float)bulletVec.getY(), (float)bulletVec.getZ());
 }
 
 inline btVector3 getBtVector3(const Vectormath::Aos::Vector3& vmVec)
 {
-	return btVector3(vmVec.getX(),vmVec.getY(),vmVec.getZ());
+  return btVector3(vmVec.getX(), vmVec.getY(), vmVec.getZ());
 }
 inline btVector3 getBtVector3(const Vectormath::Aos::Point3& vmVec)
 {
-	return btVector3(vmVec.getX(),vmVec.getY(),vmVec.getZ());
+  return btVector3(vmVec.getX(), vmVec.getY(), vmVec.getZ());
 }
 
 inline Vectormath::Aos::Quat	getVmQuat(const btQuaternion& bulletQuat)
 {
-	Vectormath::Aos::Quat vmQuat((float)bulletQuat.getX(),(float)bulletQuat.getY(),(float)bulletQuat.getZ(),(float)bulletQuat.getW());
-	return vmQuat;
+  Vectormath::Aos::Quat vmQuat((float)bulletQuat.getX(), (float)bulletQuat.getY(), (float)bulletQuat.getZ(), (float)bulletQuat.getW());
+  return vmQuat;
 }
 
 inline btQuaternion	getBtQuat(const Vectormath::Aos::Quat& vmQuat)
 {
-	return btQuaternion (vmQuat.getX(),vmQuat.getY(),vmQuat.getZ(),vmQuat.getW());
+  return btQuaternion(vmQuat.getX(), vmQuat.getY(), vmQuat.getZ(), vmQuat.getW());
 }
 
 inline Vectormath::Aos::Matrix3	getVmMatrix3(const btMatrix3x3& btMat)
 {
-	Vectormath::Aos::Matrix3 mat(
-		getVmVector3(btMat.getColumn(0)),
-		getVmVector3(btMat.getColumn(1)),
-		getVmVector3(btMat.getColumn(2)));
-		return mat;
+  Vectormath::Aos::Matrix3 mat(
+    getVmVector3(btMat.getColumn(0)),
+    getVmVector3(btMat.getColumn(1)),
+    getVmVector3(btMat.getColumn(2)));
+  return mat;
 }
 
 

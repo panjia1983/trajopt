@@ -16,23 +16,23 @@ public:
   /*! Constructs a BriefTestProgressListener object.
    */
   BriefTestProgressListener();
-
+  
   /// Destructor.
   virtual ~BriefTestProgressListener();
-
-  void startTest( Test *test );
-
-  void addFailure( const TestFailure &failure );
-
-  void endTest( Test *test );
-
+  
+  void startTest(Test *test);
+  
+  void addFailure(const TestFailure &failure);
+  
+  void endTest(Test *test);
+  
 private:
   /// Prevents the use of the copy constructor.
-  BriefTestProgressListener( const BriefTestProgressListener &copy );
-
+  BriefTestProgressListener(const BriefTestProgressListener &copy);
+  
   /// Prevents the use of the copy operator.
-  void operator =( const BriefTestProgressListener &copy );
-
+  void operator =(const BriefTestProgressListener &copy);
+  
 private:
   bool m_lastTestFailed;
 };

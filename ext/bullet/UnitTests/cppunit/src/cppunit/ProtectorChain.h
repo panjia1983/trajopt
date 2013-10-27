@@ -20,23 +20,23 @@ class CPPUNIT_API ProtectorChain : public Protector
 {
 public:
   ~ProtectorChain();
-
-  void push( Protector *protector );
-
+  
+  void push(Protector *protector);
+  
   void pop();
-
+  
   int count() const;
-
-  bool protect( const Functor &functor,
-                const ProtectorContext &context );
-
+  
+  bool protect(const Functor &functor,
+               const ProtectorContext &context);
+               
 private:
   class ProtectFunctor;
-
+  
 private:
   typedef CppUnitDeque<Protector *> Protectors;
   Protectors m_protectors;
-
+  
   typedef CppUnitDeque<Functor *> Functors;
 };
 

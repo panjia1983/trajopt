@@ -46,17 +46,17 @@ using namespace ConvexDecomposition;
 class CHull
 {
 public:
-	CHull(const ConvexResult &result);
-
-	~CHull(void);
-
-	bool overlap(const CHull &h) const;
-
-	float          mMin[3];
-	float          mMax[3];
-	float          mVolume;
-	float          mDiagonal; // long edge..
-	ConvexResult  *mResult;
+  CHull(const ConvexResult &result);
+  
+  ~CHull(void);
+  
+  bool overlap(const CHull &h) const;
+  
+  float          mMin[3];
+  float          mMax[3];
+  float          mVolume;
+  float          mDiagonal; // long edge..
+  ConvexResult  *mResult;
 };
 
 // Usage: std::sort( list.begin(), list.end(), StringSortRef() );
@@ -64,10 +64,10 @@ class CHullSort
 {
 public:
 
-	inline bool operator()(const CHull *a,const CHull *b) const
-	{
-		return a->mVolume < b->mVolume;
-	}
+  inline bool operator()(const CHull *a, const CHull *b) const
+  {
+    return a->mVolume < b->mVolume;
+  }
 };
 
 
@@ -78,34 +78,34 @@ typedef btAlignedObjectArray< CHull * > CHullVector;
 class ConvexBuilder : public ConvexDecompInterface
 {
 public:
-	ConvexBuilder(ConvexDecompInterface *callback);
-
-	virtual ~ConvexBuilder(void);
-
-	bool isDuplicate(unsigned int i1,unsigned int i2,unsigned int i3,
-		unsigned int ci1,unsigned int ci2,unsigned int ci3);
-
-	void getMesh(const ConvexResult &cr,VertexLookup vc,UintVector &indices);
-
-	CHull * canMerge(CHull *a,CHull *b);
-
-	bool combineHulls(void);
-
-	unsigned int process(const DecompDesc &desc);
-
-	virtual void ConvexDebugTri(const float *p1,const float *p2,const float *p3,unsigned int color);
-
-	virtual void ConvexDebugOBB(const float *sides, const float *matrix,unsigned int color);
-	virtual void ConvexDebugPoint(const float *p,float dist,unsigned int color);
-
-	virtual void ConvexDebugBound(const float *bmin,const float *bmax,unsigned int color);
-
-	virtual void ConvexDecompResult(ConvexResult &result);
-
-	void sortChulls(CHullVector &hulls);
-
-	CHullVector     mChulls;
-	ConvexDecompInterface *mCallback;
+  ConvexBuilder(ConvexDecompInterface *callback);
+  
+  virtual ~ConvexBuilder(void);
+  
+  bool isDuplicate(unsigned int i1, unsigned int i2, unsigned int i3,
+                   unsigned int ci1, unsigned int ci2, unsigned int ci3);
+                   
+  void getMesh(const ConvexResult &cr, VertexLookup vc, UintVector &indices);
+  
+  CHull * canMerge(CHull *a, CHull *b);
+  
+  bool combineHulls(void);
+  
+  unsigned int process(const DecompDesc &desc);
+  
+  virtual void ConvexDebugTri(const float *p1, const float *p2, const float *p3, unsigned int color);
+  
+  virtual void ConvexDebugOBB(const float *sides, const float *matrix, unsigned int color);
+  virtual void ConvexDebugPoint(const float *p, float dist, unsigned int color);
+  
+  virtual void ConvexDebugBound(const float *bmin, const float *bmax, unsigned int color);
+  
+  virtual void ConvexDecompResult(ConvexResult &result);
+  
+  void sortChulls(CHullVector &hulls);
+  
+  CHullVector     mChulls;
+  ConvexDecompInterface *mCallback;
 };
 
 #endif //CONVEX_BUILDER_H

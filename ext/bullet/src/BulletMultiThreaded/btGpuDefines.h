@@ -1,11 +1,11 @@
 /*
 Bullet Continuous Collision Detection and Physics Library, http://bulletphysics.org
-Copyright (C) 2006, 2009 Sony Computer Entertainment Inc. 
+Copyright (C) 2006, 2009 Sony Computer Entertainment Inc.
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -25,32 +25,32 @@ typedef unsigned int uint;
 
 struct int2
 {
-	int x, y;
+  int x, y;
 };
 
 struct uint2
 {
-	unsigned int x, y;
+  unsigned int x, y;
 };
 
 struct int3
 {
-	int x, y, z;
+  int x, y, z;
 };
 
 struct uint3
 {
-	unsigned int x, y, z;
+  unsigned int x, y, z;
 };
 
 struct float4
 {
-	float x, y, z, w;
+  float x, y, z, w;
 };
 
 struct float3
 {
-	float x, y, z;
+  float x, y, z;
 };
 
 
@@ -68,125 +68,182 @@ struct float3
 
 static inline uint2 bt3dGrid_make_uint2(unsigned int x, unsigned int y)
 {
-  uint2 t; t.x = x; t.y = y; return t;
+  uint2 t;
+  t.x = x;
+  t.y = y;
+  return t;
 }
 #define BT_GPU_make_uint2(x, y) bt3dGrid_make_uint2(x, y)
 
 static inline int3 bt3dGrid_make_int3(int x, int y, int z)
 {
-  int3 t; t.x = x; t.y = y; t.z = z; return t;
+  int3 t;
+  t.x = x;
+  t.y = y;
+  t.z = z;
+  return t;
 }
 #define BT_GPU_make_int3(x, y, z) bt3dGrid_make_int3(x, y, z)
 
 static inline float3 bt3dGrid_make_float3(float x, float y, float z)
 {
-  float3 t; t.x = x; t.y = y; t.z = z; return t;
+  float3 t;
+  t.x = x;
+  t.y = y;
+  t.z = z;
+  return t;
 }
 #define BT_GPU_make_float3(x, y, z) bt3dGrid_make_float3(x, y, z)
 
 static inline float3 bt3dGrid_make_float34(float4 f)
 {
-  float3 t; t.x = f.x; t.y = f.y; t.z = f.z; return t;
+  float3 t;
+  t.x = f.x;
+  t.y = f.y;
+  t.z = f.z;
+  return t;
 }
 #define BT_GPU_make_float34(f) bt3dGrid_make_float34(f)
 
 static inline float3 bt3dGrid_make_float31(float f)
 {
-  float3 t; t.x = t.y = t.z = f; return t;
+  float3 t;
+  t.x = t.y = t.z = f;
+  return t;
 }
 #define BT_GPU_make_float31(x) bt3dGrid_make_float31(x)
 
 static inline float4 bt3dGrid_make_float42(float3 v, float f)
 {
-  float4 t; t.x = v.x; t.y = v.y; t.z = v.z; t.w = f; return t;
+  float4 t;
+  t.x = v.x;
+  t.y = v.y;
+  t.z = v.z;
+  t.w = f;
+  return t;
 }
-#define BT_GPU_make_float42(a, b) bt3dGrid_make_float42(a, b) 
+#define BT_GPU_make_float42(a, b) bt3dGrid_make_float42(a, b)
 
 static inline float4 bt3dGrid_make_float44(float a, float b, float c, float d)
 {
-  float4 t; t.x = a; t.y = b; t.z = c; t.w = d; return t;
+  float4 t;
+  t.x = a;
+  t.y = b;
+  t.z = c;
+  t.w = d;
+  return t;
 }
-#define BT_GPU_make_float44(a, b, c, d) bt3dGrid_make_float44(a, b, c, d) 
+#define BT_GPU_make_float44(a, b, c, d) bt3dGrid_make_float44(a, b, c, d)
 
 inline int3 operator+(int3 a, int3 b)
 {
-    return bt3dGrid_make_int3(a.x + b.x, a.y + b.y, a.z + b.z);
+  return bt3dGrid_make_int3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
 inline float4 operator+(const float4& a, const float4& b)
 {
-	float4 r; r.x = a.x+b.x; r.y = a.y+b.y; r.z = a.z+b.z; r.w = a.w+b.w; return r;
+  float4 r;
+  r.x = a.x + b.x;
+  r.y = a.y + b.y;
+  r.z = a.z + b.z;
+  r.w = a.w + b.w;
+  return r;
 }
 inline float4 operator*(const float4& a, float fact)
 {
-	float4 r; r.x = a.x*fact; r.y = a.y*fact; r.z = a.z*fact; r.w = a.w*fact; return r;
+  float4 r;
+  r.x = a.x * fact;
+  r.y = a.y * fact;
+  r.z = a.z * fact;
+  r.w = a.w * fact;
+  return r;
 }
 inline float4 operator*(float fact, float4& a)
 {
-	return (a * fact);
+  return (a * fact);
 }
 inline float4& operator*=(float4& a, float fact)
 {
-	a = fact * a;
-	return a;
+  a = fact * a;
+  return a;
 }
 inline float4& operator+=(float4& a, const float4& b)
 {
-	a = a + b;
-	return a;
+  a = a + b;
+  return a;
 }
 
 inline float3 operator+(const float3& a, const float3& b)
 {
-	float3 r; r.x = a.x+b.x; r.y = a.y+b.y; r.z = a.z+b.z; return r;
+  float3 r;
+  r.x = a.x + b.x;
+  r.y = a.y + b.y;
+  r.z = a.z + b.z;
+  return r;
 }
 inline float3 operator-(const float3& a, const float3& b)
 {
-	float3 r; r.x = a.x-b.x; r.y = a.y-b.y; r.z = a.z-b.z; return r;
+  float3 r;
+  r.x = a.x - b.x;
+  r.y = a.y - b.y;
+  r.z = a.z - b.z;
+  return r;
 }
 static inline float bt3dGrid_dot(float3& a, float3& b)
 {
-	return a.x*b.x+a.y*b.y+a.z*b.z;
+  return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 #define BT_GPU_dot(a,b) bt3dGrid_dot(a,b)
 
 static inline float bt3dGrid_dot4(float4& a, float4& b)
 {
-	return a.x*b.x+a.y*b.y+a.z*b.z+a.w*b.w;
+  return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 #define BT_GPU_dot4(a,b) bt3dGrid_dot4(a,b)
 
 static inline float3 bt3dGrid_cross(const float3& a, const float3& b)
 {
-	float3 r; r.x = a.y*b.z-a.z*b.y; r.y = -a.x*b.z+a.z*b.x; r.z = a.x*b.y-a.y*b.x;	return r;
+  float3 r;
+  r.x = a.y * b.z - a.z * b.y;
+  r.y = -a.x * b.z + a.z * b.x;
+  r.z = a.x * b.y - a.y * b.x;
+  return r;
 }
 #define BT_GPU_cross(a,b) bt3dGrid_cross(a,b)
 
 
 inline float3 operator*(const float3& a, float fact)
 {
-	float3 r; r.x = a.x*fact; r.y = a.y*fact; r.z = a.z*fact; return r;
+  float3 r;
+  r.x = a.x * fact;
+  r.y = a.y * fact;
+  r.z = a.z * fact;
+  return r;
 }
 
 
 inline float3& operator+=(float3& a, const float3& b)
 {
-	a = a + b;
-	return a;
+  a = a + b;
+  return a;
 }
 inline float3& operator-=(float3& a, const float3& b)
 {
-	a = a - b;
-	return a;
+  a = a - b;
+  return a;
 }
 inline float3& operator*=(float3& a, float fact)
 {
-	a = a * fact;
-	return a;
+  a = a * fact;
+  return a;
 }
 inline float3 operator-(const float3& v)
 {
-	float3 r; r.x = -v.x; r.y = -v.y; r.z = -v.z; return r;
+  float3 r;
+  r.x = -v.x;
+  r.y = -v.y;
+  r.z = -v.z;
+  return r;
 }
 
 

@@ -6,13 +6,14 @@
 
 typedef std::vector<int> IntVec;
 
-namespace cloudproc {
+namespace cloudproc
+{
 
 TRAJOPT_API void ConvexDecomp1(const pcl::PointCloud<pcl::PointXYZ>::ConstPtr& cloud, float thresh,
-    /*optional outputs: */ std::vector<IntVec>* indices, std::vector< IntVec >* hull_indices);
-
-
+                               /*optional outputs: */ std::vector<IntVec>* indices, std::vector< IntVec >* hull_indices);
+                               
+                               
 TRAJOPT_API void ConvexDecomp(const pcl::PointCloud<pcl::PointXYZ>::ConstPtr& cloud, const Eigen::MatrixXf& dirs, float thresh,
-    /*optional outputs: */ std::vector<IntVec>* indices, std::vector< IntVec >* hull_indices);
+                              /*optional outputs: */ std::vector<IntVec>* indices, std::vector< IntVec >* hull_indices);
 }
 

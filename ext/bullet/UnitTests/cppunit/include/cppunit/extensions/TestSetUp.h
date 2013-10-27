@@ -11,20 +11,20 @@ class TestResult;
 
 /*! \brief Decorates a test by providing a specific setUp() and tearDown().
  */
-class CPPUNIT_API TestSetUp : public TestDecorator 
+class CPPUNIT_API TestSetUp : public TestDecorator
 {
 public:
-  TestSetUp( Test *test );
-
-  void run( TestResult *result );
-
+  TestSetUp(Test *test);
+  
+  void run(TestResult *result);
+  
 protected:
   virtual void setUp();
   virtual void tearDown();
-
+  
 private:
-  TestSetUp( const TestSetUp & );
-  void operator =( const TestSetUp & );
+  TestSetUp(const TestSetUp &);
+  void operator =(const TestSetUp &);
 };
 
 

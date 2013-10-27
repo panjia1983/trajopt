@@ -10,7 +10,7 @@
 CPPUNIT_NS_BEGIN
 
 
-TestPlugInDefaultImpl::TestPlugInDefaultImpl() 
+TestPlugInDefaultImpl::TestPlugInDefaultImpl()
 {
 }
 
@@ -20,39 +20,39 @@ TestPlugInDefaultImpl::~TestPlugInDefaultImpl()
 }
 
 
-void 
-TestPlugInDefaultImpl::initialize( TestFactoryRegistry *,
-                                   const PlugInParameters & )
+void
+TestPlugInDefaultImpl::initialize(TestFactoryRegistry *,
+                                  const PlugInParameters &)
 {
 }
 
 
-void 
-TestPlugInDefaultImpl::addListener( TestResult * )
+void
+TestPlugInDefaultImpl::addListener(TestResult *)
 {
 }
 
 
-void 
-TestPlugInDefaultImpl::removeListener( TestResult * )
+void
+TestPlugInDefaultImpl::removeListener(TestResult *)
 {
 }
 
 
-void 
-TestPlugInDefaultImpl::addXmlOutputterHooks( XmlOutputter * )
+void
+TestPlugInDefaultImpl::addXmlOutputterHooks(XmlOutputter *)
 {
 }
 
 
-void 
+void
 TestPlugInDefaultImpl::removeXmlOutputterHooks()
 {
 }
 
 
-void 
-TestPlugInDefaultImpl::uninitialize( TestFactoryRegistry * )
+void
+TestPlugInDefaultImpl::uninitialize(TestFactoryRegistry *)
 {
 }
 

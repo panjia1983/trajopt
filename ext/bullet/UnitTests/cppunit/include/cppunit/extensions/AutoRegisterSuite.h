@@ -31,26 +31,26 @@ public:
   /** Auto-register the suite factory in the global registry.
    */
   AutoRegisterSuite()
-      : m_registry( &TestFactoryRegistry::getRegistry() )
+    : m_registry(&TestFactoryRegistry::getRegistry())
   {
-    m_registry->registerFactory( &m_factory );
+    m_registry->registerFactory(&m_factory);
   }
-
+  
   /** Auto-register the suite factory in the specified registry.
    * \param name Name of the registry.
    */
-  AutoRegisterSuite( const std::string &name )
-      : m_registry( &TestFactoryRegistry::getRegistry( name ) )
+  AutoRegisterSuite(const std::string &name)
+    : m_registry(&TestFactoryRegistry::getRegistry(name))
   {
-    m_registry->registerFactory( &m_factory );
+    m_registry->registerFactory(&m_factory);
   }
-
+  
   ~AutoRegisterSuite()
   {
-    if ( TestFactoryRegistry::isValid() )
-      m_registry->unregisterFactory( &m_factory );
+    if(TestFactoryRegistry::isValid())
+      m_registry->unregisterFactory(&m_factory);
   }
-
+  
 private:
   TestFactoryRegistry *m_registry;
   TestSuiteFactory<TestCaseType> m_factory;
@@ -65,15 +65,15 @@ private:
 class AutoRegisterRegistry
 {
 public:
-  AutoRegisterRegistry( const std::string &which,
-                        const std::string &to )
+  AutoRegisterRegistry(const std::string &which,
+                       const std::string &to)
   {
-    TestFactoryRegistry::getRegistry( to ).addRegistry( which );
+    TestFactoryRegistry::getRegistry(to).addRegistry(which);
   }
-
-  AutoRegisterRegistry( const std::string &which )
+  
+  AutoRegisterRegistry(const std::string &which)
   {
-    TestFactoryRegistry::getRegistry().addRegistry( which );
+    TestFactoryRegistry::getRegistry().addRegistry(which);
   }
 };
 

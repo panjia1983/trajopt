@@ -16,25 +16,25 @@ TextTestProgressListener::~TextTestProgressListener()
 }
 
 
-void 
-TextTestProgressListener::startTest( Test * )
+void
+TextTestProgressListener::startTest(Test *)
 {
   stdCOut() << ".";
   stdCOut().flush();
 }
 
 
-void 
-TextTestProgressListener::addFailure( const TestFailure &failure )
+void
+TextTestProgressListener::addFailure(const TestFailure &failure)
 {
-  stdCOut() << ( failure.isError() ? "E" : "F" );
+  stdCOut() << (failure.isError() ? "E" : "F");
   stdCOut().flush();
 }
 
 
-void 
-TextTestProgressListener::endTestRun( Test *, 
-                                      TestResult * )
+void
+TextTestProgressListener::endTestRun(Test *,
+                                     TestResult *)
 {
   stdCOut()  <<  "\n";
   stdCOut().flush();

@@ -4,14 +4,14 @@
 CPPUNIT_NS_BEGIN
 
 
-int 
+int
 TestLeaf::countTestCases() const
 {
   return 1;
 }
 
 
-int 
+int
 TestLeaf::getChildTestCount() const
 {
   return 0;
@@ -19,9 +19,9 @@ TestLeaf::getChildTestCount() const
 
 
 Test *
-TestLeaf::doGetChildTestAt( int index ) const
+TestLeaf::doGetChildTestAt(int index) const
 {
-  checkIsValidIndex( index );
+  checkIsValidIndex(index);
   return NULL;    // never called, checkIsValidIndex() always throw.
 }
 

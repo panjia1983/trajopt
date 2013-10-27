@@ -25,59 +25,60 @@ subject to the following restrictions:
 
 
 
-namespace bParse {
+namespace bParse
+{
 
-	// ----------------------------------------------------- //
-	class btBulletFile : public bFile
-	{
-		
+// ----------------------------------------------------- //
+class btBulletFile : public bFile
+{
 
-	protected:
-	
-		char*	m_DnaCopy;
-				
-	public:
 
-		btAlignedObjectArray<bStructHandle*>	m_softBodies;
+protected:
 
-		btAlignedObjectArray<bStructHandle*>	m_rigidBodies;
+  char*	m_DnaCopy;
+  
+public:
 
-		btAlignedObjectArray<bStructHandle*>	m_collisionObjects;
-
-		btAlignedObjectArray<bStructHandle*>	m_collisionShapes;
-
-		btAlignedObjectArray<bStructHandle*>	m_constraints;
-
-		btAlignedObjectArray<bStructHandle*>	m_bvhs;
-
-		btAlignedObjectArray<bStructHandle*>	m_triangleInfoMaps;
-
-		btAlignedObjectArray<bStructHandle*>	m_dynamicsWorldInfo;
-
-		btAlignedObjectArray<char*>				m_dataBlocks;
-		btBulletFile();
-
-		btBulletFile(const char* fileName);
-
-		btBulletFile(char *memoryBuffer, int len);
-
-		virtual ~btBulletFile();
-
-		virtual	void	addDataBlock(char* dataBlock);
-	
-
-		// experimental
-		virtual int		write(const char* fileName, bool fixupPointers=false);
-
-		virtual	void	parse(int verboseMode);
-
-		virtual	void parseData();
-
-		virtual	void	writeDNA(FILE* fp);
-
-		void	addStruct(const char* structType,void* data, int len, void* oldPtr, int code);
-
-	};
+  btAlignedObjectArray<bStructHandle*>	m_softBodies;
+  
+  btAlignedObjectArray<bStructHandle*>	m_rigidBodies;
+  
+  btAlignedObjectArray<bStructHandle*>	m_collisionObjects;
+  
+  btAlignedObjectArray<bStructHandle*>	m_collisionShapes;
+  
+  btAlignedObjectArray<bStructHandle*>	m_constraints;
+  
+  btAlignedObjectArray<bStructHandle*>	m_bvhs;
+  
+  btAlignedObjectArray<bStructHandle*>	m_triangleInfoMaps;
+  
+  btAlignedObjectArray<bStructHandle*>	m_dynamicsWorldInfo;
+  
+  btAlignedObjectArray<char*>				m_dataBlocks;
+  btBulletFile();
+  
+  btBulletFile(const char* fileName);
+  
+  btBulletFile(char *memoryBuffer, int len);
+  
+  virtual ~btBulletFile();
+  
+  virtual	void	addDataBlock(char* dataBlock);
+  
+  
+  // experimental
+  virtual int		write(const char* fileName, bool fixupPointers = false);
+  
+  virtual	void	parse(int verboseMode);
+  
+  virtual	void parseData();
+  
+  virtual	void	writeDNA(FILE* fp);
+  
+  void	addStruct(const char* structType, void* data, int len, void* oldPtr, int code);
+  
+};
 };
 
 #endif //BT_BULLET_FILE_H

@@ -5,7 +5,7 @@
 //              implemented in TwEventGLUT.c
 //
 //  notes:    - Private header
-//            - AntTweakBar.dll does not need to link with GLUT, 
+//            - AntTweakBar.dll does not need to link with GLUT,
 //              it just needs some definitions for its helper functions.
 //            - This header is provided to avoid the need of having GLUT
 //              installed to recompile AntTweakBar.
@@ -98,42 +98,45 @@ extern "C" {
 
 
 // functions subset
-GLUT_API void GLUT_CALL glutInit(int *argcp, char **argv);
-GLUT_API void GLUT_CALL glutInitDisplayMode(unsigned int mode);
-GLUT_API int  GLUT_CALL glutCreateWindow(const char *title);
-GLUT_API int  GLUT_CALL glutGetWindow(void);
-GLUT_API void GLUT_CALL glutSetWindow(int win);
-GLUT_API int  GLUT_CALL glutCreateSubWindow(int win, int x, int y, int width, int height);
-GLUT_API int  GLUT_CALL glutGet(GLenum type);
-GLUT_API void GLUT_CALL glutSwapBuffers();
-GLUT_API void GLUT_CALL glutPostRedisplay();
-GLUT_API void GLUT_CALL glutInitWindowPosition(int x, int y);
-GLUT_API void GLUT_CALL glutInitWindowSize(int width, int height);
-GLUT_API void GLUT_CALL glutPositionWindow(int x, int y);
-GLUT_API void GLUT_CALL glutReshapeWindow(int width, int height);
-GLUT_API void GLUT_CALL glutMainLoop();
-GLUT_API int  GLUT_CALL glutCreateMenu(void (GLUT_CALLBACK *func)(int));
-GLUT_API void GLUT_CALL glutDisplayFunc(void (GLUT_CALLBACK *func)(void));
-GLUT_API void GLUT_CALL glutReshapeFunc(void (GLUT_CALLBACK *func)(int width, int height));
-GLUT_API void GLUT_CALL glutKeyboardFunc(void (GLUT_CALLBACK *func)(unsigned char key, int x, int y));
-GLUT_API void GLUT_CALL glutMouseFunc(void (GLUT_CALLBACK *func)(int button, int state, int x, int y));
-GLUT_API void GLUT_CALL glutMotionFunc(void (GLUT_CALLBACK *func)(int x, int y));
-GLUT_API void GLUT_CALL glutPassiveMotionFunc(void (GLUT_CALLBACK *func)(int x, int y));
-GLUT_API void GLUT_CALL glutSpecialFunc(void (GLUT_CALLBACK *func)(int key, int x, int y));
-GLUT_API int  GLUT_CALL glutGetModifiers(void);
-GLUT_API void GLUT_CALL glutSolidTorus(GLdouble innerRadius, GLdouble outerRadius, GLint sides, GLint rings);
-GLUT_API void GLUT_CALL glutSolidCone(GLdouble base, GLdouble height, GLint slices, GLint stacks);
-GLUT_API void GLUT_CALL glutSolidTeapot(GLdouble size);
-
+  GLUT_API void GLUT_CALL glutInit(int *argcp, char **argv);
+  GLUT_API void GLUT_CALL glutInitDisplayMode(unsigned int mode);
+  GLUT_API int  GLUT_CALL glutCreateWindow(const char *title);
+  GLUT_API int  GLUT_CALL glutGetWindow(void);
+  GLUT_API void GLUT_CALL glutSetWindow(int win);
+  GLUT_API int  GLUT_CALL glutCreateSubWindow(int win, int x, int y, int width, int height);
+  GLUT_API int  GLUT_CALL glutGet(GLenum type);
+  GLUT_API void GLUT_CALL glutSwapBuffers();
+  GLUT_API void GLUT_CALL glutPostRedisplay();
+  GLUT_API void GLUT_CALL glutInitWindowPosition(int x, int y);
+  GLUT_API void GLUT_CALL glutInitWindowSize(int width, int height);
+  GLUT_API void GLUT_CALL glutPositionWindow(int x, int y);
+  GLUT_API void GLUT_CALL glutReshapeWindow(int width, int height);
+  GLUT_API void GLUT_CALL glutMainLoop();
+  GLUT_API int  GLUT_CALL glutCreateMenu(void (GLUT_CALLBACK *func)(int));
+  GLUT_API void GLUT_CALL glutDisplayFunc(void (GLUT_CALLBACK *func)(void));
+  GLUT_API void GLUT_CALL glutReshapeFunc(void (GLUT_CALLBACK *func)(int width, int height));
+  GLUT_API void GLUT_CALL glutKeyboardFunc(void (GLUT_CALLBACK *func)(unsigned char key, int x, int y));
+  GLUT_API void GLUT_CALL glutMouseFunc(void (GLUT_CALLBACK *func)(int button, int state, int x, int y));
+  GLUT_API void GLUT_CALL glutMotionFunc(void (GLUT_CALLBACK *func)(int x, int y));
+  GLUT_API void GLUT_CALL glutPassiveMotionFunc(void (GLUT_CALLBACK *func)(int x, int y));
+  GLUT_API void GLUT_CALL glutSpecialFunc(void (GLUT_CALLBACK *func)(int key, int x, int y));
+  GLUT_API int  GLUT_CALL glutGetModifiers(void);
+  GLUT_API void GLUT_CALL glutSolidTorus(GLdouble innerRadius, GLdouble outerRadius, GLint sides, GLint rings);
+  GLUT_API void GLUT_CALL glutSolidCone(GLdouble base, GLdouble height, GLint slices, GLint stacks);
+  GLUT_API void GLUT_CALL glutSolidTeapot(GLdouble size);
+  
 // GLUT exit problem workaround (see glut.h)
 #if (defined(_WIN32) || defined(_WIN64)) && !defined(GLUT_DISABLE_ATEXIT_HACK)
-    extern void __cdecl exit(int);
-    GLUT_API void GLUT_CALL __glutInitWithExit(int *argcp, char **argv, void (__cdecl *exitfunc)(int));
-    static void GLUT_CALL glutInit_ATEXIT_HACK(int *argcp, char **argv) { __glutInitWithExit(argcp, argv, exit); }
-    #define glutInit glutInit_ATEXIT_HACK
+  extern void __cdecl exit(int);
+  GLUT_API void GLUT_CALL __glutInitWithExit(int *argcp, char **argv, void (__cdecl *exitfunc)(int));
+  static void GLUT_CALL glutInit_ATEXIT_HACK(int *argcp, char **argv)
+  {
+    __glutInitWithExit(argcp, argv, exit);
+  }
+#define glutInit glutInit_ATEXIT_HACK
 #endif
-
-
+  
+  
 #ifdef __cplusplus
 }
 #endif

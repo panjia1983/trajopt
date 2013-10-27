@@ -20,9 +20,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 #ifndef DEF_PARTICLE
-	#define DEF_PARTICLE
-	
-	#include "vector.h"
+#define DEF_PARTICLE
+
+#include "vector.h"
 
 
 

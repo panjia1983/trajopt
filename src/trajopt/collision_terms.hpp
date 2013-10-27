@@ -6,24 +6,27 @@
 #include "cache.hxx"
 
 
-namespace trajopt {
+namespace trajopt
+{
 
 typedef std::map<const OR::KinBody::Link*, int> Link2Int;
 
 
-struct CollisionEvaluator {
+struct CollisionEvaluator
+{
   virtual void CalcDistExpressions(const DblVec& x, vector<AffExpr>& exprs) = 0;
   virtual void CalcDists(const DblVec& x, DblVec& exprs) = 0;
   virtual void CalcCollisions(const DblVec& x, vector<Collision>& collisions) = 0;
   void GetCollisionsCached(const DblVec& x, vector<Collision>&);
   virtual ~CollisionEvaluator() {}
-  virtual VarVector GetVars()=0;
-
+  virtual VarVector GetVars() = 0;
+  
   Cache<size_t, vector<Collision>, 3> m_cache;
 };
 typedef boost::shared_ptr<CollisionEvaluator> CollisionEvaluatorPtr;
 
-struct SingleTimestepCollisionEvaluator : public CollisionEvaluator {
+struct SingleTimestepCollisionEvaluator : public CollisionEvaluator
+{
 public:
   SingleTimestepCollisionEvaluator(ConfigurationPtr rad, const VarVector& vars);
   /**
@@ -38,8 +41,11 @@ public:
    */
   void CalcDists(const DblVec& x, DblVec& exprs);
   void CalcCollisions(const DblVec& x, vector<Collision>& collisions);
-  VarVector GetVars() {return m_vars;}
-
+  VarVector GetVars()
+  {
+    return m_vars;
+  }
+  
   OR::EnvironmentBasePtr m_env;
   CollisionCheckerPtr m_cc;
   ConfigurationPtr m_rad;
@@ -49,15 +55,19 @@ public:
   short m_filterMask;
 };
 
-struct CastCollisionEvaluator : public CollisionEvaluator {
+struct CastCollisionEvaluator : public CollisionEvaluator
+{
 public:
   CastCollisionEvaluator(ConfigurationPtr rad, const VarVector& vars0, const VarVector& vars1);
   void CalcDistExpressions(const DblVec& x, vector<AffExpr>& exprs);
   void CalcDists(const DblVec& x, DblVec& exprs);
   void CalcCollisions(const DblVec& x, vector<Collision>& collisions);
-  VarVector GetVars() {return concat(m_vars0, m_vars1);}
+  VarVector GetVars()
+  {
+    return concat(m_vars0, m_vars1);
+  }
   
-
+  
   // parameters:
   OR::EnvironmentBasePtr m_env;
   CollisionCheckerPtr m_cc;
@@ -68,11 +78,12 @@ public:
   Link2Int m_link2ind;
   vector<OR::KinBody::LinkPtr> m_links;
   short m_filterMask;
-
+  
 };
 
 
-class TRAJOPT_API CollisionCost : public Cost, public Plotter {
+class TRAJOPT_API CollisionCost : public Cost, public Plotter
+{
 public:
   /* constructor for single timestep */
   CollisionCost(double dist_pen, double coeff, ConfigurationPtr rad, const VarVector& vars);
@@ -86,7 +97,8 @@ private:
   double m_dist_pen;
   double m_coeff;
 };
-class TRAJOPT_API CollisionConstraint : public IneqConstraint {
+class TRAJOPT_API CollisionConstraint : public IneqConstraint
+{
 public:
   /* constructor for single timestep */
   CollisionConstraint(double dist_pen, double coeff, ConfigurationPtr rad, const VarVector& vars);

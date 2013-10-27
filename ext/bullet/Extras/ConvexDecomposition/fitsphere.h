@@ -38,6 +38,6 @@
 
 
 
-float computeBoundingSphere(unsigned int vcount,const float *points,float *center);
+float computeBoundingSphere(unsigned int vcount, const float *points, float *center);
 
 #endif

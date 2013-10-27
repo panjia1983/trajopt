@@ -2,7 +2,8 @@
 #include <pcl/PolygonMesh.h>
 #include "macros.h"
 
-namespace cloudproc {
+namespace cloudproc
+{
 
 
 /**

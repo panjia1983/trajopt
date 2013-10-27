@@ -1,5 +1,5 @@
 /****************************************************************************
-  
+
   GLUI User Interface Toolkit
   ---------------------------
 
@@ -31,40 +31,43 @@
 
 #include "glui_internal_control.h"
 
-GLUI_Panel::GLUI_Panel( GLUI_Node *parent, const char *name, int type )
+GLUI_Panel::GLUI_Panel(GLUI_Node *parent, const char *name, int type)
 {
   common_init();
-  set_name( name );
+  set_name(name);
   user_id    = -1;
   int_val    = type;
-
-  parent->add_control( this );
+  
+  parent->add_control(this);
 }
 
 /****************************** GLUI_Panel::draw() **********/
 
-void    GLUI_Panel::draw( int x, int y )
+void    GLUI_Panel::draw(int x, int y)
 {
   int top;
   GLUI_DRAWINGSENTINAL_IDIOM
-
-  if ( int_val == GLUI_PANEL_RAISED ) {
+  
+  if(int_val == GLUI_PANEL_RAISED)
+  {
     top = 0;
-    glLineWidth( 1.0 );
-    glColor3f( 1.0, 1.0, 1.0 );
-    glBegin( GL_LINE_LOOP );
-    glVertex2i( 0, top );    glVertex2i( w, top );
-    glVertex2i( 0, top );    glVertex2i( 0, h );
+    glLineWidth(1.0);
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(0, top);
+    glVertex2i(w, top);
+    glVertex2i(0, top);
+    glVertex2i(0, h);
     glEnd();
     
-    glColor3f( .5, .5, .5 );
-    glBegin( GL_LINE_LOOP );
-    glVertex2i( w, top );
-    glVertex2i( w, h );
-    glVertex2i( 0, h );
-    glVertex2i( w, h );
+    glColor3f(.5, .5, .5);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(w, top);
+    glVertex2i(w, h);
+    glVertex2i(0, h);
+    glVertex2i(w, h);
     glEnd();
-
+    
     /** ORIGINAL RAISED PANEL METHOD - A LITTLE TOO HIGH **
     glLineWidth(1.0);
     glBegin( GL_LINES );
@@ -81,81 +84,92 @@ void    GLUI_Panel::draw( int x, int y )
     glVertex2i( w, 0 );    glVertex2i( w, h );
     glEnd();
     
-    -- Touch up the lines a bit (needed in some opengl implementations   
+    -- Touch up the lines a bit (needed in some opengl implementations
     glBegin( GL_POINTS );
     glColor3f( .5, .5, .5 );
     glVertex2i( w-1, h-1 );
     glColor3f( 0.0, 0.0, 0.0 );
     glVertex2i( w, h );
     glEnd();
-    **/    
-      }
-  else if ( int_val == GLUI_PANEL_EMBOSSED ) {
-    if ( parent_node == NULL || name == "" ) {
+    **/
+  }
+  else if(int_val == GLUI_PANEL_EMBOSSED)
+  {
+    if(parent_node == NULL || name == "")
+    {
       top = 0;
     }
-    else {
+    else
+    {
       top = GLUI_PANEL_EMBOSS_TOP;
     }
-
-    glLineWidth( 1.0 );
-    glColor3f( 1.0, 1.0, 1.0 );
-    glBegin( GL_LINE_LOOP );
-    glVertex2i( 0, top );    glVertex2i( w, top );
-    glVertex2i( w, h );    glVertex2i( 0, h );
-
-    glVertex2i( 1, top+1 );    glVertex2i( w-1, top+1 );
-    glVertex2i( w-1, h-1 );    glVertex2i( 1, h-1 );
+    
+    glLineWidth(1.0);
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(0, top);
+    glVertex2i(w, top);
+    glVertex2i(w, h);
+    glVertex2i(0, h);
+    
+    glVertex2i(1, top + 1);
+    glVertex2i(w - 1, top + 1);
+    glVertex2i(w - 1, h - 1);
+    glVertex2i(1, h - 1);
     glEnd();
     
-    glColor3f( .5, .5, .5 );
-    glBegin( GL_LINE_LOOP );
-    glVertex2i( 0, top );
-    glVertex2i( w-1, top );
-    glVertex2i( w-1, h-1 );
-    glVertex2i( 0, h-1 );
+    glColor3f(.5, .5, .5);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(0, top);
+    glVertex2i(w - 1, top);
+    glVertex2i(w - 1, h - 1);
+    glVertex2i(0, h - 1);
     glEnd();
-
+    
     /**** Only display text in embossed panel ****/
-    if ( parent_node != NULL && name != "" ) { /* Only  draw non-null strings */
-      int left = 7, height=GLUI_PANEL_NAME_DROP+1;
+    if(parent_node != NULL && name != "")      /* Only  draw non-null strings */
+    {
+      int left = 7, height = GLUI_PANEL_NAME_DROP + 1;
       int str_width;
-
+      
       str_width = string_width(name);
-
-      if ( glui )
-	glColor3ub(glui->bkgd_color.r,glui->bkgd_color.g,glui->bkgd_color.b);
-      glDisable( GL_CULL_FACE );
-      glBegin( GL_QUADS );
-      glVertex2i( left-3, 0 );               glVertex2i( left+str_width+3, 0 );
-      glVertex2i( left+str_width+3, height );  glVertex2i( left-3, height );
+      
+      if(glui)
+        glColor3ub(glui->bkgd_color.r, glui->bkgd_color.g, glui->bkgd_color.b);
+      glDisable(GL_CULL_FACE);
+      glBegin(GL_QUADS);
+      glVertex2i(left - 3, 0);
+      glVertex2i(left + str_width + 3, 0);
+      glVertex2i(left + str_width + 3, height);
+      glVertex2i(left - 3, height);
       glEnd();
-
-      draw_name( left, GLUI_PANEL_NAME_DROP );
+      
+      draw_name(left, GLUI_PANEL_NAME_DROP);
     }
   }
-
-  glLineWidth( 1.0 );
+  
+  glLineWidth(1.0);
 }
 
 /****************************** GLUI_Panel::set_name() **********/
 
-void    GLUI_Panel::set_name( const char *new_name )
+void    GLUI_Panel::set_name(const char *new_name)
 {
   name = new_name ? new_name : "";
-
+  
   update_size();
-
-  if ( glui )
+  
+  if(glui)
     glui->refresh();
 }
 
 
 /****************************** GLUI_Panel::set_type() **********/
 
-void    GLUI_Panel::set_type( int new_type )
+void    GLUI_Panel::set_type(int new_type)
 {
-  if ( new_type != int_val ) {
+  if(new_type != int_val)
+  {
     int_val = new_type;
     update_size();
     redraw();
@@ -165,22 +179,24 @@ void    GLUI_Panel::set_type( int new_type )
 
 /************************************** GLUI_Panel::update_size() **********/
 
-void   GLUI_Panel::update_size( void )
+void   GLUI_Panel::update_size(void)
 {
   int text_size;
-
-  if ( NOT glui )
+  
+  if(NOT glui)
     return;
-
+    
   text_size = string_width(name);
-
-  if ( w < text_size + 16 )
+  
+  if(w < text_size + 16)
     w = text_size + 16 ;
-
-  if ( name != "" AND int_val == GLUI_PANEL_EMBOSSED ) {
+    
+  if(name != "" AND int_val == GLUI_PANEL_EMBOSSED)
+  {
     this->y_off_top = GLUI_YOFF + 8;
   }
-  else {
+  else
+  {
     this->y_off_top = GLUI_YOFF;
   }
 }

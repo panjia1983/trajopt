@@ -9,7 +9,8 @@
 #include "utils/basic_array.hpp"
 #include "macros.h"
 
-namespace trajopt {
+namespace trajopt
+{
 
 
 namespace OR = OpenRAVE;
@@ -41,7 +42,8 @@ using Eigen::Matrix3d;
 /**
 Interface for objects that know how to plot themselves given solution vector x
 */
-class Plotter {
+class Plotter
+{
 public:
   virtual void Plot(const DblVec& x, OR::EnvironmentBase&, std::vector<OR::GraphHandlePtr>& handles) = 0;
   virtual ~Plotter() {}

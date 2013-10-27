@@ -14,23 +14,23 @@ class Test;
 
 /*! \brief Holds printable test result (DEPRECATED).
  * \ingroup TrackingTestExecution
- * 
+ *
  * deprecated Use class TextTestProgressListener and TextOutputter instead.
  */
 class CPPUNIT_API TextTestResult : public TestResult,
-                                   public TestResultCollector
+  public TestResultCollector
 {
 public:
   TextTestResult();
-
-  virtual void addFailure( const TestFailure &failure );
-  virtual void startTest( Test *test );
-  virtual void print( OStream &stream );
+  
+  virtual void addFailure(const TestFailure &failure);
+  virtual void startTest(Test *test);
+  virtual void print(OStream &stream);
 };
 
 /** insertion operator for easy output */
-CPPUNIT_API OStream &operator <<( OStream &stream, 
-                                  TextTestResult &result );
+CPPUNIT_API OStream &operator <<(OStream &stream,
+                                 TextTestResult &result);
 
 CPPUNIT_NS_END
 

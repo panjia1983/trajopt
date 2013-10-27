@@ -8,7 +8,7 @@
 #ifndef _COMPILE_ASSERT_H
 #define _COMPILE_ASSERT_H
 
-/* 
+/*
  * This is a simple compile time assertion tool taken from:
  *   http://blogs.msdn.com/b/abhinaba/archive/2008/10/27/c-c-compile-time-asserts.aspx
  * written by Abhinaba Basu!
@@ -23,10 +23,13 @@
 
 namespace custom_static_assert
 {
-    template <bool> struct STATIC_ASSERT_FAILURE;
-    template <> struct STATIC_ASSERT_FAILURE<true> { enum { value = 1 }; };
+template <bool> struct STATIC_ASSERT_FAILURE;
+template <> struct STATIC_ASSERT_FAILURE<true>
+{
+  enum { value = 1 };
+};
 
-    template<int x> struct custom_static_assert_test{};
+template<int x> struct custom_static_assert_test {};
 }
 
 #define COMPILE_ASSERT(x) \
@@ -40,7 +43,7 @@ namespace custom_static_assert
 
 #endif // __cplusplus
 
-#define VERIFY_EXPLICIT_CAST(from, to) COMPILE_ASSERT(sizeof(from) == sizeof(to)) 
+#define VERIFY_EXPLICIT_CAST(from, to) COMPILE_ASSERT(sizeof(from) == sizeof(to))
 
 // _COMPILE_ASSERT_H_
 #endif

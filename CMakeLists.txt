@@ -8,6 +8,8 @@ if (DEVEL_MODE)
   set(CMAKE_CXX_FLAGS "-Werror -Wall -Wno-sign-compare")
 endif(DEVEL_MODE)
 
+# add_definitions(-march=native)
+# add_definitions(-msse4.2)
 set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")        
 
 # http://cmake.3232098.n2.nabble.com/Default-value-for-CMAKE-BUILD-TYPE-td7550756.html
@@ -48,3 +50,4 @@ include("${CMAKE_SOURCE_DIR}/cmake/add_python_unit_tests.cmake")
 add_subdirectory(ext)
 add_subdirectory(src)
 
+add_definitions(-march= switch)

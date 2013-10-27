@@ -5,7 +5,8 @@
 #include <sstream>
 #include <map>
 #include <set>
-namespace util {
+namespace util
+{
 
 using std::string;
 using std::vector;
@@ -15,10 +16,11 @@ using std::vector;
 //std::string Str(const vector<int>& x);
 
 template<class T>
-std::string Str(const vector<T>& x) {
+std::string Str(const vector<T>& x)
+{
   std::stringstream ss;
   ss << "(";
-  if (x.size() > 0) ss << x[0];
+  if(x.size() > 0) ss << x[0];
   for(size_t i = 1; i < x.size(); ++i)
     ss << ", " << x[i];
   ss << ")";
@@ -27,14 +29,16 @@ std::string Str(const vector<T>& x) {
 
 
 template<class T>
-std::string Str(const std::set<T>& x) {
+std::string Str(const std::set<T>& x)
+{
   std::stringstream ss;
   ss << "{";
   typename std::set<T>::const_iterator it = x.begin();
-  if (x.size() > 0)  {
+  if(x.size() > 0)
+  {
     ss << *it;
     ++it;
-    for( ; it != x.end(); ++it)
+    for(; it != x.end(); ++it)
       ss << ", " << *it;
   }
   ss << "}";
@@ -42,7 +46,8 @@ std::string Str(const std::set<T>& x) {
 }
 
 template<class T>
-std::string Str(const T& x) {
+std::string Str(const T& x)
+{
   std::stringstream ss;
   ss << x;
   return ss.str();
@@ -51,14 +56,16 @@ std::string Str(const T& x) {
 
 
 template<class K, class V>
-std::string Str(const typename std::map<K,V>& x) {
+std::string Str(const typename std::map<K, V>& x)
+{
   std::stringstream ss;
   ss << "{";
-  typename std::map<K,V>::const_iterator it = x.begin();
-  if (x.size() > 0)  {
+  typename std::map<K, V>::const_iterator it = x.begin();
+  if(x.size() > 0)
+  {
     ss << Str(it->first) << " : " << Str(it->second);
     ++it;
-    for( ; it != x.end(); ++it)
+    for(; it != x.end(); ++it)
       ss << ", " << Str(it->first) << " : " << Str(it->second);
   }
   ss << "}";

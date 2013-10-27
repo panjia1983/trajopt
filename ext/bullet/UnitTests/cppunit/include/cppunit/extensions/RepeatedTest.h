@@ -15,24 +15,24 @@ class TestResult;
  *
  * Does not assume ownership of the test it decorates
  */
-class CPPUNIT_API RepeatedTest : public TestDecorator 
+class CPPUNIT_API RepeatedTest : public TestDecorator
 {
 public:
-  RepeatedTest( Test *test, 
-                int timesRepeat ) : 
-      TestDecorator( test ), 
-      m_timesRepeat(timesRepeat) 
+  RepeatedTest(Test *test,
+               int timesRepeat) :
+    TestDecorator(test),
+    m_timesRepeat(timesRepeat)
   {
   }
-
-  void run( TestResult *result );
-
+  
+  void run(TestResult *result);
+  
   int countTestCases() const;
-
+  
 private:
-  RepeatedTest( const RepeatedTest & );
-  void operator=( const RepeatedTest & );
-
+  RepeatedTest(const RepeatedTest &);
+  void operator=(const RepeatedTest &);
+  
   const int m_timesRepeat;
 };
 

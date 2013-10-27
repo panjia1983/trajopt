@@ -15,8 +15,8 @@ class CPPUNIT_API Outputter
 public:
   /// Destructor.
   virtual ~Outputter() {}
-
-  virtual void write() =0;
+  
+  virtual void write() = 0;
 };
 
 

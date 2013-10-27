@@ -1,44 +1,51 @@
 #pragma once
 #include <string>
 #include "modeling.hpp"
+#include "utils/timer.hpp"
 #include <boost/function.hpp>
 /*
  * Algorithms for non-convex, constrained optimization
  */
 
-namespace sco {
+namespace sco
+{
 
 using std::string;
 using std::vector;
 
 
-enum OptStatus {
+enum OptStatus
+{
   OPT_CONVERGED,
   OPT_SCO_ITERATION_LIMIT, // hit iteration limit before convergence
   OPT_PENALTY_ITERATION_LIMIT,
   OPT_FAILED,
   INVALID
 };
-static const char* OptStatus_strings[]  = {
+static const char* OptStatus_strings[]  =
+{
   "CONVERGED",
   "SCO_ITERATION_LIMIT",
   "PENALTY_ITERATION_LIMIT",
   "FAILED",
   "INVALID"
 };
-inline string statusToString(OptStatus status) {
+inline string statusToString(OptStatus status)
+{
   return OptStatus_strings[status];
 }
 
 
-struct OptResults {
+struct OptResults
+{
   DblVec x; // solution estimate
   OptStatus status;
   double total_cost;
   vector<double> cost_vals;
   DblVec cnt_viols;
   int n_func_evals, n_qp_solves;
-  void clear() {
+  void clear()
+  {
     x.clear();
     status = INVALID;
     cost_vals.clear();
@@ -46,32 +53,68 @@ struct OptResults {
     n_func_evals = 0;
     n_qp_solves = 0;
   }
-  OptResults() {clear();}
+  OptResults()
+  {
+    clear();
+  }
 };
 std::ostream& operator<<(std::ostream& o, const OptResults& r);
 
-class Optimizer {
+enum OptStepStatus
+{
+  OPTS_UNKNOWN,
+  OPTS_CONVERGED,
+  OPTS_NOTCONVERGED
+};
+struct OptStepResults
+{
+  double time_since_start;
+  std::size_t step_id;
+  OptStepStatus is_converged;
+
+  OptStepResults()
+  {
+    is_converged = OPTS_UNKNOWN; // the convergence of an initialization is unknown until the optimization finishes.
+  }
+};
+
+class Optimizer
+{
   /*
    * Solves an optimization problem
    */
 public:
   virtual OptStatus optimize() = 0;
   virtual ~Optimizer() {}
-  virtual void setProblem(OptProbPtr prob) {prob_ = prob;}
+  virtual void setProblem(OptProbPtr prob)
+  {
+    prob_ = prob;
+  }
   void initialize(const vector<double>& x);
-  vector<double>& x() {return results_.x;}
-  OptResults& results() {return results_;}
-
-  typedef boost::function<void(OptProb*, DblVec&)> Callback;
+  vector<double>& x()
+  {
+    return results_.x;
+  }
+  OptResults& results()
+  {
+    return results_;
+  }
+  
+  typedef boost::function<void(OptProb*, DblVec&, OptStepResults&)> Callback;
   void addCallback(const Callback& f); // called before each iteration
 protected:
   vector<Callback> callbacks_;
-  void callCallbacks(DblVec& x);
+  void callCallbacks(DblVec& x, bool has_cleanup);
   OptProbPtr prob_;
   OptResults results_;
+  double time_since_start_;
+  std::size_t step_id_;
+
+  util::Timer timer_;
 };
 
-class BasicTrustRegionSQP : public Optimizer {
+class BasicTrustRegionSQP : public Optimizer
+{
   /*
    * Alternates between convexifying objectives and constraints and then solving convex subproblem
    * Uses a merit function to decide whether or not to accept the step
@@ -96,7 +139,7 @@ public:
   double merit_error_coeff_, // initial penalty coefficient
          trust_box_size_ // current size of trust region (component-wise)
          ;
-
+         
   BasicTrustRegionSQP();
   BasicTrustRegionSQP(OptProbPtr prob);
   void setProblem(OptProbPtr prob);

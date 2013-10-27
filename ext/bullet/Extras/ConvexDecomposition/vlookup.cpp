@@ -121,169 +121,181 @@ public:
   VertexPosition(void) { };
   VertexPosition(const float *p)
   {
-  	mPos[0] = p[0];
-  	mPos[1] = p[1];
-  	mPos[2] = p[2];
+    mPos[0] = p[0];
+    mPos[1] = p[1];
+    mPos[2] = p[2];
   };
-
-	void Set(int index,const float *pos)
-	{
-		const float * p = &pos[index*3];
-
-		mPos[0]    = p[0];
-		mPos[1]    = p[1];
-		mPos[2]    = p[2];
-
-	};
-
-  float GetX(void) const { return mPos[0]; };
-  float GetY(void) const { return mPos[1]; };
-  float GetZ(void) const { return mPos[2]; };
-
-	float mPos[3];
+  
+  void Set(int index, const float *pos)
+  {
+    const float * p = &pos[index * 3];
+    
+    mPos[0]    = p[0];
+    mPos[1]    = p[1];
+    mPos[2]    = p[2];
+    
+  };
+  
+  float GetX(void) const
+  {
+    return mPos[0];
+  };
+  float GetY(void) const
+  {
+    return mPos[1];
+  };
+  float GetZ(void) const
+  {
+    return mPos[2];
+  };
+  
+  float mPos[3];
 };
 
 typedef std::vector< VertexPosition > VertexVector;
 
 struct Tracker
 {
-	VertexPosition mFind; // vertice to locate.
-	VertexVector  *mList;
-
-	Tracker()
-	{
-		mList = 0;
-	}
-
-	void SetSearch(const VertexPosition& match,VertexVector *list)
-	{
-		mFind = match;
-		mList = list;
-	};
+  VertexPosition mFind; // vertice to locate.
+  VertexVector  *mList;
+  
+  Tracker()
+  {
+    mList = 0;
+  }
+  
+  void SetSearch(const VertexPosition& match, VertexVector *list)
+  {
+    mFind = match;
+    mList = list;
+  };
 };
 
 struct VertexID
 {
-	int mID;
-	Tracker* mTracker;
-
-	VertexID(int ID, Tracker* Tracker)
-	{
-		mID = ID;
-		mTracker = Tracker;
-	}
+  int mID;
+  Tracker* mTracker;
+  
+  VertexID(int ID, Tracker* Tracker)
+  {
+    mID = ID;
+    mTracker = Tracker;
+  }
 };
 
 class VertexLess
 {
 public:
 
-	bool operator()(VertexID v1,VertexID v2) const;
-
+  bool operator()(VertexID v1, VertexID v2) const;
+  
 private:
-	const VertexPosition& Get(VertexID index) const
-	{
-		if ( index.mID == -1 ) return index.mTracker->mFind;
-		VertexVector &vlist = *index.mTracker->mList;
-		return vlist[index.mID];
-	}
+  const VertexPosition& Get(VertexID index) const
+  {
+    if(index.mID == -1) return index.mTracker->mFind;
+    VertexVector &vlist = *index.mTracker->mList;
+    return vlist[index.mID];
+  }
 };
 
 template <class Type> class VertexPool
 {
 public:
-	typedef std::set<VertexID, VertexLess > VertexSet;
-	typedef std::vector< Type > VertexVector;
-
-	int getVertex(const Type& vtx)
-	{
-		mTracker.SetSearch(vtx,&mVtxs);
-		VertexSet::iterator found;
-		found = mVertSet.find( VertexID(-1,&mTracker) );
-		if ( found != mVertSet.end() )
-		{
-			return found->mID;
-		}
-		int idx = (int)mVtxs.size();
-		mVtxs.push_back( vtx );
-		mVertSet.insert( VertexID(idx,&mTracker) );
-		return idx;
-	};
-
-
-	const float * GetPos(int idx) const
-	{
-		return mVtxs[idx].mPos;
-	}
-
-	const Type& Get(int idx) const
-	{
-		return mVtxs[idx];
-	};
-
-	unsigned int GetSize(void) const
-	{
-		return mVtxs.size();
-	};
-
-	void Clear(int reservesize)  // clear the vertice pool.
-	{
-		mVertSet.clear();
-		mVtxs.clear();
-		mVtxs.reserve(reservesize);
-	};
-
-	const VertexVector& GetVertexList(void) const { return mVtxs; };
-
-	void Set(const Type& vtx)
-	{
-		mVtxs.push_back(vtx);
-	}
-
-	unsigned int GetVertexCount(void) const
-	{
-		return mVtxs.size();
-	};
-
-
-	Type * getBuffer(void)
-	{
-		return &mVtxs[0];
-	};
-
+  typedef std::set<VertexID, VertexLess > VertexSet;
+  typedef std::vector< Type > VertexVector;
+  
+  int getVertex(const Type& vtx)
+  {
+    mTracker.SetSearch(vtx, &mVtxs);
+    VertexSet::iterator found;
+    found = mVertSet.find(VertexID(-1, &mTracker));
+    if(found != mVertSet.end())
+    {
+      return found->mID;
+    }
+    int idx = (int)mVtxs.size();
+    mVtxs.push_back(vtx);
+    mVertSet.insert(VertexID(idx, &mTracker));
+    return idx;
+  };
+  
+  
+  const float * GetPos(int idx) const
+  {
+    return mVtxs[idx].mPos;
+  }
+  
+  const Type& Get(int idx) const
+  {
+    return mVtxs[idx];
+  };
+  
+  unsigned int GetSize(void) const
+  {
+    return mVtxs.size();
+  };
+  
+  void Clear(int reservesize)  // clear the vertice pool.
+  {
+    mVertSet.clear();
+    mVtxs.clear();
+    mVtxs.reserve(reservesize);
+  };
+  
+  const VertexVector& GetVertexList(void) const
+  {
+    return mVtxs;
+  };
+  
+  void Set(const Type& vtx)
+  {
+    mVtxs.push_back(vtx);
+  }
+  
+  unsigned int GetVertexCount(void) const
+  {
+    return mVtxs.size();
+  };
+  
+  
+  Type * getBuffer(void)
+  {
+    return &mVtxs[0];
+  };
+  
 private:
-	VertexSet      mVertSet; // ordered list.
-	VertexVector   mVtxs;  // set of vertices.
-	Tracker        mTracker;
+  VertexSet      mVertSet; // ordered list.
+  VertexVector   mVtxs;  // set of vertices.
+  Tracker        mTracker;
 };
 
 
-bool VertexLess::operator()(VertexID v1,VertexID v2) const
+bool VertexLess::operator()(VertexID v1, VertexID v2) const
 {
 
-	const VertexPosition& a = Get(v1);
-	const VertexPosition& b = Get(v2);
-
-  int ixA = (int) (a.GetX()*10000.0f);
-  int ixB = (int) (b.GetX()*10000.0f);
-
-	if ( ixA      < ixB      ) return true;
-	if ( ixA      > ixB      ) return false;
-
-  int iyA = (int) (a.GetY()*10000.0f);
-  int iyB = (int) (b.GetY()*10000.0f);
-
-	if ( iyA      < iyB      ) return true;
-	if ( iyA      > iyB      ) return false;
-
-  int izA = (int) (a.GetZ()*10000.0f);
-  int izB = (int) (b.GetZ()*10000.0f);
-
-	if ( izA      < izB      ) return true;
-	if ( izA      > izB      ) return false;
-
-
-	return false;
+  const VertexPosition& a = Get(v1);
+  const VertexPosition& b = Get(v2);
+  
+  int ixA = (int)(a.GetX() * 10000.0f);
+  int ixB = (int)(b.GetX() * 10000.0f);
+  
+  if(ixA      < ixB) return true;
+  if(ixA      > ixB) return false;
+  
+  int iyA = (int)(a.GetY() * 10000.0f);
+  int iyB = (int)(b.GetY() * 10000.0f);
+  
+  if(iyA      < iyB) return true;
+  if(iyA      > iyB) return false;
+  
+  int izA = (int)(a.GetZ() * 10000.0f);
+  int izB = (int)(b.GetZ() * 10000.0f);
+  
+  if(izA      < izB) return true;
+  if(izA      > izB) return false;
+  
+  
+  return false;
 }
 
 
@@ -305,7 +317,7 @@ void          Vl_releaseVertexLookup(VertexLookup vlook)
   delete vp;
 }
 
-unsigned int  Vl_getIndex(VertexLookup vlook,const float *pos)  // get index.
+unsigned int  Vl_getIndex(VertexLookup vlook, const float *pos) // get index.
 {
   VertexPool< VertexPosition > *vp = (VertexPool< VertexPosition > *) vlook;
   VertexPosition p(pos);

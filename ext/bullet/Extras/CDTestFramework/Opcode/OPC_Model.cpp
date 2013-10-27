@@ -1,13 +1,13 @@
 /*
  *	OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -111,7 +111,7 @@ using namespace Opcode;
 Model::Model()
 {
 #ifdef __MESHMERIZER_H__	// Collision hulls only supported within ICE !
-	mHull	= null;
+  mHull	= null;
 #endif // __MESHMERIZER_H__
 }
 
@@ -122,7 +122,7 @@ Model::Model()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Model::~Model()
 {
-	Release();
+  Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,9 +132,9 @@ Model::~Model()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Release()
 {
-	ReleaseBase();
+  ReleaseBase();
 #ifdef __MESHMERIZER_H__	// Collision hulls only supported within ICE !
-	DELETESINGLE(mHull);
+  DELETESINGLE(mHull);
 #endif // __MESHMERIZER_H__
 }
 
@@ -147,75 +147,75 @@ void Model::Release()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Model::Build(const OPCODECREATE& create)
 {
-	// 1) Checkings
-	if(!create.mIMesh || !create.mIMesh->IsValid())	return false;
-
-	// For this model, we only support complete trees
-	if(create.mSettings.mLimit!=1)	return SetIceError("OPCODE WARNING: supports complete trees only! Use mLimit = 1.\n", null);
-
-	// Look for degenerate faces.
-	udword NbDegenerate = create.mIMesh->CheckTopology();
-	if(NbDegenerate)	Log("OPCODE WARNING: found %d degenerate faces in model! Collision might report wrong results!\n", NbDegenerate);
-	// We continue nonetheless.... 
-
-	Release();	// Make sure previous tree has been discarded [Opcode 1.3, thanks Adam]
-
-	// 1-1) Setup mesh interface automatically [Opcode 1.3]
-	SetMeshInterface(create.mIMesh);
-
-	// Special case for 1-triangle meshes [Opcode 1.3]
-	udword NbTris = create.mIMesh->GetNbTriangles();
-	if(NbTris==1)
-	{
-		// We don't need to actually create a tree here, since we'll only have a single triangle to deal with anyway.
-		// It's a waste to use a "model" for this but at least it will work.
-		mModelCode |= OPC_SINGLE_NODE;
-		return true;
-	}
-
-	// 2) Build a generic AABB Tree.
-	mSource = new AABBTree;
-	CHECKALLOC(mSource);
-
-	// 2-1) Setup a builder. Our primitives here are triangles from input mesh,
-	// so we use an AABBTreeOfTrianglesBuilder.....
-	{
-		AABBTreeOfTrianglesBuilder TB;
-		TB.mIMesh			= create.mIMesh;
-		TB.mSettings		= create.mSettings;
-		TB.mNbPrimitives	= NbTris;
-		if(!mSource->Build(&TB))	return false;
-	}
-
-	// 3) Create an optimized tree according to user-settings
-	if(!CreateTree(create.mNoLeaf, create.mQuantized))	return false;
-
-	// 3-2) Create optimized tree
-	if(!mTree->Build(mSource))	return false;
-
-	// 3-3) Delete generic tree if needed
-	if(!create.mKeepOriginal)	DELETESINGLE(mSource);
-
+  // 1) Checkings
+  if(!create.mIMesh || !create.mIMesh->IsValid())	return false;
+  
+  // For this model, we only support complete trees
+  if(create.mSettings.mLimit != 1)	return SetIceError("OPCODE WARNING: supports complete trees only! Use mLimit = 1.\n", null);
+  
+  // Look for degenerate faces.
+  udword NbDegenerate = create.mIMesh->CheckTopology();
+  if(NbDegenerate)	Log("OPCODE WARNING: found %d degenerate faces in model! Collision might report wrong results!\n", NbDegenerate);
+  // We continue nonetheless....
+  
+  Release();	// Make sure previous tree has been discarded [Opcode 1.3, thanks Adam]
+  
+  // 1-1) Setup mesh interface automatically [Opcode 1.3]
+  SetMeshInterface(create.mIMesh);
+  
+  // Special case for 1-triangle meshes [Opcode 1.3]
+  udword NbTris = create.mIMesh->GetNbTriangles();
+  if(NbTris == 1)
+  {
+    // We don't need to actually create a tree here, since we'll only have a single triangle to deal with anyway.
+    // It's a waste to use a "model" for this but at least it will work.
+    mModelCode |= OPC_SINGLE_NODE;
+    return true;
+  }
+  
+  // 2) Build a generic AABB Tree.
+  mSource = new AABBTree;
+  CHECKALLOC(mSource);
+  
+  // 2-1) Setup a builder. Our primitives here are triangles from input mesh,
+  // so we use an AABBTreeOfTrianglesBuilder.....
+  {
+    AABBTreeOfTrianglesBuilder TB;
+    TB.mIMesh			= create.mIMesh;
+    TB.mSettings		= create.mSettings;
+    TB.mNbPrimitives	= NbTris;
+    if(!mSource->Build(&TB))	return false;
+  }
+  
+  // 3) Create an optimized tree according to user-settings
+  if(!CreateTree(create.mNoLeaf, create.mQuantized))	return false;
+  
+  // 3-2) Create optimized tree
+  if(!mTree->Build(mSource))	return false;
+  
+  // 3-3) Delete generic tree if needed
+  if(!create.mKeepOriginal)	DELETESINGLE(mSource);
+  
 #ifdef __MESHMERIZER_H__
-	// 4) Convex hull
-	if(create.mCollisionHull)
-	{
-		// Create hull
-		mHull = new CollisionHull;
-		CHECKALLOC(mHull);
-
-		CONVEXHULLCREATE CHC;
-		// ### doesn't work with strides
-		CHC.NbVerts			= create.mIMesh->GetNbVertices();
-		CHC.Vertices		= create.mIMesh->GetVerts();
-		CHC.UnifyNormals	= true;
-		CHC.ReduceVertices	= true;
-		CHC.WordFaces		= false;
-		mHull->Compute(CHC);
-	}
+  // 4) Convex hull
+  if(create.mCollisionHull)
+  {
+    // Create hull
+    mHull = new CollisionHull;
+    CHECKALLOC(mHull);
+    
+    CONVEXHULLCREATE CHC;
+    // ### doesn't work with strides
+    CHC.NbVerts			= create.mIMesh->GetNbVertices();
+    CHC.Vertices		= create.mIMesh->GetVerts();
+    CHC.UnifyNormals	= true;
+    CHC.ReduceVertices	= true;
+    CHC.WordFaces		= false;
+    mHull->Compute(CHC);
+  }
 #endif // __MESHMERIZER_H__
-
-	return true;
+  
+  return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,6 +226,6 @@ bool Model::Build(const OPCODECREATE& create)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 udword Model::GetUsedBytes() const
 {
-	if(!mTree)	return 0;
-	return mTree->GetUsedBytes();
+  if(!mTree)	return 0;
+  return mTree->GetUsedBytes();
 }

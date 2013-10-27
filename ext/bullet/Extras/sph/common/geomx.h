@@ -21,105 +21,154 @@
 */
 
 #ifndef DEF_GEOM
-	#define DEF_GEOM
+#define DEF_GEOM
 
-	#include <vector>
+#include <vector>
 
-	#define	HEAP_MAX			2147483640	// largest heap size (range of hpos)
+#define	HEAP_MAX			2147483640	// largest heap size (range of hpos)
 
-	#define	ELEM_MAX			2147483640	// largest number of elements in a buffer (range of hval)
-	//#define ELEM_MAX			32768		// largest number of elements in a buffer (range of hval)
+#define	ELEM_MAX			2147483640	// largest number of elements in a buffer (range of hval)
+//#define ELEM_MAX			32768		// largest number of elements in a buffer (range of hval)
 
-	#define BUF_UNDEF			255
+#define BUF_UNDEF			255
 
-	#define FPOS				2			// free position offsets
-	typedef unsigned char		uchar;
-	typedef unsigned short		ushort;
-	typedef signed int			hpos;		// pointers into heap
-	typedef signed int			hval;		// values in heap	
-	typedef hval				href;		// values are typically references 
-	struct hList {
-		ushort		cnt;
-		ushort		max;
-		hpos		pos;
-	};
-	
-	class GeomAttr {
-	public:
-		GeomAttr()	{ name = ""; buf = 0; stride = 0; offset = 0; }
-		std::string	name;
-		ushort		buf;
-		ushort		stride;
-		ushort		offset;
-	};
+#define FPOS				2			// free position offsets
+typedef unsigned char		uchar;
+typedef unsigned short		ushort;
+typedef signed int			hpos;		// pointers into heap
+typedef signed int			hval;		// values in heap
+typedef hval				href;		// values are typically references
+struct hList
+{
+  ushort		cnt;
+  ushort		max;
+  hpos		pos;
+};
 
-	class GeomBuf {
-	public:
-		GeomBuf()	{ dtype = 0; num = 0; max = 0; stride = 0; data = 0x0; }		
-		uchar		dtype;
-		hval		num;
-		hval		max;
-		long		size;
-		ushort		stride;		
-		char*		data;
-	};
+class GeomAttr
+{
+public:
+  GeomAttr()
+  {
+    name = "";
+    buf = 0;
+    stride = 0;
+    offset = 0;
+  }
+  std::string	name;
+  ushort		buf;
+  ushort		stride;
+  ushort		offset;
+};
 
-	class GeomX {
-	public:
-		GeomX ();
-	
-	//	virtual objType GetType ()			{ return 'geom'; }
-	
-		// Basic geometry setup	
-		void FreeBuffers ();		
-		void ClearAttributes ();
-		void AddHeap ( int max );
-		int CopyBuffer ( uchar bdest, uchar bsrc, GeomX& src );
-		void CopyBuffers ( GeomX& src );
-		void CopyAttributes ( GeomX& src );
-		void CopyHeap ( GeomX& src );
-		void ResetBuffer ( uchar b, int n );
-		void ResetHeap ();
-		int AddBuffer ( uchar typ, ushort stride, int max );
-		int AddAttribute ( uchar b, std::string name, ushort stride );
-		int AddAttribute ( uchar b, std::string name, ushort stride, bool bExtend );
-		int GetAttribute ( std::string name );
-		int GetAttrOffset ( std::string name );
-		int NumElem ( uchar b )				{ if ( b==BUF_UNDEF) return 0; else return mBuf[b].num; }
-		int MaxElem ( uchar b )				{ if ( b==BUF_UNDEF) return 0; else return mBuf[b].max; } 		
-		int GetStride ( uchar b )			{ return mBuf[b].stride; }
-		char* GetElem ( uchar b, int n )	{ return mBuf[b].data + n*mBuf[b].stride; }
-		char* RandomElem ( uchar b, href& ndx );
-		char* AddElem ( uchar b, href& pos );
-		int AddElem ( uchar b, char* data );		
-		bool DelElem ( uchar b, int n );
-		char* GetStart ( uchar b )			{ return mBuf[b].data; }
-		char* GetEnd ( uchar b )			{ return mBuf[b].data + mBuf[b].num*mBuf[b].stride; }
-		GeomBuf* GetBuffer ( uchar b )		{ return &mBuf[b]; }
-		GeomAttr* GetAttribute ( int n )		{ return &mAttribute[n]; }
-		int GetNumBuf ()					{ return (int) mBuf.size(); }
-		int GetNumAttr ()					{ return (int) mAttribute.size(); }
-		hval* GetHeap ( hpos& num, hpos& max, hpos& free );
+class GeomBuf
+{
+public:
+  GeomBuf()
+  {
+    dtype = 0;
+    num = 0;
+    max = 0;
+    stride = 0;
+    data = 0x0;
+  }
+  uchar		dtype;
+  hval		num;
+  hval		max;
+  long		size;
+  ushort		stride;
+  char*		data;
+};
 
-		int GetSize ();
-
-		/*int AddRef ( int b, int n, int ref, ushort listpos );
-		int AddRef ( int b, int n, int ref, bool bUseHeap, ushort listpos, ushort width );*/
-		void ClearRefs ( hList& list );
-		hval AddRef ( hval r, hList& list, hval delta  );
-		hpos HeapAlloc ( ushort size, ushort& ret );
-		hpos HeapExpand ( ushort size, ushort& ret  );
-		void HeapAddFree ( hpos pos, int size );
-		
-
-	protected:
-		std::vector< GeomBuf >		mBuf;	
-		std::vector< GeomAttr >		mAttribute;
-
-		hpos						mHeapNum;
-		hpos						mHeapMax;
-		hpos						mHeapFree;
-		hval*						mHeap;
-	};
+class GeomX
+{
+public:
+  GeomX();
+  
+  //	virtual objType GetType ()			{ return 'geom'; }
+  
+  // Basic geometry setup
+  void FreeBuffers();
+  void ClearAttributes();
+  void AddHeap(int max);
+  int CopyBuffer(uchar bdest, uchar bsrc, GeomX& src);
+  void CopyBuffers(GeomX& src);
+  void CopyAttributes(GeomX& src);
+  void CopyHeap(GeomX& src);
+  void ResetBuffer(uchar b, int n);
+  void ResetHeap();
+  int AddBuffer(uchar typ, ushort stride, int max);
+  int AddAttribute(uchar b, std::string name, ushort stride);
+  int AddAttribute(uchar b, std::string name, ushort stride, bool bExtend);
+  int GetAttribute(std::string name);
+  int GetAttrOffset(std::string name);
+  int NumElem(uchar b)
+  {
+    if(b == BUF_UNDEF) return 0;
+    else return mBuf[b].num;
+  }
+  int MaxElem(uchar b)
+  {
+    if(b == BUF_UNDEF) return 0;
+    else return mBuf[b].max;
+  }
+  int GetStride(uchar b)
+  {
+    return mBuf[b].stride;
+  }
+  char* GetElem(uchar b, int n)
+  {
+    return mBuf[b].data + n * mBuf[b].stride;
+  }
+  char* RandomElem(uchar b, href& ndx);
+  char* AddElem(uchar b, href& pos);
+  int AddElem(uchar b, char* data);
+  bool DelElem(uchar b, int n);
+  char* GetStart(uchar b)
+  {
+    return mBuf[b].data;
+  }
+  char* GetEnd(uchar b)
+  {
+    return mBuf[b].data + mBuf[b].num * mBuf[b].stride;
+  }
+  GeomBuf* GetBuffer(uchar b)
+  {
+    return &mBuf[b];
+  }
+  GeomAttr* GetAttribute(int n)
+  {
+    return &mAttribute[n];
+  }
+  int GetNumBuf()
+  {
+    return (int) mBuf.size();
+  }
+  int GetNumAttr()
+  {
+    return (int) mAttribute.size();
+  }
+  hval* GetHeap(hpos& num, hpos& max, hpos& free);
+  
+  int GetSize();
+  
+  /*int AddRef ( int b, int n, int ref, ushort listpos );
+  int AddRef ( int b, int n, int ref, bool bUseHeap, ushort listpos, ushort width );*/
+  void ClearRefs(hList& list);
+  hval AddRef(hval r, hList& list, hval delta);
+  hpos HeapAlloc(ushort size, ushort& ret);
+  hpos HeapExpand(ushort size, ushort& ret);
+  void HeapAddFree(hpos pos, int size);
+  
+  
+protected:
+  std::vector< GeomBuf >		mBuf;
+  std::vector< GeomAttr >		mAttribute;
+  
+  hpos						mHeapNum;
+  hpos						mHeapMax;
+  hpos						mHeapFree;
+  hval*						mHeap;
+};
 
 #endif

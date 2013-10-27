@@ -13,7 +13,8 @@
   However, our intention is to allow for different solvers to be used as backends.
  */
 
-namespace sco{
+namespace sco
+{
 
 using std::string;
 using std::vector;
@@ -22,12 +23,14 @@ using std::ostream;
 typedef vector<double> DblVec;
 typedef vector<int> IntVec;
 
-enum ConstraintType {
+enum ConstraintType
+{
   EQ,
   INEQ
 };
 
-enum CvxOptStatus {
+enum CvxOptStatus
+{
   CVX_SOLVED,
   CVX_INFEASIBLE,
   CVX_FAILED
@@ -38,43 +41,45 @@ typedef vector<AffExpr> AffExprVector;
 typedef vector<QuadExpr> QuadExprVector;
 
 /** @brief Convex optimization problem
- 
+
 Gotchas:
 - after adding a variable, need to call update() before doing anything else with that variable
- 
+
  */
-class Model {
+class Model
+{
 public:
-  virtual Var addVar(const string& name)=0;
+  virtual Var addVar(const string& name) = 0;
   virtual Var addVar(const string& name, double lb, double ub);
-
-  virtual Cnt addEqCnt(const AffExpr&, const string& name)=0; // expr == 0
-  virtual Cnt addIneqCnt(const AffExpr&, const string& name)=0; // expr <= 0
-  virtual Cnt addIneqCnt(const QuadExpr&, const string& name)=0; // expr <= 0
-
+  
+  virtual Cnt addEqCnt(const AffExpr&, const string& name) = 0; // expr == 0
+  virtual Cnt addIneqCnt(const AffExpr&, const string& name) = 0; // expr <= 0
+  virtual Cnt addIneqCnt(const QuadExpr&, const string& name) = 0; // expr <= 0
+  
   virtual void removeVar(const Var& var);
   virtual void removeCnt(const Cnt& cnt);
-  virtual void removeVars(const VarVector& vars)=0;
-  virtual void removeCnts(const vector<Cnt>& cnts)=0;
-
+  virtual void removeVars(const VarVector& vars) = 0;
+  virtual void removeCnts(const vector<Cnt>& cnts) = 0;
+  
   virtual void update() = 0; // call after adding/deleting stuff
   virtual void setVarBounds(const Var& var, double lower, double upper);
-  virtual void setVarBounds(const VarVector& vars, const vector<double>& lower, const vector<double>& upper)=0;
+  virtual void setVarBounds(const VarVector& vars, const vector<double>& lower, const vector<double>& upper) = 0;
   virtual double getVarValue(const Var& var) const;
-  virtual vector<double> getVarValues(const VarVector& vars) const=0;
-  virtual CvxOptStatus optimize()=0;
-
-  virtual void setObjective(const AffExpr&)=0;
-  virtual void setObjective(const QuadExpr&)=0;
-  virtual void writeToFile(const string& fname)=0;
-
-  virtual VarVector getVars() const=0;
-
+  virtual vector<double> getVarValues(const VarVector& vars) const = 0;
+  virtual CvxOptStatus optimize() = 0;
+  
+  virtual void setObjective(const AffExpr&) = 0;
+  virtual void setObjective(const QuadExpr&) = 0;
+  virtual void writeToFile(const string& fname) = 0;
+  
+  virtual VarVector getVars() const = 0;
+  
   virtual ~Model() {}
-
+  
 };
 
-struct VarRep {
+struct VarRep
+{
   VarRep(int _index, const string& _name, void* _creator) : index(_index), name(_name), removed(false), creator(_creator) {}
   int index;
   string name;
@@ -82,17 +87,26 @@ struct VarRep {
   void* creator;
 };
 
-struct Var {
+struct Var
+{
   VarRep* var_rep;
   Var() : var_rep(NULL) {}
   Var(VarRep* var_rep) : var_rep(var_rep) {}
   Var(const Var& other) : var_rep(other.var_rep) {}
-  double value(const double* x) const {return x[var_rep->index];}
-  double value(const vector<double>& x) const {assert(var_rep->index < (int)x.size()); return x[var_rep->index];}
+  double value(const double* x) const
+  {
+    return x[var_rep->index];
+  }
+  double value(const vector<double>& x) const
+  {
+    assert(var_rep->index < (int)x.size());
+    return x[var_rep->index];
+  }
 };
 
-struct CntRep {
-  CntRep(int _index, void* _creator) : index(_index), removed(false), creator(_creator){}
+struct CntRep
+{
+  CntRep(int _index, void* _creator) : index(_index), removed(false), creator(_creator) {}
   int index;
   bool removed;
   void* creator;
@@ -100,14 +114,16 @@ struct CntRep {
   string expr; // todo placeholder
 };
 
-struct Cnt {
+struct Cnt
+{
   CntRep* cnt_rep;
   Cnt(): cnt_rep(NULL) {}
   Cnt(CntRep* cnt_rep) : cnt_rep(cnt_rep) {}
   Cnt(const Cnt& other) : cnt_rep(other.cnt_rep) {}
 };
 
-struct AffExpr { // affine expression
+struct AffExpr   // affine expression
+{
   double constant;
   vector<double> coeffs;
   vector<Var> vars;
@@ -116,12 +132,16 @@ struct AffExpr { // affine expression
   explicit AffExpr(const Var& v) : constant(0), coeffs(1, 1), vars(1, v) {}
   AffExpr(const AffExpr& other) :
     constant(other.constant), coeffs(other.coeffs), vars(other.vars) {}
-  size_t size() const {return coeffs.size();}
+  size_t size() const
+  {
+    return coeffs.size();
+  }
   double value(const double* x) const;
   double value(const vector<double>& x) const;
 };
 
-struct QuadExpr {
+struct QuadExpr
+{
   AffExpr affexpr;
   vector<double> coeffs;
   vector<Var> vars1;
@@ -130,7 +150,10 @@ struct QuadExpr {
   explicit QuadExpr(double a) : affexpr(a) {}
   explicit QuadExpr(const Var& v) : affexpr(v) {}
   explicit QuadExpr(const AffExpr& aff) : affexpr(aff) {}
-  size_t size() const {return coeffs.size();}
+  size_t size() const
+  {
+    return coeffs.size();
+  }
   double value(const double* x) const;
   double value(const vector<double>& x) const;
 };

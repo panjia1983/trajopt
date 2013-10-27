@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -46,121 +46,121 @@ extern int gTotalBytesAlignedAllocs;
 class btEmptyDebugDemo : public GlutDemoApplication
 {
 public:
-	btEmptyDebugDemo()
-	{
-
-	}
-
-	virtual void clientMoveAndDisplay()
-	{
-				
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-
-		float xOffset = 10.f;
-		float yStart = 20.f;
-		float yIncr = 20.f;
-		char buf[124];
-
-
-		glColor3f(0, 0, 0);
-
-		setOrthographicProjection();
-
-		glRasterPos3f(xOffset,yStart,0);
-		sprintf(buf,"gNumAlignedAllocs= %d",gNumAlignedAllocs);
-		GLDebugDrawString(xOffset,yStart,buf);
-		yStart += yIncr;
-
-		glRasterPos3f(xOffset,yStart,0);
-		sprintf(buf,"gNumAlignedFree= %d",gNumAlignedFree);
-		GLDebugDrawString(xOffset,yStart,buf);
-		yStart += yIncr;
-
-		glRasterPos3f(xOffset,yStart,0);
-		sprintf(buf,"# alloc-free = %d",gNumAlignedAllocs-gNumAlignedFree);
-		GLDebugDrawString(xOffset,yStart,buf);
-		yStart += yIncr;
+  btEmptyDebugDemo()
+  {
+  
+  }
+  
+  virtual void clientMoveAndDisplay()
+  {
+  
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    float xOffset = 10.f;
+    float yStart = 20.f;
+    float yIncr = 20.f;
+    char buf[124];
+    
+    
+    glColor3f(0, 0, 0);
+    
+    setOrthographicProjection();
+    
+    glRasterPos3f(xOffset, yStart, 0);
+    sprintf(buf, "gNumAlignedAllocs= %d", gNumAlignedAllocs);
+    GLDebugDrawString(xOffset, yStart, buf);
+    yStart += yIncr;
+    
+    glRasterPos3f(xOffset, yStart, 0);
+    sprintf(buf, "gNumAlignedFree= %d", gNumAlignedFree);
+    GLDebugDrawString(xOffset, yStart, buf);
+    yStart += yIncr;
+    
+    glRasterPos3f(xOffset, yStart, 0);
+    sprintf(buf, "# alloc-free = %d", gNumAlignedAllocs - gNumAlignedFree);
+    GLDebugDrawString(xOffset, yStart, buf);
+    yStart += yIncr;
 #ifdef BT_DEBUG_MEMORY_ALLOCATIONS
-		glRasterPos3f(xOffset,yStart,0);
-		sprintf(buf,"gTotalBytesAlignedAllocs = %d",gTotalBytesAlignedAllocs);
-		GLDebugDrawString(xOffset,yStart,buf);
-		yStart += yIncr;
+    glRasterPos3f(xOffset, yStart, 0);
+    sprintf(buf, "gTotalBytesAlignedAllocs = %d", gTotalBytesAlignedAllocs);
+    GLDebugDrawString(xOffset, yStart, buf);
+    yStart += yIncr;
 #endif //BT_DEBUG_MEMORY_ALLOCATIONS
-
-	glFlush();
-	glutSwapBuffers();
-			
-	}
-
-	virtual	void initPhysics() {}
-
-	static DemoApplication* Create()
-	{
-		btEmptyDebugDemo* demo = new btEmptyDebugDemo();
-		demo->myinit();
-		return demo;
-	}
-
+    
+    glFlush();
+    glutSwapBuffers();
+    
+  }
+  
+  virtual	void initPhysics() {}
+  
+  static DemoApplication* Create()
+  {
+    btEmptyDebugDemo* demo = new btEmptyDebugDemo();
+    demo->myinit();
+    return demo;
+  }
+  
 };
 
 
 btDemoEntry g_demoEntries[] =
 {
 //	{"Box2dDemo",Box2dDemo::Create},
-	{"ForkLift Demo",ForkLiftDemo::Create},
-	{"Dynamic Control Demo",MotorDemo::Create},
-	{"ConstraintDemo",ConstraintDemo::Create},
-
-	{"Ragdoll Demo",RagdollDemo::Create},
-	{"Basic Demo", BasicDemo::Create},	
-	{"CcdPhysicsDemo", CcdPhysicsDemo::Create},
-	{"Convex Decomposition",ConvexDecompositionDemo::Create},
-	{"Concave Moving", GimpactConcaveDemo::Create},
-	
-	{"ConcaveDemo",ConcaveDemo::Create},
-	{"Concave Convexcast Demo",ConcaveConvexcastDemo::Create},
-	{"SoftBody Cluster Collide1",SoftDemo19::Create},
-	
-	{"SoftBody Ropes Attach",SoftDemo4::Create},
-	
-	{"SoftBody Cloth Attach",SoftDemo5::Create},
-
-	{"SoftBody Cloth",SoftDemo0::Create},
-	
+  {"ForkLift Demo", ForkLiftDemo::Create},
+  {"Dynamic Control Demo", MotorDemo::Create},
+  {"ConstraintDemo", ConstraintDemo::Create},
+  
+  {"Ragdoll Demo", RagdollDemo::Create},
+  {"Basic Demo", BasicDemo::Create},
+  {"CcdPhysicsDemo", CcdPhysicsDemo::Create},
+  {"Convex Decomposition", ConvexDecompositionDemo::Create},
+  {"Concave Moving", GimpactConcaveDemo::Create},
+  
+  {"ConcaveDemo", ConcaveDemo::Create},
+  {"Concave Convexcast Demo", ConcaveConvexcastDemo::Create},
+  {"SoftBody Cluster Collide1", SoftDemo19::Create},
+  
+  {"SoftBody Ropes Attach", SoftDemo4::Create},
+  
+  {"SoftBody Cloth Attach", SoftDemo5::Create},
+  
+  {"SoftBody Cloth", SoftDemo0::Create},
+  
 //	{"SoftBody Volume",SoftDemo2::Create},
-	{"SoftBody Pressure",SoftDemo1::Create},
-	{"SoftBody Cluster Car",SoftDemo24::Create},
-	{"SoftBody Cluster Robot",SoftDemo25::Create},
-	//	{"SoftBody Ropes",SoftDemo3::Create},
-	{"SoftBody Sticks",SoftDemo6::Create},
-	{"SoftBody Collide",SoftDemo7::Create},
-	{"SoftBody Collide2",SoftDemo8::Create},
+  {"SoftBody Pressure", SoftDemo1::Create},
+  {"SoftBody Cluster Car", SoftDemo24::Create},
+  {"SoftBody Cluster Robot", SoftDemo25::Create},
+  //	{"SoftBody Ropes",SoftDemo3::Create},
+  {"SoftBody Sticks", SoftDemo6::Create},
+  {"SoftBody Collide", SoftDemo7::Create},
+  {"SoftBody Collide2", SoftDemo8::Create},
 //	{"SoftBody Collide3",SoftDemo9::Create},
 //	{"SoftBody Impact",SoftDemo10::Create},
-	{"SoftBody Aero",SoftDemo11::Create},
-	{"SoftBody Friction",SoftDemo12::Create},
+  {"SoftBody Aero", SoftDemo11::Create},
+  {"SoftBody Friction", SoftDemo12::Create},
 //	{"SoftBody Torus",SoftDemo13::Create},
 //	{"SoftBody Torus Match",SoftDemo14::Create},
 //	{"SoftBody Bunny",SoftDemo15::Create},
 //	{"SoftBody Bunny Match",SoftDemo16::Create},
-	{"SoftBody Init Cutting",SoftDemo17::Create},
+  {"SoftBody Init Cutting", SoftDemo17::Create},
 //	{"SoftBody Cluster Deform",SoftDemo18::Create},
 
 //	{"SoftBody Cluster Collide2",SoftDemo20::Create},
 //	{"SoftBody Cluster Socket",SoftDemo21::Create},
-	{"SoftBody Cluster Hinge",SoftDemo22::Create},
-	{"SoftBody Cluster Combine",SoftDemo23::Create},
+  {"SoftBody Cluster Hinge", SoftDemo22::Create},
+  {"SoftBody Cluster Combine", SoftDemo23::Create},
 //	{"SoftBody Cluster Stack Soft",SoftDemo26::Create},
-	{"SoftBody Cluster Stack Mixed",SoftDemo27::Create},
-
-	{"SoftBody TetGen Tetrahedral Cube",SoftDemo28::Create},
-	{"SoftBody TetGen Tetrahedral Bunny",SoftDemo29::Create},
-
-	
+  {"SoftBody Cluster Stack Mixed", SoftDemo27::Create},
+  
+  {"SoftBody TetGen Tetrahedral Cube", SoftDemo28::Create},
+  {"SoftBody TetGen Tetrahedral Bunny", SoftDemo29::Create},
+  
+  
 //	{"SliderConstraint",SliderConstraintDemo::Create},
-	
+
 //	{"ConcaveRaycastDemo",ConcaveRaycastDemo::Create},
-	//{"BspDemo", BspDemo::Create},
+  //{"BspDemo", BspDemo::Create},
 //	{"Raytracer Test",Raytracer::Create},
 //	{"GjkConvexCast",LinearConvexCastDemo::Create},
 //	{"Benchmark 3000 FALL",BenchmarkDemo1::Create},
@@ -171,8 +171,8 @@ btDemoEntry g_demoEntries[] =
 //	{"Benchmark Mesh-Convex",BenchmarkDemo6::Create},
 //	{"Benchmark Raycast",BenchmarkDemo7::Create},
 
-	{"MemoryLeak Checker",btEmptyDebugDemo::Create},	
-	{0, 0}
+  {"MemoryLeak Checker", btEmptyDebugDemo::Create},
+  {0, 0}
 };
 
 

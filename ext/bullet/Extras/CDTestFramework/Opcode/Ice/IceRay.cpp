@@ -1,13 +1,13 @@
 /*
  *	ICE / OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -81,20 +81,20 @@ using namespace Opcode;
 
 float Ray::SquareDistance(const Point& point, float* t)	const
 {
-	Point Diff = point - mOrig;
-	float fT = Diff | mDir;
-
-	if(fT<=0.0f)
-	{
-		fT = 0.0f;
-	}
-	else
-	{
-		fT /= mDir.SquareMagnitude();
-		Diff -= fT*mDir;
-	}
-
-	if(t) *t = fT;
-
-	return Diff.SquareMagnitude();
+  Point Diff = point - mOrig;
+  float fT = Diff | mDir;
+  
+  if(fT <= 0.0f)
+  {
+    fT = 0.0f;
+  }
+  else
+  {
+    fT /= mDir.SquareMagnitude();
+    Diff -= fT * mDir;
+  }
+  
+  if(t) *t = fT;
+  
+  return Diff.SquareMagnitude();
 }

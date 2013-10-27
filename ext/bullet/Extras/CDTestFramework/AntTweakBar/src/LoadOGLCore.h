@@ -42,11 +42,15 @@ int UnloadOpenGLCore();
 
 namespace GLCore
 {
-    extern "C" { typedef void (APIENTRY* PFNOpenGL)(); }
-    PFNOpenGL Record(const char *_FuncName, PFNOpenGL *_FuncPtr);
+extern "C" {
+  typedef void (APIENTRY* PFNOpenGL)();
+}
+PFNOpenGL Record(const char *_FuncName, PFNOpenGL *_FuncPtr);
 
-    extern "C" { typedef PFNOpenGL (APIENTRY *PFNGLGetProcAddress)(const char *); }
-    extern PFNGLGetProcAddress _glGetProcAddress;
+extern "C" {
+  typedef PFNOpenGL(APIENTRY *PFNGLGetProcAddress)(const char *);
+}
+extern PFNGLGetProcAddress _glGetProcAddress;
 }
 using GLCore::_glGetProcAddress;
 
@@ -153,8 +157,8 @@ ANT_GL_CORE_DECL(void, glPointParameteri, (GLenum pname, GLint param))
 ANT_GL_CORE_DECL(void, glPointParameteriv, (GLenum pname, const GLint *params))
 // GL 1.5
 #ifndef ANT_OSX
-    typedef ptrdiff_t GLintptr;
-    typedef ptrdiff_t GLsizeiptr;
+typedef ptrdiff_t GLintptr;
+typedef ptrdiff_t GLsizeiptr;
 #endif
 ANT_GL_CORE_DECL(void, glGenQueries, (GLsizei n, GLuint *ids))
 ANT_GL_CORE_DECL(void, glDeleteQueries, (GLsizei n, const GLuint *ids))
@@ -357,7 +361,7 @@ ANT_GL_CORE_DECL_NO_FORWARD(GLboolean, glIsVertexArray, (GLuint array))
 
 #ifdef ANT_WINDOWS
 ANT_GL_CORE_DECL(PROC, wglGetProcAddress, (LPCSTR))
-#endif                                                                                                                                                                                                                                                                                                                                                
+#endif
 
 #ifndef GL_CLAMP_TO_EDGE
 #   define GL_CLAMP_TO_EDGE     0x812F

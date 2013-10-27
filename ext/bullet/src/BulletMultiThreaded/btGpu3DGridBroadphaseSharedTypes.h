@@ -1,11 +1,11 @@
 /*
 Bullet Continuous Collision Detection and Physics Library, http://bulletphysics.org
-Copyright (C) 2006, 2009 Sony Computer Entertainment Inc. 
+Copyright (C) 2006, 2009 Sony Computer Entertainment Inc.
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -35,30 +35,30 @@ subject to the following restrictions:
 
 //----------------------------------------------------------------------------------------
 
-struct bt3DGridBroadphaseParams 
+struct bt3DGridBroadphaseParams
 {
-	unsigned int	m_gridSizeX;
-	unsigned int	m_gridSizeY;
-	unsigned int	m_gridSizeZ;
-	unsigned int	m_numCells;
-	float			m_worldOriginX;
-	float			m_worldOriginY;
-	float			m_worldOriginZ;
-	float			m_cellSizeX;
-	float			m_cellSizeY;
-	float			m_cellSizeZ;
-	unsigned int	m_numBodies;
-	unsigned int	m_maxBodiesPerCell;
+  unsigned int	m_gridSizeX;
+  unsigned int	m_gridSizeY;
+  unsigned int	m_gridSizeZ;
+  unsigned int	m_numCells;
+  float			m_worldOriginX;
+  float			m_worldOriginY;
+  float			m_worldOriginZ;
+  float			m_cellSizeX;
+  float			m_cellSizeY;
+  float			m_cellSizeZ;
+  unsigned int	m_numBodies;
+  unsigned int	m_maxBodiesPerCell;
 };
 
 //----------------------------------------------------------------------------------------
 
 struct bt3DGrid3F1U
 {
-	float			fx;
-	float			fy;
-	float			fz;
-	unsigned int	uw;
+  float			fx;
+  float			fy;
+  float			fz;
+  unsigned int	uw;
 };
 
 //----------------------------------------------------------------------------------------

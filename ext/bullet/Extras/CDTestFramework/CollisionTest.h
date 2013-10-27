@@ -4,8 +4,8 @@ Copyright (c) 2007-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -17,34 +17,34 @@ subject to the following restrictions:
 #ifndef COLLISIONTEST_H
 #define COLLISIONTEST_H
 
-	class CollisionTest
-	{
-		public:
+class CollisionTest
+{
+public:
 
-						CollisionTest()		{}
-		virtual			~CollisionTest()	{}
+  CollisionTest()		{}
+  virtual			~CollisionTest()	{}
+  
+  virtual	void	Init()				= 0;
+  virtual	void	Release()			= 0;
+  virtual	void	PerformTest()		= 0;
+  virtual	void	Select()											{}
+  virtual	void	Deselect()											{}
+  virtual	void	KeyboardCallback(unsigned char key, int x, int y)	{}
+  virtual	void	MouseCallback(int button, int state, int x, int y)	{}
+  virtual	void	MotionCallback(int x, int y)						{}
+};
 
-		virtual	void	Init()				= 0;
-		virtual	void	Release()			= 0;
-		virtual	void	PerformTest()		= 0;
-		virtual	void	Select()											{}
-		virtual	void	Deselect()											{}
-		virtual	void	KeyboardCallback(unsigned char key, int x, int y)	{}
-		virtual	void	MouseCallback(int button, int state, int x, int y)	{}
-		virtual	void	MotionCallback(int x, int y)						{}
-	};
-
-	class OpcodeSettings
-	{
-		public:
-						OpcodeSettings();
-
-				void	AddToTweakBar(TwBar* tbar);
-				void	SetupCollider(Collider& collider)	const;
-
-				bool	mPrimitiveTests;
-				bool	mFirstContact;
-				bool	mUseCache;
-	};
+class OpcodeSettings
+{
+public:
+  OpcodeSettings();
+  
+  void	AddToTweakBar(TwBar* tbar);
+  void	SetupCollider(Collider& collider)	const;
+  
+  bool	mPrimitiveTests;
+  bool	mFirstContact;
+  bool	mUseCache;
+};
 
 #endif	// COLLISIONTEST_H

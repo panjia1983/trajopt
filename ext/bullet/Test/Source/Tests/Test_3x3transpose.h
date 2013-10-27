@@ -9,11 +9,11 @@
 #define BulletTest_Test_3x3transpose_h
 
 #ifdef __cplusplus
-extern "C" { 
+extern "C" {
 #endif
-    
-    int Test_3x3transpose(void);
-    
+
+  int Test_3x3transpose(void);
+  
 #ifdef __cplusplus
 }
 #endif

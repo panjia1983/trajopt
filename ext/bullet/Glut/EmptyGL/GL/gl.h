@@ -23,12 +23,34 @@
 
 extern		unsigned int	*EGL_LOG_PTR;
 
-inline	void	xGLL(int a) 		 	 {	*EGL_LOG_PTR=(unsigned int)a; EGL_LOG_PTR++;		};
-inline	void	xGLL(unsigned int a) 	 {	*EGL_LOG_PTR=a; EGL_LOG_PTR++;					};
-inline	void	xGLL(float a) 			 {	*(float *)EGL_LOG_PTR=a; EGL_LOG_PTR++;			};
-inline	void	xGLL(double a) 			 {	*(float *)EGL_LOG_PTR=(float)a; EGL_LOG_PTR++;	};
-inline	void	xGLL(const float *a)	 {  for(int t=0;t!=16;t++) xGLL(a[t]);					};
-inline	void	xGLL(const double *a)	 {  for(int t=0;t!=16;t++) xGLL(a[t]);					};
+inline	void	xGLL(int a)
+{
+  *EGL_LOG_PTR = (unsigned int)a;
+  EGL_LOG_PTR++;
+};
+inline	void	xGLL(unsigned int a)
+{
+  *EGL_LOG_PTR = a;
+  EGL_LOG_PTR++;
+};
+inline	void	xGLL(float a)
+{
+  *(float *)EGL_LOG_PTR = a;
+  EGL_LOG_PTR++;
+};
+inline	void	xGLL(double a)
+{
+  *(float *)EGL_LOG_PTR = (float)a;
+  EGL_LOG_PTR++;
+};
+inline	void	xGLL(const float *a)
+{
+  for(int t = 0; t != 16; t++) xGLL(a[t]);
+};
+inline	void	xGLL(const double *a)
+{
+  for(int t = 0; t != 16; t++) xGLL(a[t]);
+};
 #else
 
 inline	void	xGLL(int a)			 	{};

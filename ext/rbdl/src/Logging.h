@@ -20,15 +20,15 @@ class _NoLogging;
  */
 
 #ifndef RBDL_ENABLE_LOGGING
-	#define LOG if (false) LogOutput 
-	#define SUPPRESS_LOGGING ;
+#define LOG if (false) LogOutput
+#define SUPPRESS_LOGGING ;
 #else
-	#define LOG LogOutput
-	#define SUPPRESS_LOGGING _NoLogging _nolog
+#define LOG LogOutput
+#define SUPPRESS_LOGGING _NoLogging _nolog
 #endif
 
 extern std::ostringstream LogOutput;
-void ClearLogOutput ();
+void ClearLogOutput();
 
 /** \brief Helper object to ignore any logs that happen during its lifetime
  *
@@ -40,11 +40,11 @@ void ClearLogOutput ();
  * {
  *   // logging will be active
  *   do_some_stuff();
- *  
+ *
  *   // now create a new scope in which a _NoLogging instance exists
  *   {
  *     _NoLogging ignore_logging;
- *    
+ *
  *     // as a _Nologging instance exists, all logging will be discarded
  *     do_some_crazy_stuff();
  *   }
@@ -55,19 +55,22 @@ void ClearLogOutput ();
  * \endcode
  *
  */
-class _NoLogging {
-	public:
-		_NoLogging() {
-			log_backup.str("");
-			log_backup << LogOutput.str();
-		}
-		~_NoLogging() {
-			LogOutput.str("");
-			LogOutput << log_backup.str();
-		}
-
-	private:
-		std::ostringstream log_backup;
+class _NoLogging
+{
+public:
+  _NoLogging()
+  {
+    log_backup.str("");
+    log_backup << LogOutput.str();
+  }
+  ~_NoLogging()
+  {
+    LogOutput.str("");
+    LogOutput << log_backup.str();
+  }
+  
+private:
+  std::ostringstream log_backup;
 };
 
 #endif /* LOGGING_H */

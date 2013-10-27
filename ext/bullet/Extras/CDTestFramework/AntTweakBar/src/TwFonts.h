@@ -18,7 +18,7 @@
 
 /*
 A source bitmap includes 224 characters starting from ascii char 32 (i.e. space) to ascii char 255:
-  
+
  !"#$%&'()*+,-./0123456789:;<=>?
 @ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_
 `abcdefghijklmnopqrstuvwxyz{|}~
@@ -35,19 +35,19 @@ Last row of a line of characters is a delimiter with color=zero at the last pixe
 
 struct CTexFont
 {
-    unsigned char * m_TexBytes;
-    int             m_TexWidth;     // power of 2
-    int             m_TexHeight;    // power of 2
-    float           m_CharU0[256];
-    float           m_CharV0[256];
-    float           m_CharU1[256];
-    float           m_CharV1[256];
-    int             m_CharWidth[256];
-    int             m_CharHeight;
-    int             m_NbCharRead;
-
-    CTexFont();
-    ~CTexFont();
+  unsigned char * m_TexBytes;
+  int             m_TexWidth;     // power of 2
+  int             m_TexHeight;    // power of 2
+  float           m_CharU0[256];
+  float           m_CharV0[256];
+  float           m_CharU1[256];
+  float           m_CharV1[256];
+  int             m_CharWidth[256];
+  int             m_CharHeight;
+  int             m_NbCharRead;
+  
+  CTexFont();
+  ~CTexFont();
 };
 
 

@@ -3,8 +3,8 @@ Bullet Continuous Collision Detection and Physics Library, Copyright (c) 2007 Er
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -30,25 +30,25 @@ struct MiniCLKernel;
 
 ATTRIBUTE_ALIGNED16(struct) MiniCLTaskDesc
 {
-	BT_DECLARE_ALIGNED_ALLOCATOR();
-
-	MiniCLTaskDesc()
-	{
-		for (int i=0;i<MINI_CL_MAX_ARG;i++)
-		{
-			m_argSizes[i]=0;
-		}
-	}
-
-	uint32_t		m_taskId;
-
-	uint32_t		m_firstWorkUnit;
-	uint32_t		m_lastWorkUnit;
-
-	MiniCLKernel*	m_kernel;
-
-	void*			m_argData[MINI_CL_MAX_ARG];
-	int				m_argSizes[MINI_CL_MAX_ARG];
+  BT_DECLARE_ALIGNED_ALLOCATOR();
+  
+  MiniCLTaskDesc()
+  {
+    for(int i = 0; i < MINI_CL_MAX_ARG; i++)
+    {
+      m_argSizes[i] = 0;
+    }
+  }
+  
+  uint32_t		m_taskId;
+  
+  uint32_t		m_firstWorkUnit;
+  uint32_t		m_lastWorkUnit;
+  
+  MiniCLKernel*	m_kernel;
+  
+  void*			m_argData[MINI_CL_MAX_ARG];
+  int				m_argSizes[MINI_CL_MAX_ARG];
 };
 
 extern "C" int gMiniCLNumOutstandingTasks;

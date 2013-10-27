@@ -4,9 +4,9 @@
 CPPUNIT_NS_BEGIN
 
 
-TestSuccessListener::TestSuccessListener( SynchronizationObject *syncObject )
-    : SynchronizedObject( syncObject )
-    , m_success( true )
+TestSuccessListener::TestSuccessListener(SynchronizationObject *syncObject)
+  : SynchronizedObject(syncObject)
+  , m_success(true)
 {
 }
 
@@ -16,26 +16,26 @@ TestSuccessListener::~TestSuccessListener()
 }
 
 
-void 
+void
 TestSuccessListener::reset()
 {
-  ExclusiveZone zone( m_syncObject );
+  ExclusiveZone zone(m_syncObject);
   m_success = true;
 }
 
 
-void 
-TestSuccessListener::addFailure( const TestFailure & )
+void
+TestSuccessListener::addFailure(const TestFailure &)
 {
-  ExclusiveZone zone( m_syncObject );
+  ExclusiveZone zone(m_syncObject);
   m_success = false;
 }
 
 
-bool 
+bool
 TestSuccessListener::wasSuccessful() const
 {
-  ExclusiveZone zone( m_syncObject );
+  ExclusiveZone zone(m_syncObject);
   return m_success;
 }
 

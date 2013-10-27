@@ -41,9 +41,9 @@ class TestListener;
  * TestResult supplies a template method 'setSynchronizationObject()'
  * so that subclasses can provide mutual exclusion in the face of multiple
  * threads.  This can be useful when tests execute in one thread and
- * they fill a subclass of TestResult which effects change in another 
+ * they fill a subclass of TestResult which effects change in another
  * thread.  To have mutual exclusion, override setSynchronizationObject()
- * and make sure that you create an instance of ExclusiveZone at the 
+ * and make sure that you create an instance of ExclusiveZone at the
  * beginning of each method.
  *
  * \see Test, TestListener, TestResultCollector, Outputter.
@@ -52,53 +52,53 @@ class CPPUNIT_API TestResult : protected SynchronizedObject
 {
 public:
   /// Construct a TestResult
-  TestResult( SynchronizationObject *syncObject = 0 );
-
+  TestResult(SynchronizationObject *syncObject = 0);
+  
   /// Destroys a test result
   virtual ~TestResult();
-
-  virtual void addListener( TestListener *listener );
-
-  virtual void removeListener( TestListener *listener );
-
+  
+  virtual void addListener(TestListener *listener);
+  
+  virtual void removeListener(TestListener *listener);
+  
   /// Resets the stop flag.
   virtual void reset();
   
   /// Stop testing
   virtual void stop();
-
+  
   /// Returns whether testing should be stopped
   virtual bool shouldStop() const;
-
+  
   /// Informs TestListener that a test will be started.
-  virtual void startTest( Test *test );
-
-  /*! \brief Adds an error to the list of errors. 
+  virtual void startTest(Test *test);
+  
+  /*! \brief Adds an error to the list of errors.
    *  The passed in exception
    *  caused the error
    */
-  virtual void addError( Test *test, Exception *e );
-
+  virtual void addError(Test *test, Exception *e);
+  
   /*! \brief Adds a failure to the list of failures. The passed in exception
    * caused the failure.
    */
-  virtual void addFailure( Test *test, Exception *e );
-
+  virtual void addFailure(Test *test, Exception *e);
+  
   /// Informs TestListener that a test was completed.
-  virtual void endTest( Test *test );
-
+  virtual void endTest(Test *test);
+  
   /// Informs TestListener that a test suite will be started.
-  virtual void startSuite( Test *test );
-
+  virtual void startSuite(Test *test);
+  
   /// Informs TestListener that a test suite was completed.
-  virtual void endSuite( Test *test );
-
+  virtual void endSuite(Test *test);
+  
   /*! \brief Run the specified test.
-   * 
+   *
    * Calls startTestRun(), test->run(this), and finally endTestRun().
    */
-  virtual void runTest( Test *test );
-
+  virtual void runTest(Test *test);
+  
   /*! \brief Protects a call to the specified functor.
    *
    * See Protector to understand how protector works. A default protector is
@@ -114,33 +114,33 @@ public:
    * \param test Test the functor is associated to (used for failure reporting).
    * \param shortDescription Short description override for the failure message.
    */
-  virtual bool protect( const Functor &functor,
-                        Test *test,
-                        const std::string &shortDescription = std::string("") );
-
+  virtual bool protect(const Functor &functor,
+                       Test *test,
+                       const std::string &shortDescription = std::string(""));
+                       
   /// Adds the specified protector to the protector chain.
-  virtual void pushProtector( Protector *protector );
-
+  virtual void pushProtector(Protector *protector);
+  
   /// Removes the last protector from the protector chain.
   virtual void popProtector();
-
+  
 protected:
   /*! \brief Called to add a failure to the list of failures.
    */
-  void addFailure( const TestFailure &failure );
-
-  virtual void startTestRun( Test *test );
-  virtual void endTestRun( Test *test );
+  void addFailure(const TestFailure &failure);
+  
+  virtual void startTestRun(Test *test);
+  virtual void endTestRun(Test *test);
   
 protected:
   typedef CppUnitDeque<TestListener *> TestListeners;
   TestListeners m_listeners;
   ProtectorChain *m_protectorChain;
   bool m_stop;
-
-private: 
-  TestResult( const TestResult &other );
-  TestResult &operator =( const TestResult &other );
+  
+private:
+  TestResult(const TestResult &other);
+  TestResult &operator =(const TestResult &other);
 };
 
 

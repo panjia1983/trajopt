@@ -16,7 +16,8 @@
 
 #include "Logging.h"
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
 struct Model;
 
@@ -39,14 +40,14 @@ struct Model;
  * \param QDDot accelerations of the internal joints (output)
  * \param f_ext External forces acting on the body in base coordinates (optional, defaults to NULL)
  */
-void ForwardDynamics (
-		Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		const Math::VectorNd &Tau,
-		Math::VectorNd &QDDot,
-		std::vector<Math::SpatialVector> *f_ext = NULL
-		);
+void ForwardDynamics(
+  Model &model,
+  const Math::VectorNd &Q,
+  const Math::VectorNd &QDot,
+  const Math::VectorNd &Tau,
+  Math::VectorNd &QDDot,
+  std::vector<Math::SpatialVector> *f_ext = NULL
+);
 
 /** \brief Computes forward dynamics by building and solving the full Lagrangian equation
  *
@@ -64,15 +65,15 @@ void ForwardDynamics (
  * \param linear_solver specification which method should be used for solving the linear system
  * \param f_ext External forces acting on the body in base coordinates (optional, defaults to NULL)
  */
-void ForwardDynamicsLagrangian (
-		Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		const Math::VectorNd &Tau,
-		Math::VectorNd &QDDot,
-		Math::LinearSolver linear_solver = Math::LinearSolverColPivHouseholderQR,
-		std::vector<Math::SpatialVector> *f_ext = NULL
-		);
+void ForwardDynamicsLagrangian(
+  Model &model,
+  const Math::VectorNd &Q,
+  const Math::VectorNd &QDot,
+  const Math::VectorNd &Tau,
+  Math::VectorNd &QDDot,
+  Math::LinearSolver linear_solver = Math::LinearSolverColPivHouseholderQR,
+  std::vector<Math::SpatialVector> *f_ext = NULL
+);
 
 /** \brief Computes inverse dynamics with the Newton-Euler Algorithm
  *
@@ -87,14 +88,14 @@ void ForwardDynamicsLagrangian (
  * \param Tau   actuations of the internal joints (output)
  * \param f_ext External forces acting on the body in base coordinates (optional, defaults to NULL)
  */
-void InverseDynamics (
-		Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		const Math::VectorNd &QDDot,
-		Math::VectorNd &Tau,
-		std::vector<Math::SpatialVector> *f_ext = NULL
-		);
+void InverseDynamics(
+  Model &model,
+  const Math::VectorNd &Q,
+  const Math::VectorNd &QDot,
+  const Math::VectorNd &QDDot,
+  Math::VectorNd &Tau,
+  std::vector<Math::SpatialVector> *f_ext = NULL
+);
 
 /** \brief Computes the joint space inertia matrix by using the Composite Rigid Body Algorithm
  *
@@ -108,12 +109,12 @@ void InverseDynamics (
  * \param update_kinematics  whether the kinematics should be updated
  * (safer, but at a higher computational cost!)
  */
-void CompositeRigidBodyAlgorithm (
-		Model& model,
-		const Math::VectorNd &Q,
-		Math::MatrixNd &H,
-		bool update_kinematics = true
-		);
+void CompositeRigidBodyAlgorithm(
+  Model& model,
+  const Math::VectorNd &Q,
+  Math::MatrixNd &H,
+  bool update_kinematics = true
+);
 
 /** @} */
 

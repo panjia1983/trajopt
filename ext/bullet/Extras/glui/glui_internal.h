@@ -95,7 +95,7 @@
 
 /******************* swap two values, using a temp variable *********/
 #ifndef SWAP2
-#define SWAP2(a,b,t) {t=a;a=b;b=t;}     
+#define SWAP2(a,b,t) {t=a;a=b;b=t;}
 #endif
 
 #define VEC3_TO_ARRAY(v,a)  a[0]=v[0], a[1]=v[1], a[2]=v[2]

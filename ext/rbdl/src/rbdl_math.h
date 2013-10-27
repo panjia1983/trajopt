@@ -11,45 +11,47 @@
 #include <rbdl_config.h>
 
 #ifdef RBDL_USE_SIMPLE_MATH
-  #include "SimpleMath/SimpleMath.h"
-	#include <vector>
+#include "SimpleMath/SimpleMath.h"
+#include <vector>
 
-	typedef SimpleMath::Fixed::Matrix<double, 3,1> Vector3_t;
-	typedef SimpleMath::Fixed::Matrix<double, 3,3> Matrix3_t;
+typedef SimpleMath::Fixed::Matrix<double, 3, 1> Vector3_t;
+typedef SimpleMath::Fixed::Matrix<double, 3, 3> Matrix3_t;
 
-	typedef SimpleMath::Fixed::Matrix<double, 6,1> SpatialVector_t;
-	typedef SimpleMath::Fixed::Matrix<double, 6,6> SpatialMatrix_t;
+typedef SimpleMath::Fixed::Matrix<double, 6, 1> SpatialVector_t;
+typedef SimpleMath::Fixed::Matrix<double, 6, 6> SpatialMatrix_t;
 
-	typedef SimpleMath::Dynamic::Matrix<double> MatrixN_t;
-	typedef SimpleMath::Dynamic::Matrix<double> VectorN_t;
+typedef SimpleMath::Dynamic::Matrix<double> MatrixN_t;
+typedef SimpleMath::Dynamic::Matrix<double> VectorN_t;
 
 #else
-	#define EIGEN_DEFAULT_TO_ROW_MAJOR
-	#define EIGEN_MATRIX_PLUGIN "MatrixAddons.h"
+#define EIGEN_DEFAULT_TO_ROW_MAJOR
+#define EIGEN_MATRIX_PLUGIN "MatrixAddons.h"
 
-	#include "Eigen/Dense"
-	#include "Eigen/StdVector"
+#include "Eigen/Dense"
+#include "Eigen/StdVector"
 
-	typedef Eigen::Matrix< double, 3, 1> Vector3_t;
-	typedef Eigen::Matrix< double, 3, 3> Matrix3_t;
+typedef Eigen::Matrix< double, 3, 1> Vector3_t;
+typedef Eigen::Matrix< double, 3, 3> Matrix3_t;
 
-	typedef Eigen::VectorXd VectorN_t;
-	typedef Eigen::MatrixXd MatrixN_t;
+typedef Eigen::VectorXd VectorN_t;
+typedef Eigen::MatrixXd MatrixN_t;
 
-	typedef Eigen::Matrix< double, 6, 1> SpatialVector_t;
-	typedef Eigen::Matrix< double, 6, 6> SpatialMatrix_t;
+typedef Eigen::Matrix< double, 6, 1> SpatialVector_t;
+typedef Eigen::Matrix< double, 6, 6> SpatialMatrix_t;
 #endif
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
 /** \brief Math types such as vectors and matrices and utility functions. */
-namespace Math {
-	typedef Vector3_t Vector3d;
-	typedef Matrix3_t Matrix3d;
-	typedef SpatialVector_t SpatialVector;
-	typedef SpatialMatrix_t SpatialMatrix;
-	typedef VectorN_t VectorNd;
-	typedef MatrixN_t MatrixNd;
+namespace Math
+{
+typedef Vector3_t Vector3d;
+typedef Matrix3_t Matrix3d;
+typedef SpatialVector_t SpatialVector;
+typedef SpatialMatrix_t SpatialMatrix;
+typedef VectorN_t VectorNd;
+typedef MatrixN_t MatrixNd;
 } /* Math */
 
 } /* RigidBodyDynamics */

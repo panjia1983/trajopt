@@ -11,13 +11,13 @@
 CPPUNIT_NS_BEGIN
 
 
-CompilerOutputter::CompilerOutputter( TestResultCollector *result,
-                                      OStream &stream,
-                                      const std::string &locationFormat )
-    : m_result( result )
-    , m_stream( stream )
-    , m_locationFormat( locationFormat )
-    , m_wrapColumn( CPPUNIT_WRAP_COLUMN )
+CompilerOutputter::CompilerOutputter(TestResultCollector *result,
+                                     OStream &stream,
+                                     const std::string &locationFormat)
+  : m_result(result)
+  , m_stream(stream)
+  , m_locationFormat(locationFormat)
+  , m_wrapColumn(CPPUNIT_WRAP_COLUMN)
 {
 }
 
@@ -27,39 +27,39 @@ CompilerOutputter::~CompilerOutputter()
 }
 
 
-void 
-CompilerOutputter::setLocationFormat( const std::string &locationFormat )
+void
+CompilerOutputter::setLocationFormat(const std::string &locationFormat)
 {
   m_locationFormat = locationFormat;
 }
 
 
 CompilerOutputter *
-CompilerOutputter::defaultOutputter( TestResultCollector *result,
-                                     OStream &stream )
+CompilerOutputter::defaultOutputter(TestResultCollector *result,
+                                    OStream &stream)
 {
-  return new CompilerOutputter( result, stream );
+  return new CompilerOutputter(result, stream);
 }
 
 
-void 
+void
 CompilerOutputter::write()
 {
-  if ( m_result->wasSuccessful() )
+  if(m_result->wasSuccessful())
     printSuccess();
   else
     printFailureReport();
 }
 
 
-void 
+void
 CompilerOutputter::printSuccess()
 {
   m_stream  << "OK (" << m_result->runTests()  << ")\n";
 }
 
 
-void 
+void
 CompilerOutputter::printFailureReport()
 {
   printFailuresList();
@@ -67,59 +67,59 @@ CompilerOutputter::printFailureReport()
 }
 
 
-void 
+void
 CompilerOutputter::printFailuresList()
 {
-  for ( int index =0; index < m_result->testFailuresTotal(); ++index)
+  for(int index = 0; index < m_result->testFailuresTotal(); ++index)
   {
-    printFailureDetail( m_result->failures()[ index ] );
+    printFailureDetail(m_result->failures()[ index ]);
   }
 }
 
 
-void 
-CompilerOutputter::printFailureDetail( TestFailure *failure )
+void
+CompilerOutputter::printFailureDetail(TestFailure *failure)
 {
-  printFailureLocation( failure->sourceLine() );
-  printFailureType( failure );
-  printFailedTestName( failure );
-  printFailureMessage( failure );
+  printFailureLocation(failure->sourceLine());
+  printFailureType(failure);
+  printFailedTestName(failure);
+  printFailureMessage(failure);
 }
 
- 
-void 
-CompilerOutputter::printFailureLocation( SourceLine sourceLine )
+
+void
+CompilerOutputter::printFailureLocation(SourceLine sourceLine)
 {
-  if ( !sourceLine.isValid() )
+  if(!sourceLine.isValid())
   {
     m_stream  <<  "##Failure Location unknown## : ";
     return;
   }
-
+  
   std::string location;
-  for ( unsigned int index = 0; index < m_locationFormat.length(); ++index )
+  for(unsigned int index = 0; index < m_locationFormat.length(); ++index)
   {
     char c = m_locationFormat[ index ];
-    if ( c == '%'  &&  ( index+1 < m_locationFormat.length() ) )
+    if(c == '%'  && (index + 1 < m_locationFormat.length()))
     {
-      char command = m_locationFormat[index+1];
-      if ( processLocationFormatCommand( command, sourceLine ) )
+      char command = m_locationFormat[index + 1];
+      if(processLocationFormatCommand(command, sourceLine))
       {
         ++index;
         continue;
       }
     }
-
+    
     m_stream  << c;
   }
 }
 
 
-bool 
-CompilerOutputter::processLocationFormatCommand( char command, 
-                                                 const SourceLine &sourceLine )
+bool
+CompilerOutputter::processLocationFormatCommand(char command,
+    const SourceLine &sourceLine)
 {
-  switch ( command )
+  switch(command)
   {
   case 'p':
     m_stream  <<  sourceLine.fileName();
@@ -128,7 +128,7 @@ CompilerOutputter::processLocationFormatCommand( char command,
     m_stream  <<  sourceLine.lineNumber();
     return true;
   case 'f':
-    m_stream  <<  extractBaseName( sourceLine.fileName() );
+    m_stream  <<  extractBaseName(sourceLine.fileName());
     return true;
   }
   
@@ -136,51 +136,51 @@ CompilerOutputter::processLocationFormatCommand( char command,
 }
 
 
-std::string 
-CompilerOutputter::extractBaseName( const std::string &fileName ) const
+std::string
+CompilerOutputter::extractBaseName(const std::string &fileName) const
 {
-  int indexLastDirectorySeparator = fileName.find_last_of( '/' );
+  int indexLastDirectorySeparator = fileName.find_last_of('/');
   
-  if ( indexLastDirectorySeparator < 0 )
-    indexLastDirectorySeparator = fileName.find_last_of( '\\' );
-  
-  if ( indexLastDirectorySeparator < 0 )
+  if(indexLastDirectorySeparator < 0)
+    indexLastDirectorySeparator = fileName.find_last_of('\\');
+    
+  if(indexLastDirectorySeparator < 0)
     return fileName;
-
-  return fileName.substr( indexLastDirectorySeparator +1 );
+    
+  return fileName.substr(indexLastDirectorySeparator + 1);
 }
 
 
-void 
-CompilerOutputter::printFailureType( TestFailure *failure )
+void
+CompilerOutputter::printFailureType(TestFailure *failure)
 {
-  m_stream  <<  (failure->isError() ? "Error" : "Assertion");
+  m_stream  << (failure->isError() ? "Error" : "Assertion");
 }
 
 
-void 
-CompilerOutputter::printFailedTestName( TestFailure *failure )
+void
+CompilerOutputter::printFailedTestName(TestFailure *failure)
 {
   m_stream  <<  "\nTest name: "  <<  failure->failedTestName();
 }
 
 
-void 
-CompilerOutputter::printFailureMessage( TestFailure *failure )
+void
+CompilerOutputter::printFailureMessage(TestFailure *failure)
 {
   m_stream  <<  "\n";
   Exception *thrownException = failure->thrownException();
   m_stream  << thrownException->message().shortDescription()  <<  "\n";
-
+  
   std::string message = thrownException->message().details();
-  if ( m_wrapColumn > 0 )
-    message = StringTools::wrap( message, m_wrapColumn );
-
+  if(m_wrapColumn > 0)
+    message = StringTools::wrap(message, m_wrapColumn);
+    
   m_stream  <<  message  <<  "\n";
 }
 
 
-void 
+void
 CompilerOutputter::printStatistics()
 {
   m_stream  <<  "Failures !!!\n";
@@ -192,21 +192,21 @@ CompilerOutputter::printStatistics()
 }
 
 
-void 
-CompilerOutputter::setWrapColumn( int wrapColumn )
+void
+CompilerOutputter::setWrapColumn(int wrapColumn)
 {
   m_wrapColumn = wrapColumn;
 }
 
 
-void 
+void
 CompilerOutputter::setNoWrap()
 {
   m_wrapColumn = 0;
 }
 
 
-int 
+int
 CompilerOutputter::wrapColumn() const
 {
   return m_wrapColumn;

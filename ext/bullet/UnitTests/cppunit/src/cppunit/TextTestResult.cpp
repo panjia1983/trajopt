@@ -11,39 +11,40 @@ CPPUNIT_NS_BEGIN
 
 TextTestResult::TextTestResult()
 {
-  addListener( this );
+  addListener(this);
 }
 
 
-void 
-TextTestResult::addFailure( const TestFailure &failure )
+void
+TextTestResult::addFailure(const TestFailure &failure)
 {
-  TestResultCollector::addFailure( failure );
-  stdCOut() << ( failure.isError() ? "E" : "F" );
+  TestResultCollector::addFailure(failure);
+  stdCOut() << (failure.isError() ? "E" : "F");
 }
 
 
-void 
-TextTestResult::startTest( Test *test )
+void
+TextTestResult::startTest(Test *test)
 {
-  TestResultCollector::startTest (test);
+  TestResultCollector::startTest(test);
   stdCOut() << ".";
 }
 
 
-void 
-TextTestResult::print( OStream &stream ) 
+void
+TextTestResult::print(OStream &stream)
 {
-  TextOutputter outputter( this, stream );
+  TextOutputter outputter(this, stream);
   outputter.write();
 }
 
 
 OStream &
-operator <<( OStream &stream, 
-             TextTestResult &result )
-{ 
-  result.print (stream); return stream; 
+operator <<(OStream &stream,
+            TextTestResult &result)
+{
+  result.print(stream);
+  return stream;
 }
 
 

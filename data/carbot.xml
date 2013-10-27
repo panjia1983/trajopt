@@ -9,7 +9,7 @@
  
     <Geom type="box">
       <Extents>.5 .25 .25</Extents>
-			<render>/home/joschu/Downloads/L200-VRML/L200-VRML2.wrl</render>
+			<render>L200-VRML/L200-VRML2.wrl</render>
    	</Geom>
 
  </Body>

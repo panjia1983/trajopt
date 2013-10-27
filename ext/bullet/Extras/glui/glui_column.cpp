@@ -32,58 +32,62 @@
 
 /******************************** GLUI_Column::GLUI_Column() ************/
 
-GLUI_Column::GLUI_Column( GLUI_Node *parent, int draw_bar )
+GLUI_Column::GLUI_Column(GLUI_Node *parent, int draw_bar)
 {
   common_init();
   int_val = draw_bar; /* Whether to draw vertical bar or not */
-
-  parent->add_control( this );
+  
+  parent->add_control(this);
 }
 
 /**************************************** GLUI_Column::draw() ************/
 
-void  GLUI_Column::draw( int x, int y )
+void  GLUI_Column::draw(int x, int y)
 {
   int   panel_x, panel_y, panel_w, panel_h, panel_x_off, panel_y_off;
   int   y_diff;
-
-  if ( int_val == 1 ) {  /* Draw a vertical bar */
+  
+  if(int_val == 1)       /* Draw a vertical bar */
+  {
     GLUI_DRAWINGSENTINAL_IDIOM
-    if ( parent() != NULL ) {
-      get_this_column_dims(&panel_x, &panel_y, &panel_w, &panel_h, 
-			   &panel_x_off, &panel_y_off);
-
+    if(parent() != NULL)
+    {
+      get_this_column_dims(&panel_x, &panel_y, &panel_w, &panel_h,
+                           &panel_x_off, &panel_y_off);
+                           
       y_diff = y_abs - panel_y;
-
-      if ( 0 ) {
-	glLineWidth(1.0);
-	glBegin( GL_LINES );
-	glColor3f( .5, .5, .5 );
-	glVertex2i( -GLUI_XOFF+1, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );
-	glVertex2i( -GLUI_XOFF+1, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);
-
-	glColor3f( 1.0, 1.0, 1.0 );
-	glVertex2i( -GLUI_XOFF+2, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );
-	glVertex2i( -GLUI_XOFF+2, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);
-	glEnd();
+      
+      if(0)
+      {
+        glLineWidth(1.0);
+        glBegin(GL_LINES);
+        glColor3f(.5, .5, .5);
+        glVertex2i(-GLUI_XOFF + 1, -y_diff + GLUI_SEPARATOR_HEIGHT / 2);
+        glVertex2i(-GLUI_XOFF + 1, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT / 2);
+        
+        glColor3f(1.0, 1.0, 1.0);
+        glVertex2i(-GLUI_XOFF + 2, -y_diff + GLUI_SEPARATOR_HEIGHT / 2);
+        glVertex2i(-GLUI_XOFF + 2, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT / 2);
+        glEnd();
       }
-      else {
-	glLineWidth(1.0);
-	glBegin( GL_LINES );
-	glColor3f( .5, .5, .5 );
-	glVertex2i( -2, 0 );
-	glVertex2i( -2, h );
-	/*glVertex2i( 0, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );              */
-	/*glVertex2i( 0, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);              */
-
-	glColor3f( 1.0, 1.0, 1.0 );
-	glVertex2i( -1, 0 );
-	glVertex2i( -1, h );
-	/*glVertex2i( 1, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );              */
-	/*glVertex2i( 1, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);              */
-	glEnd();
-      }		
-    } 
+      else
+      {
+        glLineWidth(1.0);
+        glBegin(GL_LINES);
+        glColor3f(.5, .5, .5);
+        glVertex2i(-2, 0);
+        glVertex2i(-2, h);
+        /*glVertex2i( 0, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );              */
+        /*glVertex2i( 0, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);              */
+        
+        glColor3f(1.0, 1.0, 1.0);
+        glVertex2i(-1, 0);
+        glVertex2i(-1, h);
+        /*glVertex2i( 1, -y_diff + GLUI_SEPARATOR_HEIGHT/2 );              */
+        /*glVertex2i( 1, -y_diff + panel_h - GLUI_SEPARATOR_HEIGHT/2);              */
+        glEnd();
+      }
+    }
   }
 }
 

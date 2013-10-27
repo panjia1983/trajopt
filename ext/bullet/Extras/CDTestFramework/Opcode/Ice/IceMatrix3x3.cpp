@@ -1,13 +1,13 @@
 /*
  *	ICE / OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -56,9 +56,9 @@ using namespace Opcode;
 // Cast operator
 Matrix3x3::operator Matrix4x4() const
 {
-	return Matrix4x4(
-	m[0][0],	m[0][1],	m[0][2],	0.0f,
-	m[1][0],	m[1][1],	m[1][2],	0.0f,
-	m[2][0],	m[2][1],	m[2][2],	0.0f,
-	0.0f,		0.0f,		0.0f,		1.0f);
+  return Matrix4x4(
+           m[0][0],	m[0][1],	m[0][2],	0.0f,
+           m[1][0],	m[1][1],	m[1][2],	0.0f,
+           m[2][0],	m[2][1],	m[2][2],	0.0f,
+           0.0f,		0.0f,		0.0f,		1.0f);
 }

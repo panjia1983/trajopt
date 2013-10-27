@@ -36,9 +36,9 @@ class btDefaultCollisionConfiguration;
 #ifdef BULLET_GIMPACT
 
 #include "BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h"
-	#ifdef BULLET_GIMPACT_CONVEX_DECOMPOSITION
-	#include "../Extras/GIMPACTUtils/btGImpactConvexDecompositionShape.h"
-	#endif
+#ifdef BULLET_GIMPACT_CONVEX_DECOMPOSITION
+#include "../Extras/GIMPACTUtils/btGImpactConvexDecompositionShape.h"
+#endif
 
 
 #else
@@ -59,86 +59,86 @@ class GimpactConcaveDemo : public PlatformDemoApplication
 {
 
 public:
-	GimpactConcaveDemo()
-		:	m_steps_done(0), 
-			m_trimeshShape(NULL),
-		  m_trimeshShape2(NULL),
-		  m_indexVertexArrays(NULL),
-		  m_indexVertexArrays2(NULL),
-	
-
-	kinematicTorus(NULL),
-	
-	
-	m_gimpactCollisionCreateFunc(NULL),
-	m_collisionConfiguration(NULL),
-
-	m_dispatcher(NULL),
-
-	m_broadphase(NULL),	 
-		 m_constraintSolver(NULL)
-	{
-	}
-
-	virtual ~GimpactConcaveDemo();
-
-
-	void	initGImpactCollision();
-	void	initPhysics();
-
-	virtual void clientMoveAndDisplay();
-
-	virtual void displayCallback();
-
-	virtual void clientResetScene();
-
-	virtual void renderme();
-	virtual void keyboardCallback(unsigned char key, int x, int y);
-
-	///Demo functions
-	void	shootTrimesh(const btVector3& destination);
-
+  GimpactConcaveDemo()
+    :	m_steps_done(0),
+      m_trimeshShape(NULL),
+      m_trimeshShape2(NULL),
+      m_indexVertexArrays(NULL),
+      m_indexVertexArrays2(NULL),
+      
+      
+      kinematicTorus(NULL),
+      
+      
+      m_gimpactCollisionCreateFunc(NULL),
+      m_collisionConfiguration(NULL),
+      
+      m_dispatcher(NULL),
+      
+      m_broadphase(NULL),
+      m_constraintSolver(NULL)
+  {
+  }
+  
+  virtual ~GimpactConcaveDemo();
+  
+  
+  void	initGImpactCollision();
+  void	initPhysics();
+  
+  virtual void clientMoveAndDisplay();
+  
+  virtual void displayCallback();
+  
+  virtual void clientResetScene();
+  
+  virtual void renderme();
+  virtual void keyboardCallback(unsigned char key, int x, int y);
+  
+  ///Demo functions
+  void	shootTrimesh(const btVector3& destination);
+  
 public: ///data
-	unsigned int			m_steps_done;
-
+  unsigned int			m_steps_done;
+  
 #ifdef BULLET_GIMPACT
-	btCollisionShape			*m_trimeshShape;
-	btCollisionShape			*m_trimeshShape2;
+  btCollisionShape			*m_trimeshShape;
+  btCollisionShape			*m_trimeshShape2;
 #else
-
-	btGIMPACTMeshData * m_trimeshShape;
-	btGIMPACTMeshData * m_trimeshShape2;
-
-	btCollisionShape * createTorusShape();
-	btCollisionShape * createBunnyShape();
-
+  
+  btGIMPACTMeshData * m_trimeshShape;
+  btGIMPACTMeshData * m_trimeshShape2;
+  
+  btCollisionShape * createTorusShape();
+  btCollisionShape * createBunnyShape();
+  
 #endif
-
-		//keep the collision shapes, for deletion/cleanup
-	btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
-
-	btTriangleIndexVertexArray  *m_indexVertexArrays;
-	btTriangleIndexVertexArray  *m_indexVertexArrays2;
-
-	btVector3				kinTorusTran;
-	btQuaternion			kinTorusRot;
-	btRigidBody				*kinematicTorus;
-
-
-	btCollisionAlgorithmCreateFunc*  m_gimpactCollisionCreateFunc;
-
-	btDefaultCollisionConfiguration* m_collisionConfiguration;
-	btCollisionDispatcher*			 m_dispatcher;
-	btBroadphaseInterface*			 m_broadphase;
-	btConstraintSolver*				 m_constraintSolver;
-
-	static DemoApplication* Create()
-	{
-		GimpactConcaveDemo* demo = new GimpactConcaveDemo();
-		demo->myinit();
-		demo->initPhysics();
-		return demo;
-	}
+  
+  //keep the collision shapes, for deletion/cleanup
+  btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
+  
+  btTriangleIndexVertexArray  *m_indexVertexArrays;
+  btTriangleIndexVertexArray  *m_indexVertexArrays2;
+  
+  btVector3				kinTorusTran;
+  btQuaternion			kinTorusRot;
+  btRigidBody				*kinematicTorus;
+  
+  
+  btCollisionAlgorithmCreateFunc*  m_gimpactCollisionCreateFunc;
+  
+  btDefaultCollisionConfiguration* m_collisionConfiguration;
+  btCollisionDispatcher*			 m_dispatcher;
+  btBroadphaseInterface*			 m_broadphase;
+  btConstraintSolver*				 m_constraintSolver;
+  
+  static DemoApplication* Create()
+  {
+    GimpactConcaveDemo* demo = new GimpactConcaveDemo();
+    demo->myinit();
+    demo->initPhysics();
+    return demo;
+  }
 };
 
 #endif //CONCAVE_DEMO_H

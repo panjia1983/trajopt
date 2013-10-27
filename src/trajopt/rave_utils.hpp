@@ -2,7 +2,8 @@
 #include <openrave/openrave.h>
 #include "macros.h"
 #include "openrave_userdata_utils.hpp"
-namespace trajopt {
+namespace trajopt
+{
 
 
 namespace OR = OpenRAVE;

@@ -7,50 +7,50 @@
 CPPUNIT_NS_BEGIN
 
 
-TestRunner::WrappingSuite::WrappingSuite( const std::string &name ) 
-    : TestSuite( name )
+TestRunner::WrappingSuite::WrappingSuite(const std::string &name)
+  : TestSuite(name)
 {
 }
 
 
-int 
+int
 TestRunner::WrappingSuite::getChildTestCount() const
 {
-  if ( hasOnlyOneTest() )
+  if(hasOnlyOneTest())
     return getUniqueChildTest()->getChildTestCount();
   return TestSuite::getChildTestCount();
 }
 
 
-std::string 
+std::string
 TestRunner::WrappingSuite::getName() const
 {
-  if ( hasOnlyOneTest() )
+  if(hasOnlyOneTest())
     return getUniqueChildTest()->getName();
   return TestSuite::getName();
 }
 
 
 Test *
-TestRunner::WrappingSuite::doGetChildTestAt( int index ) const
+TestRunner::WrappingSuite::doGetChildTestAt(int index) const
 {
-  if ( hasOnlyOneTest() )
-    return getUniqueChildTest()->getChildTestAt( index );
-  return TestSuite::doGetChildTestAt( index );
+  if(hasOnlyOneTest())
+    return getUniqueChildTest()->getChildTestAt(index);
+  return TestSuite::doGetChildTestAt(index);
 }
 
 
-void 
-TestRunner::WrappingSuite::run( TestResult *result )
+void
+TestRunner::WrappingSuite::run(TestResult *result)
 {
-  if ( hasOnlyOneTest() )
-    getUniqueChildTest()->run( result );
+  if(hasOnlyOneTest())
+    getUniqueChildTest()->run(result);
   else
-    TestSuite::run( result );
+    TestSuite::run(result);
 }
 
 
-bool 
+bool
 TestRunner::WrappingSuite::hasOnlyOneTest() const
 {
   return TestSuite::getChildTestCount() == 1;
@@ -60,7 +60,7 @@ TestRunner::WrappingSuite::hasOnlyOneTest() const
 Test *
 TestRunner::WrappingSuite::getUniqueChildTest() const
 {
-  return TestSuite::doGetChildTestAt( 0 );
+  return TestSuite::doGetChildTestAt(0);
 }
 
 
@@ -68,7 +68,7 @@ TestRunner::WrappingSuite::getUniqueChildTest() const
 
 
 TestRunner::TestRunner()
-    : m_suite( new WrappingSuite() )
+  : m_suite(new WrappingSuite())
 {
 }
 
@@ -79,21 +79,21 @@ TestRunner::~TestRunner()
 }
 
 
-void 
-TestRunner::addTest( Test *test )
+void
+TestRunner::addTest(Test *test)
 {
-  m_suite->addTest( test ); 
+  m_suite->addTest(test);
 }
 
 
-void 
-TestRunner::run( TestResult &controller,
-                 const std::string &testPath )
+void
+TestRunner::run(TestResult &controller,
+                const std::string &testPath)
 {
-  TestPath path = m_suite->resolveTestPath( testPath );
+  TestPath path = m_suite->resolveTestPath(testPath);
   Test *testToRun = path.getChildTest();
-
-  controller.runTest( testToRun );
+  
+  controller.runTest(testToRun);
 }
 
 

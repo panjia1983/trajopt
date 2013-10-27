@@ -2,10 +2,12 @@
 #include "solver_interface.hpp"
 #include "macros.h"
 
-namespace sco {
-  
+namespace sco
+{
 
-class BPMPDModel : public Model {
+
+class BPMPDModel : public Model
+{
 public:
   vector<Var> m_vars;
   vector<Cnt> m_cnts;
@@ -14,7 +16,7 @@ public:
   vector<double> m_soln;
   vector<double> m_lbs, m_ubs;
   
-  QuadExpr m_objective;  
+  QuadExpr m_objective;
   
   int m_pipeIn, m_pipeOut, m_pid;
   
@@ -27,11 +29,11 @@ public:
   Cnt addIneqCnt(const QuadExpr&, const string& name);
   void removeVars(const VarVector& vars);
   void removeCnts(const vector<Cnt>& cnts);
-
+  
   void update();
   void setVarBounds(const vector<Var>& vars, const vector<double>& lower, const vector<double>& upper);
   vector<double> getVarValues(const VarVector& vars) const;
-  virtual CvxOptStatus optimize();  
+  virtual CvxOptStatus optimize();
   virtual void setObjective(const AffExpr&);
   virtual void setObjective(const QuadExpr&);
   virtual void writeToFile(const string& fname);

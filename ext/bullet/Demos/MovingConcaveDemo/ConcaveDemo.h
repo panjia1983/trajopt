@@ -24,24 +24,24 @@ struct btCollisionAlgorithmCreateFunc;
 class ConcaveDemo : public GlutDemoApplication
 {
 
-	btCollisionShape * m_trimeshShape;
+  btCollisionShape * m_trimeshShape;
+  
+public:
 
-	public:
-
-	void	initGImpactCollision();
-	void	initPhysics();
-
-	virtual void clientMoveAndDisplay();
-
-	virtual void displayCallback();
-
-	virtual 	void renderme();
-	virtual void keyboardCallback(unsigned char key, int x, int y);
-
-	///Demo functions
-	void	shootTrimesh(const btVector3& startPosition,const btVector3& destination);
-
-
+  void	initGImpactCollision();
+  void	initPhysics();
+  
+  virtual void clientMoveAndDisplay();
+  
+  virtual void displayCallback();
+  
+  virtual 	void renderme();
+  virtual void keyboardCallback(unsigned char key, int x, int y);
+  
+  ///Demo functions
+  void	shootTrimesh(const btVector3& startPosition, const btVector3& destination);
+  
+  
 };
 
 #endif //CONCAVE_DEMO_H

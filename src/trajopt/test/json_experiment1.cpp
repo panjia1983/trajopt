@@ -3,7 +3,8 @@
 #include <string>
 using namespace std;
 using namespace Json;
-int main() {
+int main()
+{
   Value x;
   x.append(3);
   x.append(4);

@@ -15,7 +15,7 @@
 // .NAME vtkQuadricDecimation2 - reduce the number of triangles in a mesh
 // .SECTION Description
 // vtkQuadricDecimation2 is a filter to reduce the number of triangles in
-// a triangle mesh, forming a good approximation to the original geometry. 
+// a triangle mesh, forming a good approximation to the original geometry.
 // The input to vtkQuadricDecimation2 is a vtkPolyData object, and only
 // triangles are treated. If you desire to decimate polygonal meshes, first
 // triangulate the polygons with vtkTriangleFilter.
@@ -67,14 +67,14 @@ public:
   vtkTypeMacro(vtkQuadricDecimation2, vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent);
   static vtkQuadricDecimation2 *New();
-
+  
   // Description:
   // Set/Get the desired reduction (expressed as a fraction of the original
   // number of triangles). The actual reduction may be less depending on
   // triangulation and topological constraints.
   vtkSetClampMacro(TargetReduction, double, 0.0, 1.0);
   vtkGetMacro(TargetReduction, double);
-
+  
   // Description:
   // Decide whether to include data attributes in the error metric. If off,
   // then only geometric error is used to control the decimation. By default
@@ -103,7 +103,7 @@ public:
   vtkSetMacro(TensorsAttribute, int);
   vtkGetMacro(TensorsAttribute, int);
   vtkBooleanMacro(TensorsAttribute, int);
-
+  
   // Description:
   // Set/Get the scaling weight contribution of the attribute. These
   // values are used to weight the contribution of the attributes
@@ -123,18 +123,18 @@ public:
   // Get the actual reduction. This value is only valid after the
   // filter has executed.
   vtkGetMacro(ActualReduction, double);
-
+  
 protected:
   vtkQuadricDecimation2();
   ~vtkQuadricDecimation2();
-
+  
   int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *);
-
+  
   // Description:
   // Do the dirty work of eliminating the edge; return the number of
   // triangles deleted.
   int CollapseEdge(vtkIdType pt0Id, vtkIdType pt1Id);
-
+  
   // Description:
   // Compute quadric for all vertices
   void InitializeQuadrics(vtkIdType numPts);
@@ -142,11 +142,11 @@ protected:
   // Description:
   // Free boundary edges are weighted
   void AddBoundaryConstraints(void);
-
+  
   // Description:
   // Compute quadric for this vertex.
   void ComputeQuadric(vtkIdType pointId);
-
+  
   // Description:
   // Add the quadrics for these 2 points since the edge between them has
   // been collapsed.
@@ -157,7 +157,7 @@ protected:
   // cost.
   double ComputeCost(vtkIdType edgeId, double *x);
   double ComputeCost2(vtkIdType edgeId, double *x);
-
+  
   // Description:
   // Find all edges that will have an endpoint change ids because of an edge
   // collapse.  p1Id and p2Id are the endpoints of the edge.  p2Id is the
@@ -167,9 +167,9 @@ protected:
   // Description:
   // Find a cell that uses this edge.
   vtkIdType GetEdgeCellId(vtkIdType p1Id, vtkIdType p2Id);
-
+  
   int IsGoodPlacement(vtkIdType pt0Id, vtkIdType pt1Id, const double *x);
-  int TrianglePlaneCheck(const double t0[3], const double t1[3], 
+  int TrianglePlaneCheck(const double t0[3], const double t1[3],
                          const double t2[3],  const double *x);
   void ComputeNumberOfComponents(void);
   void UpdateEdgeData(vtkIdType ptoId, vtkIdType pt1Id);
@@ -178,7 +178,7 @@ protected:
   // Helper function to set and get the point and it's attributes as an array
   void SetPointAttributeArray(vtkIdType ptId, const double *x);
   void GetPointAttributeArray(vtkIdType ptId, double *x);
-
+  
   // Description:
   // Find out how many components there are for each attribute for this
   // poly data.
@@ -193,13 +193,13 @@ protected:
   int NormalsAttribute;
   int TCoordsAttribute;
   int TensorsAttribute;
-
+  
   double ScalarsWeight;
   double VectorsWeight;
   double NormalsWeight;
   double TCoordsWeight;
   double TensorsWeight;
-
+  
   int               NumberOfEdgeCollapses;
   vtkEdgeTable     *Edges;
   vtkIdList        *EndPoint1List;
@@ -208,14 +208,14 @@ protected:
   vtkDoubleArray   *TargetPoints;
   int               NumberOfComponents;
   vtkPolyData      *Mesh;
-
+  
   //BTX
   struct ErrorQuadric
   {
     double *Quadric;
   };
   //ETX
-
+  
   ErrorQuadric *ErrorQuadrics;
   int           AttributeComponents[6];
   double        AttributeScale[6];
@@ -227,7 +227,7 @@ protected:
   double *TempB;
   double **TempA;
   double *TempData;
-
+  
 private:
   vtkQuadricDecimation2(const vtkQuadricDecimation2&);  // Not implemented.
   void operator=(const vtkQuadricDecimation2&);  // Not implemented.

@@ -9,7 +9,8 @@
 #include <string>
 #include <vector>
 
-namespace tumbler {
+namespace tumbler
+{
 
 class ScriptingBridge;
 
@@ -32,56 +33,61 @@ class ScriptingBridge;
 typedef std::map<std::string, std::string> MethodParameter;
 
 // Pure virtual class used in STL containers.
-class MethodCallbackExecutor {
- public:
+class MethodCallbackExecutor
+{
+public:
   virtual ~MethodCallbackExecutor() {}
   virtual void Execute(
-      const ScriptingBridge& bridge,
-      const MethodParameter& parameters) = 0;
+    const ScriptingBridge& bridge,
+    const MethodParameter& parameters) = 0;
 };
 
 template <class T>
-class MethodCallback : public MethodCallbackExecutor {
- public:
+class MethodCallback : public MethodCallbackExecutor
+{
+public:
   typedef void (T::*Method)(
-      const ScriptingBridge& bridge,
-      const MethodParameter& parameters);
-
+    const ScriptingBridge& bridge,
+    const MethodParameter& parameters);
+    
   MethodCallback(T* instance, Method method)
-      : instance_(instance), method_(method) {}
+    : instance_(instance), method_(method) {}
   virtual ~MethodCallback() {}
   virtual void Execute(
-      const ScriptingBridge& bridge,
-      const MethodParameter& parameters) {
+    const ScriptingBridge& bridge,
+    const MethodParameter& parameters)
+  {
     // Use "this->" to force C++ to look inside our templatized base class; see
     // Effective C++, 3rd Ed, item 43, p210 for details.
     ((this->instance_)->*(this->method_))(bridge, parameters);
   }
-
- private:
+  
+private:
   T* instance_;
   Method method_;
 };
 
 template <class T>
-class ConstMethodCallback : public MethodCallbackExecutor {
- public:
+class ConstMethodCallback : public MethodCallbackExecutor
+{
+public:
   typedef void (T::*ConstMethod)(
-      const ScriptingBridge& bridge,
-      const MethodParameter& parameters) const;
-
+    const ScriptingBridge& bridge,
+    const MethodParameter& parameters) const;
+    
   ConstMethodCallback(const T* instance, ConstMethod method)
-      : instance_(instance), const_method_(method) {}
+    : instance_(instance), const_method_(method) {}
   virtual ~ConstMethodCallback() {}
   virtual void Execute(
-      const ScriptingBridge& bridge,
-      const MethodParameter& parameters) {
+    const ScriptingBridge& bridge,
+    const MethodParameter& parameters)
+  {
     // Use "this->" to force C++ to look inside our templatized base class; see
     // Effective C++, 3rd Ed, item 43, p210 for details.
     ((this->instance_)->*(this->const_method_))(bridge, parameters);
   }
-
- private:
+  
+private:
   const T* instance_;
   ConstMethod const_method_;
 };

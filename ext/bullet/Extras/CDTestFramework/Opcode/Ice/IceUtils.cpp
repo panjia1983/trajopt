@@ -1,13 +1,13 @@
 /*
  *	ICE / OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -39,17 +39,17 @@ using namespace Opcode;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 udword IceCore::Alignment(udword address)
 {
-	// Returns 0 for null addresses
-	if(!address) return 0;
-
-	// Test all bits
-	udword Align = 1;
-	for(udword i=1;i<32;i++)
-	{
-		// Returns as soon as the alignment is broken
-		if(address&Align)	return Align;
-		Align<<=1;
-	}
-	// Here all bits are null, except the highest one (else the address would be null)
-	return Align;
+  // Returns 0 for null addresses
+  if(!address) return 0;
+  
+  // Test all bits
+  udword Align = 1;
+  for(udword i = 1; i < 32; i++)
+  {
+    // Returns as soon as the alignment is broken
+    if(address & Align)	return Align;
+    Align <<= 1;
+  }
+  // Here all bits are null, except the highest one (else the address would be null)
+  return Align;
 }

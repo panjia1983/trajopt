@@ -3,19 +3,21 @@
 
 #include <string>
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
 struct Model;
 
 /** \brief Namespace that contains optional helper functions */
-namespace Utils {
+namespace Utils
+{
 
-	/** \brief Creates a human readable overview of the model. */
-	std::string GetModelHierarchy (const Model &model);
-	/** \brief Creates a human readable overview of the Degrees of Freedom. */
-	std::string GetModelDOFOverview (const Model &model);
-	/** \brief Creates a human readable overview of the locations of all bodies that have names. */
-	std::string GetNamedBodyOriginsOverview (Model &model);
+/** \brief Creates a human readable overview of the model. */
+std::string GetModelHierarchy(const Model &model);
+/** \brief Creates a human readable overview of the Degrees of Freedom. */
+std::string GetModelDOFOverview(const Model &model);
+/** \brief Creates a human readable overview of the locations of all bodies that have names. */
+std::string GetNamedBodyOriginsOverview(Model &model);
 }
 }
 

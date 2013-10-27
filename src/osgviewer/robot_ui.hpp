@@ -1,7 +1,8 @@
 #pragma once
 #include "osgviewer.hpp"
 
-class TRAJOPT_API ManipulatorControl {
+class TRAJOPT_API ManipulatorControl
+{
 public:
   ManipulatorControl(OpenRAVE::RobotBase::ManipulatorPtr manip, OSGViewerPtr viewer);
   bool ProcessMouseInput(const osgGA::GUIEventAdapter &ea);
@@ -11,7 +12,8 @@ private:
   float lastX, lastY;
 };
 
-class TRAJOPT_API DriveControl {
+class TRAJOPT_API DriveControl
+{
 public:
   DriveControl(OpenRAVE::RobotBasePtr robot, OSGViewerPtr viewer);
   OpenRAVE::RobotBasePtr m_robot;
@@ -19,12 +21,13 @@ public:
   void MoveRobot(float dx, float dy, float dtheta);
 };
 
-class TRAJOPT_API StatePrinter {
+class TRAJOPT_API StatePrinter
+{
 public:
   typedef OpenRAVE::RobotBasePtr RobotPtr;
   StatePrinter(RobotPtr robot) : m_robot(robot) {}
   void PrintAll();
 private:
   RobotPtr m_robot;
-
+  
 };

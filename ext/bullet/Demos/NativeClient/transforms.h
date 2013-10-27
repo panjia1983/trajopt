@@ -10,7 +10,8 @@
 // A very simple set of 4x4 matrix routines.  In all these routines, the input
 // matrix is assumed to be a 4x4 of GLfloats.
 
-namespace transform_4x4 {
+namespace transform_4x4
+{
 
 // Pre-multply |m| with a projection transformation 4x4 matrix from a
 // truncated pyramid viewing frustum.
@@ -21,7 +22,7 @@ void Frustum(GLfloat* m,
              GLfloat top,
              GLfloat near_z,
              GLfloat far_z);
-
+             
 // Replace |m| with the 4x4 identity matrix.
 void LoadIdentity(GLfloat* m);
 
@@ -35,7 +36,7 @@ void Perspective(GLfloat* m,
                  GLfloat aspect,
                  GLfloat near_z,
                  GLfloat far_z);
-
+                 
 // Pre-multiply |m| with a matrix that represents a translation by |tx|, |ty|,
 // |tz|.
 void Translate(GLfloat* m, GLfloat tx, GLfloat ty, GLfloat tz);

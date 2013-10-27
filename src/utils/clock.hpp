@@ -1,6 +1,7 @@
 #pragma once
 
-namespace util {
+namespace util
+{
 
 void StartClock();
 double GetClock();

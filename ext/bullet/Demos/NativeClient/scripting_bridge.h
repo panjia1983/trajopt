@@ -13,7 +13,8 @@
 #include "callback.h"
 #include "ppapi/cpp/var.h"
 
-namespace tumbler {
+namespace tumbler
+{
 
 class MethodCallbackExecutor;
 
@@ -27,24 +28,25 @@ class MethodCallbackExecutor;
 // Methods called by the scripting bridge must have a signature like this:
 //     void Method(const ScriptingBridge& bridge,
 //                 const ParameterDictionary&);
-class ScriptingBridge {
- public:
+class ScriptingBridge
+{
+public:
   // Shared pointer type used in the method map.
   typedef std::tr1::shared_ptr<MethodCallbackExecutor>
-      SharedMethodCallbackExecutor;
-
+  SharedMethodCallbackExecutor;
+  
   virtual ~ScriptingBridge() {}
-
+  
   // Causes |method_name| to be published as a method that can be called via
   // postMessage() from the browser.  Associates this method with |method|.
   bool AddMethodNamed(const std::string& method_name,
                       SharedMethodCallbackExecutor method);
-
+                      
   bool InvokeMethod(const std::string& method);
-
- private:
+  
+private:
   typedef std::map<std::string, SharedMethodCallbackExecutor> MethodDictionary;
-
+  
   MethodDictionary method_dictionary_;
 };
 

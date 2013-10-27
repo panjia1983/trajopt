@@ -1,5 +1,5 @@
 /****************************************************************************
-  
+
   GLUI User Interface Toolkit
   ---------------------------
 
@@ -32,72 +32,76 @@
 #include "glui_internal_control.h"
 
 /****************************** GLUI_StaticText::GLUI_StaticText() **********/
-GLUI_StaticText::GLUI_StaticText( GLUI_Node *parent, const char *name )
+GLUI_StaticText::GLUI_StaticText(GLUI_Node *parent, const char *name)
 {
   common_init();
-  set_name( name );
-  parent->add_control( this );
+  set_name(name);
+  parent->add_control(this);
 }
 
 /****************************** GLUI_StaticText::draw() **********/
 
-void    GLUI_StaticText::draw( int x, int y )
+void    GLUI_StaticText::draw(int x, int y)
 {
   GLUI_DRAWINGSENTINAL_IDIOM
-
+  
   draw_text();
 }
 
 
 /****************************** GLUI_StaticText::set_text() **********/
 
-void    GLUI_StaticText::set_text( const char *text )
+void    GLUI_StaticText::set_text(const char *text)
 {
-  set_name( text );
+  set_name(text);
   redraw();
 }
 
 
 /************************************ GLUI_StaticText::update_size() **********/
 
-void   GLUI_StaticText::update_size( void )
+void   GLUI_StaticText::update_size(void)
 {
   int text_size;
-
-  if ( NOT glui )
+  
+  if(NOT glui)
     return;
-
-  text_size = string_width( name );
-
-  if ( w < text_size )
-    w = text_size;    
+    
+  text_size = string_width(name);
+  
+  if(w < text_size)
+    w = text_size;
 }
 
 
 /****************************** GLUI_StaticText::draw_text() **********/
 
-void    GLUI_StaticText::draw_text( void )
+void    GLUI_StaticText::draw_text(void)
 {
-  if ( NOT can_draw() )
+  if(NOT can_draw())
     return;
-
+    
   erase_text();
-  draw_name( 0, 9 );
+  draw_name(0, 9);
 }
 
 
 /****************************** GLUI_StaticText::erase_text() **********/
 
-void    GLUI_StaticText::erase_text( void )
+void    GLUI_StaticText::erase_text(void)
 {
-  if ( NOT can_draw() )
+  if(NOT can_draw())
     return;
-
+    
   set_to_bkgd_color();
-  glDisable( GL_CULL_FACE );
-  glBegin( GL_TRIANGLES );
-  glVertex2i( 0,0 );   glVertex2i( w, 0 );  glVertex2i( w, h );  
-  glVertex2i( 0, 0 );  glVertex2i( w, h );  glVertex2i( 0, h );   
+  glDisable(GL_CULL_FACE);
+  glBegin(GL_TRIANGLES);
+  glVertex2i(0, 0);
+  glVertex2i(w, 0);
+  glVertex2i(w, h);
+  glVertex2i(0, 0);
+  glVertex2i(w, h);
+  glVertex2i(0, h);
   glEnd();
 }
 

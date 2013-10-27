@@ -1,5 +1,5 @@
 /****************************************************************************
-  
+
   GLUI User Interface Toolkit
   ---------------------------
 
@@ -33,42 +33,44 @@
 
 /****************************** GLUI_Separator::GLUI_Separator() **********/
 
-GLUI_Separator::GLUI_Separator( GLUI_Node *parent )
+GLUI_Separator::GLUI_Separator(GLUI_Node *parent)
 {
   common_init();
-  parent->add_control( this );
+  parent->add_control(this);
 }
 
 /****************************** GLUI_Separator::draw() **********/
 
-void    GLUI_Separator::draw( int x, int y )
+void    GLUI_Separator::draw(int x, int y)
 {
   GLUI_DRAWINGSENTINAL_IDIOM
   
   int width, indent;
   int           cont_x, cont_y, cont_w, cont_h, cont_x_off, cont_y_off;
-
-  if ( parent() != NULL ) {
-    get_this_column_dims(&cont_x, &cont_y, &cont_w, &cont_h, 
-			 &cont_x_off, &cont_y_off);
-
-    width = cont_w - cont_x_off*2;
+  
+  if(parent() != NULL)
+  {
+    get_this_column_dims(&cont_x, &cont_y, &cont_w, &cont_h,
+                         &cont_x_off, &cont_y_off);
+                         
+    width = cont_w - cont_x_off * 2;
   }
-  else {
+  else
+  {
     width = this->w;
   }
-
+  
   indent = (int) floor(width * .05);
-
-  glLineWidth( 1.0 );
-  glBegin( GL_LINES );
-  glColor3f( .5, .5, .5 );
-  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2-1 );    
-  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2-1 );    
-
-  glColor3f( 1., 1., 1. );
-  glVertex2i( indent,       GLUI_SEPARATOR_HEIGHT/2 );    
-  glVertex2i( width-indent, GLUI_SEPARATOR_HEIGHT/2 );    
+  
+  glLineWidth(1.0);
+  glBegin(GL_LINES);
+  glColor3f(.5, .5, .5);
+  glVertex2i(indent,       GLUI_SEPARATOR_HEIGHT / 2 - 1);
+  glVertex2i(width - indent, GLUI_SEPARATOR_HEIGHT / 2 - 1);
+  
+  glColor3f(1., 1., 1.);
+  glVertex2i(indent,       GLUI_SEPARATOR_HEIGHT / 2);
+  glVertex2i(width - indent, GLUI_SEPARATOR_HEIGHT / 2);
   glEnd();
 }
 

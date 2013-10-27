@@ -37,15 +37,19 @@ int UnloadOpenGL();
 
 namespace GL
 {
-    extern "C" { typedef void (APIENTRY* PFNOpenGL)(); }
-    PFNOpenGL Record(const char *_FuncName, PFNOpenGL *_FuncPtr);
+extern "C" {
+  typedef void (APIENTRY* PFNOpenGL)();
+}
+PFNOpenGL Record(const char *_FuncName, PFNOpenGL *_FuncPtr);
 
-    extern "C" { typedef PFNOpenGL (APIENTRY *PFNGLGetProcAddress)(const char *); }
-    extern PFNGLGetProcAddress _glGetProcAddress;
+extern "C" {
+  typedef PFNOpenGL(APIENTRY *PFNGLGetProcAddress)(const char *);
+}
+extern PFNGLGetProcAddress _glGetProcAddress;
 }
 using GL::_glGetProcAddress;
 
- 
+
 ANT_GL_DECL(void, glAccum, (GLenum op, GLfloat value))
 ANT_GL_DECL(void, glAlphaFunc, (GLenum func, GLclampf ref))
 ANT_GL_DECL(GLboolean, glAreTexturesResident, (GLsizei n, const GLuint *textures, GLboolean *residences))
@@ -391,7 +395,7 @@ ANT_GL_DECL(void, glViewport, (GLint x, GLint y, GLsizei width, GLsizei height))
 
 #ifdef ANT_WINDOWS
 ANT_GL_DECL(PROC, wglGetProcAddress, (LPCSTR))
-#endif                                                                                                                                                                                                                                                                                                                                                
+#endif
 
 
 #endif // !defined ANT_LOAD_OGL_INCLUDED

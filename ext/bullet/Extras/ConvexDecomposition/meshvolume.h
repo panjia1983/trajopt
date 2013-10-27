@@ -38,8 +38,8 @@
 
 
 
-float computeMeshVolume(const float *vertices,unsigned int tcount,const unsigned int *indices);
-float computeMeshVolume2(const float *vertices,unsigned int tcount,const unsigned int *indices);
+float computeMeshVolume(const float *vertices, unsigned int tcount, const unsigned int *indices);
+float computeMeshVolume2(const float *vertices, unsigned int tcount, const unsigned int *indices);
 
 
 #endif

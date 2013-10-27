@@ -33,18 +33,18 @@ Written by: Marten Svanfeldt
 class GenericJointDemo : public PlatformDemoApplication
 {
 
-	btAlignedObjectArray<class RagDoll*> m_ragdolls;
-
+  btAlignedObjectArray<class RagDoll*> m_ragdolls;
+  
 public:
-	void initPhysics();
-
-	void spawnRagdoll(bool random = false);
-
-	virtual void clientMoveAndDisplay();
-
-	virtual void displayCallback();
-
-	virtual void keyboardCallback(unsigned char key, int x, int y);
+  void initPhysics();
+  
+  void spawnRagdoll(bool random = false);
+  
+  virtual void clientMoveAndDisplay();
+  
+  virtual void displayCallback();
+  
+  virtual void keyboardCallback(unsigned char key, int x, int y);
 };
 
 

@@ -23,87 +23,88 @@ subject to the following restrictions:
 
 namespace bParse
 {
-	class bDNA;
+class bDNA;
 
-	class bBlenderFile;
+class bBlenderFile;
 };
 
 
 
-namespace bParse {
+namespace bParse
+{
 
 
-	// ----------------------------------------------------- //
-	
-	typedef	btHashMap<btHashInt,bListBasePtr> bMainDataMap;
+// ----------------------------------------------------- //
+
+typedef	btHashMap<btHashInt, bListBasePtr> bMainDataMap;
 
 
 
-	// ----------------------------------------------------- //
-	class bMain
-	{
-	//private:
-	public:
-		bBlenderFile*			mFP;
-		bListBasePtr	mPool;
-
-		int				mVersion;
-		const char*		mName;
-
-		bMainDataMap	mData;
-
-	
-
-
-		bListBasePtr *_findCode(int code);
-
-	public:
-		bMain(bBlenderFile  *filePtr, const char *baseName, int fileVersion);
-		~bMain();
-
-		int getVersion();
-		const char *getName();
-
-		bListBasePtr *getListBasePtr(int listBaseCode);
-
-
-		bListBasePtr *getScene();
-		bListBasePtr *getLibrary();
-		bListBasePtr *getObject();
-		bListBasePtr *getMesh();
-		bListBasePtr *getCurve();
-		bListBasePtr *getMball();
-		bListBasePtr *getMat();
-		bListBasePtr *getTex();
-		bListBasePtr *getImage();
-		bListBasePtr *getWave();
-		bListBasePtr *getLatt();
-		bListBasePtr *getLamp();
-		bListBasePtr *getCamera();
-		bListBasePtr *getIpo();
-		bListBasePtr *getKey();
-		bListBasePtr *getWorld();
-		bListBasePtr *getScreen();
-		bListBasePtr *getScript();
-		bListBasePtr *getVfont();
-		bListBasePtr *getText();
-		bListBasePtr *getSound();
-		bListBasePtr *getGroup();
-		bListBasePtr *getArmature();
-		bListBasePtr *getAction();
-		bListBasePtr *getNodetree();
-		bListBasePtr *getBrush();
-
-
-		
-		// tracking allocated memory
-		void addDatablock(void *allocated);
-
-
-		// --
-		
-		void linkList(void *listBasePtr);
-	};
+// ----------------------------------------------------- //
+class bMain
+{
+  //private:
+public:
+  bBlenderFile*			mFP;
+  bListBasePtr	mPool;
+  
+  int				mVersion;
+  const char*		mName;
+  
+  bMainDataMap	mData;
+  
+  
+  
+  
+  bListBasePtr *_findCode(int code);
+  
+public:
+  bMain(bBlenderFile  *filePtr, const char *baseName, int fileVersion);
+  ~bMain();
+  
+  int getVersion();
+  const char *getName();
+  
+  bListBasePtr *getListBasePtr(int listBaseCode);
+  
+  
+  bListBasePtr *getScene();
+  bListBasePtr *getLibrary();
+  bListBasePtr *getObject();
+  bListBasePtr *getMesh();
+  bListBasePtr *getCurve();
+  bListBasePtr *getMball();
+  bListBasePtr *getMat();
+  bListBasePtr *getTex();
+  bListBasePtr *getImage();
+  bListBasePtr *getWave();
+  bListBasePtr *getLatt();
+  bListBasePtr *getLamp();
+  bListBasePtr *getCamera();
+  bListBasePtr *getIpo();
+  bListBasePtr *getKey();
+  bListBasePtr *getWorld();
+  bListBasePtr *getScreen();
+  bListBasePtr *getScript();
+  bListBasePtr *getVfont();
+  bListBasePtr *getText();
+  bListBasePtr *getSound();
+  bListBasePtr *getGroup();
+  bListBasePtr *getArmature();
+  bListBasePtr *getAction();
+  bListBasePtr *getNodetree();
+  bListBasePtr *getBrush();
+  
+  
+  
+  // tracking allocated memory
+  void addDatablock(void *allocated);
+  
+  
+  // --
+  
+  void linkList(void *listBasePtr);
+};
 }
 
 

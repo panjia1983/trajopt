@@ -9,34 +9,34 @@
 CPPUNIT_NS_BEGIN
 
 
-DynamicLibraryManager::LibraryHandle 
-DynamicLibraryManager::doLoadLibrary( const std::string &libraryName )
+DynamicLibraryManager::LibraryHandle
+DynamicLibraryManager::doLoadLibrary(const std::string &libraryName)
 {
-  return (LibraryHandle)::load_add_on( libraryName.c_str() );
+  return (LibraryHandle)::load_add_on(libraryName.c_str());
 }
 
 
-void 
+void
 DynamicLibraryManager::doReleaseLibrary()
 {
-  ::unload_add_on( (image_id)m_libraryHandle );
+  ::unload_add_on((image_id)m_libraryHandle);
 }
 
 
-DynamicLibraryManager::Symbol 
-DynamicLibraryManager::doFindSymbol( const std::string &symbol )
+DynamicLibraryManager::Symbol
+DynamicLibraryManager::doFindSymbol(const std::string &symbol)
 {
   void *symbolPointer;
-  if ( ::get_image_symbol( (image_id)m_libraryHandle, 
-                           symbol.c_str(), 
-                           B_SYMBOL_TYPE_TEXT, 
-                           &symbolPointer ) == B_OK )
+  if(::get_image_symbol((image_id)m_libraryHandle,
+                        symbol.c_str(),
+                        B_SYMBOL_TYPE_TEXT,
+                        &symbolPointer) == B_OK)
     return symnolPointer;
   return NULL;
 }
 
 
-std::string 
+std::string
 DynamicLibraryManager::getLastErrorDetail() const
 {
   return "";

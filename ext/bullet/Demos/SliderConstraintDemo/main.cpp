@@ -10,16 +10,16 @@ April 04, 2008
 
 GLDebugDrawer	gDebugDrawer;
 
-int main(int argc,char** argv)
+int main(int argc, char** argv)
 {
 
-        SliderConstraintDemo* sliderConstraintDemo = new SliderConstraintDemo();
-
-        sliderConstraintDemo->initPhysics();
-		sliderConstraintDemo->getDynamicsWorld()->setDebugDrawer(&gDebugDrawer);
-		sliderConstraintDemo->setDebugMode(btIDebugDraw::DBG_DrawConstraints+btIDebugDraw::DBG_DrawConstraintLimits);
-       
-
-        return glutmain(argc, argv,640,480,"Slider Constraint Demo. http://www.continuousphysics.com/Bullet/phpBB2/", sliderConstraintDemo);
+  SliderConstraintDemo* sliderConstraintDemo = new SliderConstraintDemo();
+  
+  sliderConstraintDemo->initPhysics();
+  sliderConstraintDemo->getDynamicsWorld()->setDebugDrawer(&gDebugDrawer);
+  sliderConstraintDemo->setDebugMode(btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawConstraintLimits);
+  
+  
+  return glutmain(argc, argv, 640, 480, "Slider Constraint Demo. http://www.continuousphysics.com/Bullet/phpBB2/", sliderConstraintDemo);
 }
 

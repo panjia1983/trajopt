@@ -6,36 +6,36 @@ CPPUNIT_NS_BEGIN
 
 
 /// Default constructor
-TestSuite::TestSuite( std::string name )
-    : TestComposite( name )
+TestSuite::TestSuite(std::string name)
+  : TestComposite(name)
 {
 }
 
 
 /// Destructor
 TestSuite::~TestSuite()
-{ 
-  deleteContents(); 
+{
+  deleteContents();
 }
 
 
 /// Deletes all tests in the suite.
-void 
+void
 TestSuite::deleteContents()
 {
   int childCount = getChildTestCount();
-  for ( int index =0; index < childCount; ++index )
-    delete getChildTestAt( index );
-
+  for(int index = 0; index < childCount; ++index)
+    delete getChildTestAt(index);
+    
   m_tests.clear();
 }
 
 
-/// Adds a test to the suite. 
-void 
-TestSuite::addTest( Test *test )
-{ 
-  m_tests.push_back( test ); 
+/// Adds a test to the suite.
+void
+TestSuite::addTest(Test *test)
+{
+  m_tests.push_back(test);
 }
 
 
@@ -46,7 +46,7 @@ TestSuite::getTests() const
 }
 
 
-int 
+int
 TestSuite::getChildTestCount() const
 {
   return m_tests.size();
@@ -54,7 +54,7 @@ TestSuite::getChildTestCount() const
 
 
 Test *
-TestSuite::doGetChildTestAt( int index ) const
+TestSuite::doGetChildTestAt(int index) const
 {
   return m_tests[index];
 }

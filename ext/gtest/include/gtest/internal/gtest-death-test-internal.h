@@ -41,8 +41,10 @@
 
 #include <stdio.h>
 
-namespace testing {
-namespace internal {
+namespace testing
+{
+namespace internal
+{
 
 GTEST_DECLARE_string_(internal_run_death_test);
 
@@ -66,8 +68,9 @@ const char kInternalRunDeathTestFlag[] = "internal_run_death_test";
 //               by wait(2)
 // exit code:    The integer code passed to exit(3), _exit(2), or
 //               returned from main()
-class GTEST_API_ DeathTest {
- public:
+class GTEST_API_ DeathTest
+{
+public:
   // Create returns false if there was an error determining the
   // appropriate action to take for the current death test; for example,
   // if the gtest_death_test_style flag is set to an invalid value.
@@ -80,37 +83,42 @@ class GTEST_API_ DeathTest {
                      const char* file, int line, DeathTest** test);
   DeathTest();
   virtual ~DeathTest() { }
-
+  
   // A helper class that aborts a death test when it's deleted.
-  class ReturnSentinel {
-   public:
+  class ReturnSentinel
+  {
+  public:
     explicit ReturnSentinel(DeathTest* test) : test_(test) { }
-    ~ReturnSentinel() { test_->Abort(TEST_ENCOUNTERED_RETURN_STATEMENT); }
-   private:
+    ~ReturnSentinel()
+    {
+      test_->Abort(TEST_ENCOUNTERED_RETURN_STATEMENT);
+    }
+  private:
     DeathTest* const test_;
     GTEST_DISALLOW_COPY_AND_ASSIGN_(ReturnSentinel);
   } GTEST_ATTRIBUTE_UNUSED_;
-
+  
   // An enumeration of possible roles that may be taken when a death
   // test is encountered.  EXECUTE means that the death test logic should
   // be executed immediately.  OVERSEE means that the program should prepare
   // the appropriate environment for a child process to execute the death
   // test, then wait for it to complete.
   enum TestRole { OVERSEE_TEST, EXECUTE_TEST };
-
+  
   // An enumeration of the three reasons that a test might be aborted.
-  enum AbortReason {
+  enum AbortReason
+  {
     TEST_ENCOUNTERED_RETURN_STATEMENT,
     TEST_THREW_EXCEPTION,
     TEST_DID_NOT_DIE
   };
-
+  
   // Assumes one of the above roles.
   virtual TestRole AssumeRole() = 0;
-
+  
   // Waits for the death test to finish and returns its status.
   virtual int Wait() = 0;
-
+  
   // Returns true if the death test passed; that is, the test process
   // exited during the test, its exit status matches a user-supplied
   // predicate, and its stderr output matches a user-supplied regular
@@ -119,34 +127,36 @@ class GTEST_API_ DeathTest {
   // than a function pointer or functor, or else Wait and Passed could
   // be combined.
   virtual bool Passed(bool exit_status_ok) = 0;
-
+  
   // Signals that the death test did not die as expected.
   virtual void Abort(AbortReason reason) = 0;
-
+  
   // Returns a human-readable outcome message regarding the outcome of
   // the last death test.
   static const char* LastMessage();
-
+  
   static void set_last_death_test_message(const String& message);
-
- private:
+  
+private:
   // A string containing a description of the outcome of the last death test.
   static String last_death_test_message_;
-
+  
   GTEST_DISALLOW_COPY_AND_ASSIGN_(DeathTest);
 };
 
 // Factory interface for death tests.  May be mocked out for testing.
-class DeathTestFactory {
- public:
+class DeathTestFactory
+{
+public:
   virtual ~DeathTestFactory() { }
   virtual bool Create(const char* statement, const RE* regex,
                       const char* file, int line, DeathTest** test) = 0;
 };
 
 // A concrete DeathTestFactory implementation for normal use.
-class DefaultDeathTestFactory : public DeathTestFactory {
- public:
+class DefaultDeathTestFactory : public DeathTestFactory
+{
+public:
   virtual bool Create(const char* statement, const RE* regex,
                       const char* file, int line, DeathTest** test);
 };
@@ -220,31 +230,45 @@ GTEST_API_ bool ExitedUnsuccessfully(int exit_status);
 // A class representing the parsed contents of the
 // --gtest_internal_run_death_test flag, as it existed when
 // RUN_ALL_TESTS was called.
-class InternalRunDeathTestFlag {
- public:
+class InternalRunDeathTestFlag
+{
+public:
   InternalRunDeathTestFlag(const String& a_file,
                            int a_line,
                            int an_index,
                            int a_write_fd)
-      : file_(a_file), line_(a_line), index_(an_index),
-        write_fd_(a_write_fd) {}
-
-  ~InternalRunDeathTestFlag() {
-    if (write_fd_ >= 0)
+    : file_(a_file), line_(a_line), index_(an_index),
+      write_fd_(a_write_fd) {}
+      
+  ~InternalRunDeathTestFlag()
+  {
+    if(write_fd_ >= 0)
       posix::Close(write_fd_);
   }
-
-  String file() const { return file_; }
-  int line() const { return line_; }
-  int index() const { return index_; }
-  int write_fd() const { return write_fd_; }
-
- private:
+  
+  String file() const
+  {
+    return file_;
+  }
+  int line() const
+  {
+    return line_;
+  }
+  int index() const
+  {
+    return index_;
+  }
+  int write_fd() const
+  {
+    return write_fd_;
+  }
+  
+private:
   String file_;
   int line_;
   int index_;
   int write_fd_;
-
+  
   GTEST_DISALLOW_COPY_AND_ASSIGN_(InternalRunDeathTestFlag);
 };
 

@@ -1,7 +1,8 @@
 #include "solver_interface.hpp"
 #include <Eigen/Core>
 
-namespace sco {
+namespace sco
+{
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;

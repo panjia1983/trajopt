@@ -36,49 +36,49 @@ subject to the following restrictions:
 class btGImpactConvexDecompositionShape	: public btGImpactCompoundShape
 {
 protected:
-	btAlignedObjectArray<btGImpactMeshShapePart::TrimeshPrimitiveManager> m_trimeshInterfaces;
-
-	class GIM_ConvexDecomposition*	m_decomposition;
-
-	void buildConvexDecomposition(bool transformSubShapes);
+  btAlignedObjectArray<btGImpactMeshShapePart::TrimeshPrimitiveManager> m_trimeshInterfaces;
+  
+  class GIM_ConvexDecomposition*	m_decomposition;
+  
+  void buildConvexDecomposition(bool transformSubShapes);
 public:
 
-	btGImpactConvexDecompositionShape(
-			btStridingMeshInterface * meshInterface,
-			const btVector3 & mesh_scale,
-			btScalar margin = btScalar(0.01),bool children_has_transform = true)
-			:btGImpactCompoundShape(children_has_transform)
-	{
-
-		m_collisionMargin = margin;
-
-		btGImpactMeshShapePart::TrimeshPrimitiveManager triInterface;
-		triInterface.m_meshInterface = meshInterface;
-		triInterface.m_scale = mesh_scale;
-		triInterface.m_margin = btScalar(1.0);
-
-		//add parts
-		int part_count = meshInterface->getNumSubParts();
-		for (int i=0;i< part_count;i++ )
-		{
-			triInterface.m_part = i;
-			m_trimeshInterfaces.push_back(triInterface);
-		}
-
-		m_decomposition = 0;
-
-		buildConvexDecomposition(children_has_transform);
-	}
-
-	virtual ~btGImpactConvexDecompositionShape();
-
-	SIMD_FORCE_INLINE btGImpactMeshShapePart::TrimeshPrimitiveManager * getTrimeshInterface(int part)
-	{
-		return &m_trimeshInterfaces[part];
-	}
-
-	virtual void processAllTriangles(btTriangleCallback* callback,const btVector3& aabbMin,const btVector3& aabbMax) const;
-
+  btGImpactConvexDecompositionShape(
+    btStridingMeshInterface * meshInterface,
+    const btVector3 & mesh_scale,
+    btScalar margin = btScalar(0.01), bool children_has_transform = true)
+    : btGImpactCompoundShape(children_has_transform)
+  {
+  
+    m_collisionMargin = margin;
+    
+    btGImpactMeshShapePart::TrimeshPrimitiveManager triInterface;
+    triInterface.m_meshInterface = meshInterface;
+    triInterface.m_scale = mesh_scale;
+    triInterface.m_margin = btScalar(1.0);
+    
+    //add parts
+    int part_count = meshInterface->getNumSubParts();
+    for(int i = 0; i < part_count; i++)
+    {
+      triInterface.m_part = i;
+      m_trimeshInterfaces.push_back(triInterface);
+    }
+    
+    m_decomposition = 0;
+    
+    buildConvexDecomposition(children_has_transform);
+  }
+  
+  virtual ~btGImpactConvexDecompositionShape();
+  
+  SIMD_FORCE_INLINE btGImpactMeshShapePart::TrimeshPrimitiveManager * getTrimeshInterface(int part)
+  {
+    return &m_trimeshInterfaces[part];
+  }
+  
+  virtual void processAllTriangles(btTriangleCallback* callback, const btVector3& aabbMin, const btVector3& aabbMax) const;
+  
 };
 
 

@@ -6,7 +6,8 @@
  * Numerical derivatives
  */
 
-namespace sco {
+namespace sco
+{
 using boost::function;
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -17,36 +18,48 @@ typedef boost::shared_ptr<ScalarOfVector> ScalarOfVectorPtr;
 typedef boost::shared_ptr<VectorOfVector> VectorOfVectorPtr;
 typedef boost::shared_ptr<MatrixOfVector> MatrixOfVectorPtr;
 
-class ScalarOfVector {
+class ScalarOfVector
+{
 public:
   virtual double operator()(const VectorXd& x) const = 0;
-  double call(const VectorXd& x) const {return operator()(x);}
+  double call(const VectorXd& x) const
+  {
+    return operator()(x);
+  }
   virtual ~ScalarOfVector() {}
-
+  
   typedef function<double(VectorXd)> boost_func;
   static ScalarOfVectorPtr construct(const boost_func&);
   //  typedef VectorXd (*c_func)(const VectorXd&);
   //  static ScalarOfVectorPtr construct(const c_func&);
-
+  
 };
-class VectorOfVector {
+class VectorOfVector
+{
 public:
   virtual VectorXd operator()(const VectorXd& x) const = 0;
-  VectorXd call(const VectorXd& x) const {return operator()(x);}
+  VectorXd call(const VectorXd& x) const
+  {
+    return operator()(x);
+  }
   virtual ~VectorOfVector() {}
-
+  
   typedef function<VectorXd(VectorXd)> boost_func;
   static VectorOfVectorPtr construct(const boost_func&);
   //  typedef VectorXd (*c_func)(const VectorXd&);
   //  static VectorOfVectorPtr construct(const c_func&);
-
+  
 };
-class MatrixOfVector {
+class MatrixOfVector
+{
 public:
   virtual MatrixXd operator()(const VectorXd& x) const = 0;
-  MatrixXd call(const VectorXd& x) const {return operator()(x);}
+  MatrixXd call(const VectorXd& x) const
+  {
+    return operator()(x);
+  }
   virtual ~MatrixOfVector() {}
-
+  
   typedef function<MatrixXd(VectorXd)> boost_func;
   static MatrixOfVectorPtr construct(const boost_func&);
   //  typedef VectorMatrixXd (*c_func)(const VectorXd&);
@@ -57,9 +70,9 @@ public:
 VectorXd calcForwardNumGrad(const ScalarOfVector& f, const VectorXd& x, double epsilon);
 MatrixXd calcForwardNumJac(const VectorOfVector& f, const VectorXd& x, double epsilon);
 void calcGradAndDiagHess(const ScalarOfVector& f, const VectorXd& x, double epsilon,
-    double& y, VectorXd& grad, VectorXd& hess);
+                         double& y, VectorXd& grad, VectorXd& hess);
 void calcGradHess(ScalarOfVectorPtr f, const VectorXd& x, double epsilon,
-    double& y, VectorXd& grad, MatrixXd& hess);
+                  double& y, VectorXd& grad, MatrixXd& hess);
 VectorOfVectorPtr forwardNumGrad(ScalarOfVectorPtr f, double epsilon);
 MatrixOfVectorPtr forwardNumJac(VectorOfVectorPtr f, double epsilon);
 

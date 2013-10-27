@@ -14,66 +14,67 @@ class TestFactoryRegistryList
 private:
   typedef CppUnitMap<std::string, TestFactoryRegistry *, std::less<std::string> > Registries;
   Registries m_registries;
-
-  enum State {
-    doNotChange =0,
+  
+  enum State
+  {
+    doNotChange = 0,
     notCreated,
     exist,
     destroyed
   };
-
-  static State stateFlag( State newState = doNotChange )
+  
+  static State stateFlag(State newState = doNotChange)
   {
     static State state = notCreated;
-    if ( newState != doNotChange )
+    if(newState != doNotChange)
       state = newState;
     return state;
   }
-
+  
   static TestFactoryRegistryList *getInstance()
   {
     static TestFactoryRegistryList list;
     return &list;
   }
-
-  TestFactoryRegistry *getInternalRegistry( const std::string &name )
+  
+  TestFactoryRegistry *getInternalRegistry(const std::string &name)
   {
-    Registries::const_iterator foundIt = m_registries.find( name );
-    if ( foundIt == m_registries.end() )
+    Registries::const_iterator foundIt = m_registries.find(name);
+    if(foundIt == m_registries.end())
     {
-      TestFactoryRegistry *factory = new TestFactoryRegistry( name );
-      m_registries.insert( std::pair<const std::string, TestFactoryRegistry*>( name, factory ) );
+      TestFactoryRegistry *factory = new TestFactoryRegistry(name);
+      m_registries.insert(std::pair<const std::string, TestFactoryRegistry*>(name, factory));
       return factory;
     }
     return (*foundIt).second;
   }
-
+  
 public:
   TestFactoryRegistryList()
   {
-    stateFlag( exist );
+    stateFlag(exist);
   }
-
+  
   ~TestFactoryRegistryList()
   {
-    for ( Registries::iterator it = m_registries.begin(); it != m_registries.end(); ++it )
-      delete (*it).second;
-
-    stateFlag( destroyed );
+    for(Registries::iterator it = m_registries.begin(); it != m_registries.end(); ++it)
+      delete(*it).second;
+      
+    stateFlag(destroyed);
   }
-
-  static TestFactoryRegistry *getRegistry( const std::string &name )
+  
+  static TestFactoryRegistry *getRegistry(const std::string &name)
   {
-    // If the following assertion failed, then TestFactoryRegistry::getRegistry() 
-    // was called during static variable destruction without checking the registry 
+    // If the following assertion failed, then TestFactoryRegistry::getRegistry()
+    // was called during static variable destruction without checking the registry
     // validity beforehand using TestFactoryRegistry::isValid() beforehand.
-    assert( isValid() );
-    if ( !isValid() )         // release mode
+    assert(isValid());
+    if(!isValid())            // release mode
       return NULL;            // => force CRASH
-
-    return getInstance()->getInternalRegistry( name );
+      
+    return getInstance()->getInternalRegistry(name);
   }
-
+  
   static bool isValid()
   {
     return stateFlag() != destroyed;
@@ -82,8 +83,8 @@ public:
 
 
 
-TestFactoryRegistry::TestFactoryRegistry( std::string name ) :
-    m_name( name )
+TestFactoryRegistry::TestFactoryRegistry(std::string name) :
+  m_name(name)
 {
 }
 
@@ -94,64 +95,64 @@ TestFactoryRegistry::~TestFactoryRegistry()
 
 
 TestFactoryRegistry &
-TestFactoryRegistry::getRegistry( const std::string &name )
+TestFactoryRegistry::getRegistry(const std::string &name)
 {
-  return *TestFactoryRegistryList::getRegistry( name );
+  return *TestFactoryRegistryList::getRegistry(name);
 }
 
 
-void 
-TestFactoryRegistry::registerFactory( const std::string &,
-                                      TestFactory *factory )
+void
+TestFactoryRegistry::registerFactory(const std::string &,
+                                     TestFactory *factory)
 {
-  registerFactory( factory );
+  registerFactory(factory);
 }
 
 
-void 
-TestFactoryRegistry::registerFactory( TestFactory *factory )
+void
+TestFactoryRegistry::registerFactory(TestFactory *factory)
 {
-  m_factories.insert( factory );
+  m_factories.insert(factory);
 }
 
 
-void 
-TestFactoryRegistry::unregisterFactory( TestFactory *factory )
+void
+TestFactoryRegistry::unregisterFactory(TestFactory *factory)
 {
-  m_factories.erase( factory );
+  m_factories.erase(factory);
 }
 
 
-void 
-TestFactoryRegistry::addRegistry( const std::string &name )
+void
+TestFactoryRegistry::addRegistry(const std::string &name)
 {
-  registerFactory( &getRegistry( name ) );
+  registerFactory(&getRegistry(name));
 }
 
 
 Test *
 TestFactoryRegistry::makeTest()
 {
-  TestSuite *suite = new TestSuite( m_name );
-  addTestToSuite( suite );
+  TestSuite *suite = new TestSuite(m_name);
+  addTestToSuite(suite);
   return suite;
 }
 
 
-void 
-TestFactoryRegistry::addTestToSuite( TestSuite *suite )
+void
+TestFactoryRegistry::addTestToSuite(TestSuite *suite)
 {
-  for ( Factories::iterator it = m_factories.begin(); 
-        it != m_factories.end(); 
-        ++it )
+  for(Factories::iterator it = m_factories.begin();
+      it != m_factories.end();
+      ++it)
   {
     TestFactory *factory = *it;
-    suite->addTest( factory->makeTest() );
+    suite->addTest(factory->makeTest());
   }
 }
 
 
-bool 
+bool
 TestFactoryRegistry::isValid()
 {
   return TestFactoryRegistryList::isValid();

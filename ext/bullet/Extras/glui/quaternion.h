@@ -34,7 +34,7 @@
 
 /* this line defines a new type: pointer to a function which returns a */
 /* float and takes as argument a float */
-typedef float (*V_FCT_PTR)(float);
+typedef float(*V_FCT_PTR)(float);
 
 /****************************************************************
  *                    Quaternion                                *
@@ -47,21 +47,21 @@ public:
 
   vec3  v;  /* vector component */
   float s;  /* scalar component */
-
+  
   /*public: */
   
   /* Constructors */
-
+  
   quat();
   quat(float x, float y, float z, float w);
-  quat(const vec3 &v, float s); 
+  quat(const vec3 &v, float s);
   quat(float   s, const vec3 &v);
   quat(const float  *d);     /* copy from four-element float array  */
   quat(const double *f);     /* copy from four-element double array */
   quat(const quat   &q);     /* copy from other quat                */
-
+  
   /* Assignment operators */
-
+  
   quat  &operator  = (const quat &v);      /* assignment of a quat            */
   quat  &operator += (const quat &v);      /* incrementation by a quat        */
   quat  &operator -= (const quat &v);      /* decrementation by a quat        */
@@ -74,23 +74,23 @@ public:
   float  length2() const;                  /* squared length of a quat        */
   quat  &normalize();                      /* normalize a quat                */
   quat  &apply(V_FCT_PTR fct);             /* apply a func. to each component */
-  vec3   xform(const vec3 &v );            /* q*v*q-1                         */
+  vec3   xform(const vec3 &v);             /* q*v*q-1                         */
   mat4   to_mat4() const;
   void   set_angle(float f);               /* set rot angle (degrees)         */
   void   scale_angle(float f);             /* scale rot angle (degrees)       */
   float  get_angle() const;                /* set rot angle (degrees)         */
   vec3   get_axis()  const;                /* get axis                        */
-
-  void   print( FILE *file, const char *name ) const;  /* print to a file     */
-
-        float &operator [] (int i);        /* indexing                        */
-  const float &operator [] (int i) const;  /* indexing                        */
-
+  
+  void   print(FILE *file, const char *name) const;    /* print to a file     */
+  
+  float &operator [](int i);         /* indexing                        */
+  const float &operator [](int i) const;   /* indexing                        */
+  
   void   set(float x, float y, float z);   /* set quat                        */
   void   set(const vec3 &v, float s);      /* set quat                        */
-
+  
   /* friends */
-
+  
   friend quat operator - (const quat &v);                   /* -q1            */
   friend quat operator + (const quat &a, const quat &b);    /* q1 + q2        */
   friend quat operator - (const quat &a, const quat &b);    /* q1 - q2        */
@@ -104,7 +104,7 @@ public:
   /*friend quat min(const quat &a, const quat &b);          -- min(q1, q2)    */
   /*friend quat max(const quat &a, const quat &b);          -- max(q1, q2)    */
   friend quat prod(const quat &a, const quat &b);          /* term by term mult*/
-}; 
+};
 
 /* Utility functions */
 

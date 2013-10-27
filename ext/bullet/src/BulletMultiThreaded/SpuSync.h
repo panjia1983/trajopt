@@ -4,8 +4,8 @@ Copyright (c) 2007 Starbreeze Studios
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -35,31 +35,31 @@ Written by: Marten Svanfeldt
 class btSpinlock
 {
 public:
-	//typedef volatile LONG SpinVariable;
-	typedef CRITICAL_SECTION SpinVariable;
-
-	btSpinlock (SpinVariable* var)
-		: spinVariable (var)
-	{}
-
-	void Init ()
-	{
-		//*spinVariable = 0;
-		InitializeCriticalSection(spinVariable);
-	}
-
-	void Lock ()
-	{
-		EnterCriticalSection(spinVariable);
-	}
-
-	void Unlock ()
-	{
-		LeaveCriticalSection(spinVariable);
-	}
-
+  //typedef volatile LONG SpinVariable;
+  typedef CRITICAL_SECTION SpinVariable;
+  
+  btSpinlock(SpinVariable* var)
+    : spinVariable(var)
+  {}
+  
+  void Init()
+  {
+    //*spinVariable = 0;
+    InitializeCriticalSection(spinVariable);
+  }
+  
+  void Lock()
+  {
+    EnterCriticalSection(spinVariable);
+  }
+  
+  void Unlock()
+  {
+    LeaveCriticalSection(spinVariable);
+  }
+  
 private:
-	SpinVariable* spinVariable;
+  SpinVariable* spinVariable;
 };
 
 
@@ -72,46 +72,46 @@ private:
 class btSpinlock
 {
 public:
-	typedef CellSyncMutex SpinVariable;
+  typedef CellSyncMutex SpinVariable;
 
-	btSpinlock (SpinVariable* var)
-		: spinVariable (var)
-	{}
+  btSpinlock(SpinVariable* var)
+    : spinVariable(var)
+  {}
 
-	void Init ()
-	{
+  void Init()
+  {
 #ifndef __SPU__
-		//*spinVariable = 1;
-		cellSyncMutexInitialize(spinVariable);
+    //*spinVariable = 1;
+    cellSyncMutexInitialize(spinVariable);
 #endif
-	}
+  }
 
 
 
-	void Lock ()
-	{
+  void Lock()
+  {
 #ifdef __SPU__
-		// lock semaphore
-		/*while (cellAtomicTestAndDecr32(atomic_buf, (uint64_t)spinVariable) == 0) 
-		{
+    // lock semaphore
+    /*while (cellAtomicTestAndDecr32(atomic_buf, (uint64_t)spinVariable) == 0)
+    {
 
-		};*/
-		cellSyncMutexLock((uint64_t)spinVariable);
+    };*/
+    cellSyncMutexLock((uint64_t)spinVariable);
 #endif
-	}
+  }
 
-	void Unlock ()
-	{
+  void Unlock()
+  {
 #ifdef __SPU__
-		//cellAtomicIncr32(atomic_buf, (uint64_t)spinVariable);
-		cellSyncMutexUnlock((uint64_t)spinVariable);
-#endif 
-	}
+    //cellAtomicIncr32(atomic_buf, (uint64_t)spinVariable);
+    cellSyncMutexUnlock((uint64_t)spinVariable);
+#endif
+  }
 
 
 private:
-	SpinVariable*	spinVariable;
-	ATTRIBUTE_ALIGNED128(uint32_t		atomic_buf[32]);
+  SpinVariable*	spinVariable;
+  ATTRIBUTE_ALIGNED128(uint32_t		atomic_buf[32]);
 };
 
 #else
@@ -119,26 +119,26 @@ private:
 class btSpinlock
 {
 public:
-	typedef int  SpinVariable;
+  typedef int  SpinVariable;
 
-	btSpinlock (SpinVariable* var)
-		: spinVariable (var)
-	{}
+  btSpinlock(SpinVariable* var)
+    : spinVariable(var)
+  {}
 
-	void Init ()
-	{
-	}
+  void Init()
+  {
+  }
 
-	void Lock ()
-	{
-	}
+  void Lock()
+  {
+  }
 
-	void Unlock ()
-	{
-	}
+  void Unlock()
+  {
+  }
 
 private:
-	SpinVariable* spinVariable;
+  SpinVariable* spinVariable;
 };
 
 

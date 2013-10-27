@@ -13,7 +13,8 @@
 #include <iostream>
 #include "Logging.h"
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
 /** \defgroup kinematics_group Kinematics
  * @{
@@ -33,12 +34,12 @@ namespace RigidBodyDynamics {
  * \param QDot  the generalized velocities of the joints
  * \param QDDot the generalized accelerations of the joints
  */
-void UpdateKinematics (Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		const Math::VectorNd &QDDot
-		);
-
+void UpdateKinematics(Model &model,
+                      const Math::VectorNd &Q,
+                      const Math::VectorNd &QDot,
+                      const Math::VectorNd &QDDot
+                     );
+                     
 /** \brief Selectively updates model internal states of body positions, velocities and/or accelerations.
  *
  * This function updates the kinematic variables such as body velocities and
@@ -47,18 +48,18 @@ void UpdateKinematics (Model &model,
  * In contrast to UpdateKinematics() this function allows to update the model
  * state with values one is interested and thus reduce computations (e.g. only
  * positions, only positions + accelerations, only velocities, etc.).
- 
+
  * \param model the model
  * \param Q     the positional variables of the model
  * \param QDot  the generalized velocities of the joints
  * \param QDDot the generalized accelerations of the joints
  */
-void UpdateKinematicsCustom (Model &model,
-		const Math::VectorNd *Q,
-		const Math::VectorNd *QDot,
-		const Math::VectorNd *QDDot
-		);
-
+void UpdateKinematicsCustom(Model &model,
+                            const Math::VectorNd *Q,
+                            const Math::VectorNd *QDot,
+                            const Math::VectorNd *QDDot
+                           );
+                           
 /** \brief Returns the base coordinates of a point given in body coordinates.
  *
  * \param model the rigid body model
@@ -70,13 +71,13 @@ void UpdateKinematicsCustom (Model &model,
  *
  * \returns a 3-D vector with coordinates of the point in base coordinates
  */
-Math::Vector3d CalcBodyToBaseCoordinates (
-		Model &model,
-		const Math::VectorNd &Q,
-		unsigned int body_id,
-		const Math::Vector3d &body_point_position,
-		bool update_kinematics = true);
-
+Math::Vector3d CalcBodyToBaseCoordinates(
+  Model &model,
+  const Math::VectorNd &Q,
+  unsigned int body_id,
+  const Math::Vector3d &body_point_position,
+  bool update_kinematics = true);
+  
 /** \brief Returns the body coordinates of a point given in base coordinates.
  *
  * \param model the rigid body model
@@ -88,13 +89,13 @@ Math::Vector3d CalcBodyToBaseCoordinates (
  *
  * \returns a 3-D vector with coordinates of the point in body coordinates
  */
-Math::Vector3d CalcBaseToBodyCoordinates (
-		Model &model,
-		const Math::VectorNd &Q,
-		unsigned int body_id,
-		const Math::Vector3d &base_point_position,
-		bool update_kinematics = true);
-
+Math::Vector3d CalcBaseToBodyCoordinates(
+  Model &model,
+  const Math::VectorNd &Q,
+  unsigned int body_id,
+  const Math::Vector3d &base_point_position,
+  bool update_kinematics = true);
+  
 /** \brief Returns the orientation of a given body as 3x3 matrix
  *
  * \param model the rigid body model
@@ -106,12 +107,12 @@ Math::Vector3d CalcBaseToBodyCoordinates (
  * \returns An orthonormal 3x3 matrix that rotates vectors from base coordinates
  * to body coordinates.
  */
-Math::Matrix3d CalcBodyWorldOrientation (
-		Model &model,
-		const Math::VectorNd &Q,
-		const unsigned int body_id,
-		bool update_kinematics = true);
-
+Math::Matrix3d CalcBodyWorldOrientation(
+  Model &model,
+  const Math::VectorNd &Q,
+  const unsigned int body_id,
+  bool update_kinematics = true);
+  
 /** \brief Computes the point jacobian for a point on a body
  *
  * If a position of a point is computed by a function \f$g(q(t))\f$ for which its
@@ -127,15 +128,15 @@ Math::Matrix3d CalcBodyWorldOrientation (
  *
  * \returns A 3 x \#dof_count matrix of the point jacobian
  */
-void CalcPointJacobian (Model &model,
-		const Math::VectorNd &Q,
-		unsigned int body_id,
-		const Math::Vector3d &point_position,
-		Math::MatrixNd &G,
-		bool update_kinematics = true
-		);
-
-/** \brief Computes the velocity of a point on a body 
+void CalcPointJacobian(Model &model,
+                       const Math::VectorNd &Q,
+                       unsigned int body_id,
+                       const Math::Vector3d &point_position,
+                       Math::MatrixNd &G,
+                       bool update_kinematics = true
+                      );
+                      
+/** \brief Computes the velocity of a point on a body
  *
  * \param model   rigid body model
  * \param Q       state vector of the internal joints
@@ -146,16 +147,16 @@ void CalcPointJacobian (Model &model,
  *
  * \returns The cartesian velocity of the point in global frame (output)
  */
-Math::Vector3d CalcPointVelocity (
-		Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		unsigned int body_id,
-		const Math::Vector3d &point_position,
-		bool update_kinematics = true
-		);
+Math::Vector3d CalcPointVelocity(
+  Model &model,
+  const Math::VectorNd &Q,
+  const Math::VectorNd &QDot,
+  unsigned int body_id,
+  const Math::Vector3d &point_position,
+  bool update_kinematics = true
+);
 
-/** \brief Computes the acceleration of a point on a body 
+/** \brief Computes the acceleration of a point on a body
  *
  * \param model   rigid body model
  * \param Q       state vector of the internal joints
@@ -182,15 +183,15 @@ Math::Vector3d CalcPointVelocity (
  * acceleration has to be added to the result.
  */
 
-Math::Vector3d CalcPointAcceleration (
-		Model &model,
-		const Math::VectorNd &Q,
-		const Math::VectorNd &QDot,
-		const Math::VectorNd &QDDot,
-		unsigned int body_id,
-		const Math::Vector3d &point_position,
-		bool update_kinematics = true
-	);
+Math::Vector3d CalcPointAcceleration(
+  Model &model,
+  const Math::VectorNd &Q,
+  const Math::VectorNd &QDot,
+  const Math::VectorNd &QDDot,
+  unsigned int body_id,
+  const Math::Vector3d &point_position,
+  bool update_kinematics = true
+);
 
 /** \brief Computes the inverse kinematics iteratively using a damped Levenberg-Marquardt method
  *
@@ -223,17 +224,17 @@ Math::Vector3d CalcPointAcceleration (
  * \warning The actual accuracy might be rather low (~1.0e-2)! Use this function with a
  * grain of suspicion.
  */
-bool InverseKinematics (
-		Model &model,
-		const Math::VectorNd &Qinit,
-		const std::vector<unsigned int>& body_id,
-		const std::vector<Math::Vector3d>& body_point,
-		const std::vector<Math::Vector3d>& target_pos,
-		Math::VectorNd &Qres,
-		double step_tol = 1.0e-12,
-		double lambda = 0.01,
-		unsigned int max_iter = 50
-		);
+bool InverseKinematics(
+  Model &model,
+  const Math::VectorNd &Qinit,
+  const std::vector<unsigned int>& body_id,
+  const std::vector<Math::Vector3d>& body_point,
+  const std::vector<Math::Vector3d>& target_pos,
+  Math::VectorNd &Qres,
+  double step_tol = 1.0e-12,
+  double lambda = 0.01,
+  unsigned int max_iter = 50
+);
 
 /** @} */
 

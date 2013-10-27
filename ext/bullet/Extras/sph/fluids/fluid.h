@@ -21,24 +21,25 @@
 */
 
 #ifndef DEF_FLUID
-	#define DEF_FLUID
-	
-	#include "vector.h"
+#define DEF_FLUID
 
-	#include "common_defs.h"
+#include "vector.h"
 
-	struct Fluid {
-	public:
-		Vector3DF		pos;			// Basic particle (must match Particle class)
-		DWORD			clr;
-		int				next;
-		Vector3DF		vel;			
-		Vector3DF		vel_eval;		
-		unsigned short	age;
+#include "common_defs.h"
 
-		float			pressure;		// Smoothed Particle Hydrodynamics
-		float			density;	
-		Vector3DF		sph_force;
-	};
+struct Fluid
+{
+public:
+  Vector3DF		pos;			// Basic particle (must match Particle class)
+  DWORD			clr;
+  int				next;
+  Vector3DF		vel;
+  Vector3DF		vel_eval;
+  unsigned short	age;
+  
+  float			pressure;		// Smoothed Particle Hydrodynamics
+  float			density;
+  Vector3DF		sph_force;
+};
 
 #endif /*PARTICLE_H_*/

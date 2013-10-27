@@ -13,9 +13,11 @@
 
 #include "rbdl_math.h"
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
-namespace Math {
+namespace Math
+{
 
 /** \brief Available solver methods for the linear systems.
  *
@@ -23,11 +25,12 @@ namespace Math {
  * When the math library SimpleMath is used it will always use a slow
  * column pivoting gauss elimination.
  */
-enum LinearSolver {
-	LinearSolverUnknown = 0,
-	LinearSolverPartialPivLU,
-	LinearSolverColPivHouseholderQR,
-	LinearSolverLast,
+enum LinearSolver
+{
+  LinearSolverUnknown = 0,
+  LinearSolverPartialPivLU,
+  LinearSolverColPivHouseholderQR,
+  LinearSolverLast,
 };
 
 extern Vector3d Vector3dZero;
@@ -39,27 +42,28 @@ extern SpatialMatrix SpatialMatrixIdentity;
 extern SpatialMatrix SpatialMatrixZero;
 
 /// \brief Solves a linear system using gaussian elimination with pivoting
-bool LinSolveGaussElimPivot (MatrixNd A, VectorNd b, VectorNd &x);
+bool LinSolveGaussElimPivot(MatrixNd A, VectorNd b, VectorNd &x);
 
 /// \brief Creates the skew symmetric matrix of the cross product of a given 3D vector
-inline Matrix3d VectorCrossMatrix (const Vector3d &vector) {
-	return Matrix3d (
-			0., -vector[2], vector[1],
-			vector[2], 0., -vector[0],
-			-vector[1], vector[0], 0.
-			);
+inline Matrix3d VectorCrossMatrix(const Vector3d &vector)
+{
+  return Matrix3d(
+           0., -vector[2], vector[1],
+           vector[2], 0., -vector[0],
+           -vector[1], vector[0], 0.
+         );
 }
 
-// \todo write test 
+// \todo write test
 void SpatialMatrixSetSubmatrix(SpatialMatrix &dest, unsigned int row, unsigned int col, const Matrix3d &matrix);
 
-bool SpatialMatrixCompareEpsilon (const SpatialMatrix &matrix_a,
-		const SpatialMatrix &matrix_b, double epsilon);
-bool SpatialVectorCompareEpsilon (const SpatialVector &vector_a,
-		const SpatialVector &vector_b, double epsilon);
-
+bool SpatialMatrixCompareEpsilon(const SpatialMatrix &matrix_a,
+                                 const SpatialMatrix &matrix_b, double epsilon);
+bool SpatialVectorCompareEpsilon(const SpatialVector &vector_a,
+                                 const SpatialVector &vector_b, double epsilon);
+                                 
 /** \brief Translates the inertia matrix to a new center. */
-Matrix3d parallel_axis (const Matrix3d &inertia, double mass, const Vector3d &com);
+Matrix3d parallel_axis(const Matrix3d &inertia, double mass, const Vector3d &com);
 
 /** \brief Creates a transformation of a linear displacement
  *
@@ -71,7 +75,7 @@ Matrix3d parallel_axis (const Matrix3d &inertia, double mass, const Vector3d &co
  *
  * \param displacement The displacement as a 3D vector
  */
-SpatialMatrix Xtrans_mat (const Vector3d &displacement);
+SpatialMatrix Xtrans_mat(const Vector3d &displacement);
 
 /** \brief Creates a rotational transformation around the Z-axis
  *
@@ -80,7 +84,7 @@ SpatialMatrix Xtrans_mat (const Vector3d &displacement);
  *
  * \param zrot Rotation angle in radians.
  */
-SpatialMatrix Xrotz_mat (const double &zrot);
+SpatialMatrix Xrotz_mat(const double &zrot);
 
 /** \brief Creates a rotational transformation around the Y-axis
  *
@@ -89,7 +93,7 @@ SpatialMatrix Xrotz_mat (const double &zrot);
  *
  * \param yrot Rotation angle in radians.
  */
-SpatialMatrix Xroty_mat (const double &yrot);
+SpatialMatrix Xroty_mat(const double &yrot);
 
 /** \brief Creates a rotational transformation around the X-axis
  *
@@ -98,9 +102,9 @@ SpatialMatrix Xroty_mat (const double &yrot);
  *
  * \param xrot Rotation angle in radians.
  */
-SpatialMatrix Xrotx_mat (const double &xrot);
+SpatialMatrix Xrotx_mat(const double &xrot);
 
-/** \brief Creates a spatial transformation for given parameters 
+/** \brief Creates a spatial transformation for given parameters
  *
  * Creates a transformation to a coordinate system that is first rotated
  * and then translated.
@@ -109,7 +113,7 @@ SpatialMatrix Xrotx_mat (const double &xrot);
  * \param zyx_euler The orientation of the new coordinate system, specifyed
  * by ZYX-Euler angles.
  */
-SpatialMatrix XtransRotZYXEuler (const Vector3d &displacement, const Vector3d &zyx_euler);
+SpatialMatrix XtransRotZYXEuler(const Vector3d &displacement, const Vector3d &zyx_euler);
 
 } /* Math */
 

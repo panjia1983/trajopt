@@ -2,26 +2,29 @@
 #include <openrave/openrave.h>
 #include "trajopt/common.hpp"
 #include "incremental_rb.hpp"
+#include "sco/optimizers.hpp"
 
+namespace trajopt
+{
 
-namespace trajopt {
-
-struct O3Helper {
+struct O3Helper
+{
   /**
   Class with a bunch of methods that help you optimize over orientations
   */
   OpenRAVE::KinBodyPtr m_body;
   vector<IncrementalRBPtr> m_rbs;
   VarArray m_orivars;
-  O3Helper(const OpenRAVE::KinBodyPtr body, const VarArray& vars);  
-  void OptimizerCallback(OptProb*, DblVec& x);
+  O3Helper(const OpenRAVE::KinBodyPtr body, const VarArray& vars);
+  void OptimizerCallback(OptProb*, DblVec& x, OptStepResults&);
   void ConfigureOptimizer(Optimizer&);
   void AddAngVelCosts(OptProb&, double coeff);
 };
 
 
 
-struct AngVelCost: public Cost {
+struct AngVelCost: public Cost
+{
   vector<IncrementalRBPtr> m_rbs;
   VarArray m_r;
   double m_coeff;

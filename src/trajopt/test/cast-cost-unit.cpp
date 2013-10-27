@@ -23,18 +23,20 @@ using namespace OpenRAVE;
 using namespace util;
 using namespace boost::assign;
 
-string data_dir() {
+string data_dir()
+{
   string out = DATA_DIR;
   return out;
 }
 
-bool plotting=false, verbose=false;
+bool plotting = false, verbose = false;
 
 #ifdef __CDT_PARSER__
 #define TEST(a,b) void asdf()
 #endif
 
-TEST(cast, boxes) {
+TEST(cast, boxes)
+{
   EnvironmentBasePtr env = RaveCreateEnvironment();
   ASSERT_TRUE(env->Load(data_dir() + "/boxbot.xml"));
   ASSERT_TRUE(env->Load(data_dir() + "/box.xml"));
@@ -43,12 +45,13 @@ TEST(cast, boxes) {
   RobotAndDOFPtr rad(new RobotAndDOF(boxbot, IntVec(), DOF_X | DOF_Y, Vector()));
   rad->GetRobot()->SetActiveDOFs(rad->GetJointIndices(), DOF_X | DOF_Y, Vector());
   Json::Value root = readJsonFile(string(DATA_DIR) + "/box_cast_test.json");
-  DblVec start_dofs; start_dofs += -1.9, 0;
+  DblVec start_dofs;
+  start_dofs += -1.9, 0;
   rad->SetDOFValues(start_dofs);
   TrajOptProbPtr prob = ConstructProblem(root, env);
   TrajArray traj = prob->GetInitTraj();
-
-
+  
+  
   //shouldn't be necessary:
 #if 0
   ASSERT_TRUE(!!prob);
@@ -65,19 +68,19 @@ TEST(cast, boxes) {
   checker->CastVsAll(*rad, rad->GetRobot()->GetLinks(), toDblVec(traj.row(0)), toDblVec(traj.row(1)), collisions);
   cout << collisions.size() << endl;
 #endif
-
+  
   BasicTrustRegionSQP opt(prob);
-  if (plotting) opt.addCallback(PlotCallback(*prob));
+  if(plotting) opt.addCallback(PlotCallback(*prob));
   opt.initialize(trajToDblVec(prob->GetInitTraj()));
   opt.optimize();
-
+  
   vector<Collision> collisions;
   CollisionChecker::GetOrCreate(*env)->ContinuousCheckTrajectory(getTraj(opt.x(), prob->GetVars()), *rad, collisions);
   RAVELOG_INFO("number of continuous collisions: %i\n", collisions.size());
   ASSERT_EQ(collisions.size(), 0);
-
-
-
+  
+  
+  
 }
 
 
@@ -90,11 +93,11 @@ int main(int argc, char** argv)
     CommandParser parser(config);
     parser.read(argc, argv);
   }
-
-
+  
+  
   ::testing::InitGoogleTest(&argc, argv);
   RaveInitialize(false);
-  if (verbose) RaveSetDebugLevel(Level_Debug);
+  if(verbose) RaveSetDebugLevel(Level_Debug);
   int result = RUN_ALL_TESTS();
   RaveDestroy();
   return result;

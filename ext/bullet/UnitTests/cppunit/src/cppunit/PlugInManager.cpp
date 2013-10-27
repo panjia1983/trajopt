@@ -18,69 +18,69 @@ PlugInManager::PlugInManager()
 
 PlugInManager::~PlugInManager()
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
-    unload( *it );
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
+    unload(*it);
 }
 
 
 void
-PlugInManager::load( const std::string &libraryFileName,
-                     const PlugInParameters &parameters )
+PlugInManager::load(const std::string &libraryFileName,
+                    const PlugInParameters &parameters)
 {
   PlugInInfo info;
   info.m_fileName = libraryFileName;
-  info.m_manager = new DynamicLibraryManager( libraryFileName );
-
-  TestPlugInSignature plug = (TestPlugInSignature)info.m_manager->findSymbol( 
-        CPPUNIT_STRINGIZE( CPPUNIT_PLUGIN_EXPORTED_NAME ) );
-  info.m_interface = (*plug)();
-
-  m_plugIns.push_back( info );
+  info.m_manager = new DynamicLibraryManager(libraryFileName);
   
-  info.m_interface->initialize( &TestFactoryRegistry::getRegistry(), parameters );
+  TestPlugInSignature plug = (TestPlugInSignature)info.m_manager->findSymbol(
+                               CPPUNIT_STRINGIZE(CPPUNIT_PLUGIN_EXPORTED_NAME));
+  info.m_interface = (*plug)();
+  
+  m_plugIns.push_back(info);
+  
+  info.m_interface->initialize(&TestFactoryRegistry::getRegistry(), parameters);
 }
 
 
-void 
-PlugInManager::unload( const std::string &libraryFileName )
+void
+PlugInManager::unload(const std::string &libraryFileName)
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
   {
-    if ( (*it).m_fileName == libraryFileName )
+    if((*it).m_fileName == libraryFileName)
     {
-      unload( *it );
-      m_plugIns.erase( it );
+      unload(*it);
+      m_plugIns.erase(it);
       break;
     }
   }
 }
 
 
-void 
-PlugInManager::addListener( TestResult *eventManager )
+void
+PlugInManager::addListener(TestResult *eventManager)
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
-    (*it).m_interface->addListener( eventManager );
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
+    (*it).m_interface->addListener(eventManager);
 }
 
 
-void 
-PlugInManager::removeListener( TestResult *eventManager )
+void
+PlugInManager::removeListener(TestResult *eventManager)
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
-    (*it).m_interface->removeListener( eventManager );
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
+    (*it).m_interface->removeListener(eventManager);
 }
 
 
-void 
-PlugInManager::unload( PlugInInfo &plugIn )
+void
+PlugInManager::unload(PlugInInfo &plugIn)
 {
   try
   {
-    plugIn.m_interface->uninitialize( &TestFactoryRegistry::getRegistry() );
+    plugIn.m_interface->uninitialize(&TestFactoryRegistry::getRegistry());
     delete plugIn.m_manager;
   }
-  catch (...)
+  catch(...)
   {
     delete plugIn.m_manager;
     plugIn.m_manager = NULL;
@@ -89,18 +89,18 @@ PlugInManager::unload( PlugInInfo &plugIn )
 }
 
 
-void 
-PlugInManager::addXmlOutputterHooks( XmlOutputter *outputter )
+void
+PlugInManager::addXmlOutputterHooks(XmlOutputter *outputter)
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
-    (*it).m_interface->addXmlOutputterHooks( outputter );
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
+    (*it).m_interface->addXmlOutputterHooks(outputter);
 }
 
 
-void 
+void
 PlugInManager::removeXmlOutputterHooks()
 {
-  for ( PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it )
+  for(PlugIns::iterator it = m_plugIns.begin(); it != m_plugIns.end(); ++it)
     (*it).m_interface->removeXmlOutputterHooks();
 }
 

@@ -18,13 +18,13 @@ CPPUNIT_NS_BEGIN
  *      safe passage            - copy construction
  *
  * If operations for each of these are not declared
- * the template will not instantiate.  If it does 
+ * the template will not instantiate.  If it does
  * instantiate, tests are performed to make sure
  * that the operations have correct semantics.
- *      
- * Adding an orthodox test to a suite is very 
- * easy: 
- * 
+ *
+ * Adding an orthodox test to a suite is very
+ * easy:
+ *
  * public: Test *suite ()  {
  *     TestSuite *suiteOfTests = new TestSuite;
  *     suiteOfTests->addTest (new ComplexNumberTest ("testAdd");
@@ -42,51 +42,51 @@ CPPUNIT_NS_BEGIN
 template <class ClassUnderTest> class Orthodox : public TestCase
 {
 public:
-                    Orthodox () : TestCase ("Orthodox") {}
-
+  Orthodox() : TestCase("Orthodox") {}
+  
 protected:
-    ClassUnderTest  call (ClassUnderTest object);
-    void            runTest ();
-
-
+  ClassUnderTest  call(ClassUnderTest object);
+  void            runTest();
+  
+  
 };
 
 
 // Run an orthodoxy test
-template <class ClassUnderTest> void Orthodox<ClassUnderTest>::runTest ()
+template <class ClassUnderTest> void Orthodox<ClassUnderTest>::runTest()
 {
-    // make sure we have a default constructor
-    ClassUnderTest   a, b, c;
-
-    // make sure we have an equality operator
-    CPPUNIT_ASSERT (a == b);
-
-    // check the inverse
-    b.operator= (a.operator! ());
-    CPPUNIT_ASSERT (a != b);
-
-    // double inversion
-    b = !!a;
-    CPPUNIT_ASSERT (a == b);
-
-    // invert again
-    b = !a;
-
-    // check calls
-    c = a;
-    CPPUNIT_ASSERT (c == call (a));
-
-    c = b;
-    CPPUNIT_ASSERT (c == call (b));
-
+  // make sure we have a default constructor
+  ClassUnderTest   a, b, c;
+  
+  // make sure we have an equality operator
+  CPPUNIT_ASSERT(a == b);
+  
+  // check the inverse
+  b.operator = (a.operator!());
+  CPPUNIT_ASSERT(a != b);
+  
+  // double inversion
+  b = !!a;
+  CPPUNIT_ASSERT(a == b);
+  
+  // invert again
+  b = !a;
+  
+  // check calls
+  c = a;
+  CPPUNIT_ASSERT(c == call(a));
+  
+  c = b;
+  CPPUNIT_ASSERT(c == call(b));
+  
 }
 
 
 // Exercise a call
-template <class ClassUnderTest> 
-ClassUnderTest Orthodox<ClassUnderTest>::call (ClassUnderTest object)
+template <class ClassUnderTest>
+ClassUnderTest Orthodox<ClassUnderTest>::call(ClassUnderTest object)
 {
-    return object;
+  return object;
 }
 
 

@@ -6,33 +6,33 @@
 CPPUNIT_NS_BEGIN
 
 
-bool 
-DefaultProtector::protect( const Functor &functor,
-                           const ProtectorContext &context )
+bool
+DefaultProtector::protect(const Functor &functor,
+                          const ProtectorContext &context)
 {
   try
   {
     return functor();
   }
-  catch ( Exception &failure )
+  catch(Exception &failure)
   {
-    reportFailure( context, failure );
+    reportFailure(context, failure);
   }
-  catch ( std::exception &e )
+  catch(std::exception &e)
   {
-    std::string shortDescription( "uncaught exception of type " );
+    std::string shortDescription("uncaught exception of type ");
 #if CPPUNIT_USE_TYPEINFO_NAME
-    shortDescription += TypeInfoHelper::getClassName( typeid(e) );
+    shortDescription += TypeInfoHelper::getClassName(typeid(e));
 #else
     shortDescription += "std::exception (or derived).";
 #endif
-    Message message( shortDescription, e.what() );
-    reportError( context, message );
+    Message message(shortDescription, e.what());
+    reportError(context, message);
   }
-  catch ( ... )
+  catch(...)
   {
-    reportError( context,
-                 Message( "uncaught exception of unknown type") );
+    reportError(context,
+                Message("uncaught exception of unknown type"));
   }
   
   return false;

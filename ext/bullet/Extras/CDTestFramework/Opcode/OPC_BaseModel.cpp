@@ -1,13 +1,13 @@
 /*
  *	OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -48,16 +48,16 @@ using namespace Opcode;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 OPCODECREATE::OPCODECREATE()
 {
-	mIMesh				= null;
-	mSettings.mRules	= SPLIT_SPLATTER_POINTS | SPLIT_GEOM_CENTER;
-	mSettings.mLimit	= 1;	// Mandatory for complete trees
-	mNoLeaf				= true;
-	mQuantized			= true;
+  mIMesh				= null;
+  mSettings.mRules	= SPLIT_SPLATTER_POINTS | SPLIT_GEOM_CENTER;
+  mSettings.mLimit	= 1;	// Mandatory for complete trees
+  mNoLeaf				= true;
+  mQuantized			= true;
 #ifdef __MESHMERIZER_H__
-	mCollisionHull		= false;
+  mCollisionHull		= false;
 #endif // __MESHMERIZER_H__
-	mKeepOriginal		= false;
-	mCanRemap			= false;
+  mKeepOriginal		= false;
+  mCanRemap			= false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ BaseModel::BaseModel() : mIMesh(null), mModelCode(0), mSource(null), mTree(null)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 BaseModel::~BaseModel()
 {
-	ReleaseBase();
+  ReleaseBase();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +86,8 @@ BaseModel::~BaseModel()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BaseModel::ReleaseBase()
 {
-	DELETESINGLE(mSource);
-	DELETESINGLE(mTree);
+  DELETESINGLE(mSource);
+  DELETESINGLE(mTree);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,29 +100,29 @@ void BaseModel::ReleaseBase()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool BaseModel::CreateTree(bool no_leaf, bool quantized)
 {
-	DELETESINGLE(mTree);
-
-	// Setup model code
-	if(no_leaf)		mModelCode |= OPC_NO_LEAF;
-	else			mModelCode &= ~OPC_NO_LEAF;
-
-	if(quantized)	mModelCode |= OPC_QUANTIZED;
-	else			mModelCode &= ~OPC_QUANTIZED;
-
-	// Create the correct class
-	if(mModelCode & OPC_NO_LEAF)
-	{
-		if(mModelCode & OPC_QUANTIZED)	mTree = new AABBQuantizedNoLeafTree;
-		else							mTree = new AABBNoLeafTree;
-	}
-	else
-	{
-		if(mModelCode & OPC_QUANTIZED)	mTree = new AABBQuantizedTree;
-		else							mTree = new AABBCollisionTree;
-	}
-	CHECKALLOC(mTree);
-
-	return true;
+  DELETESINGLE(mTree);
+  
+  // Setup model code
+  if(no_leaf)		mModelCode |= OPC_NO_LEAF;
+  else			mModelCode &= ~OPC_NO_LEAF;
+  
+  if(quantized)	mModelCode |= OPC_QUANTIZED;
+  else			mModelCode &= ~OPC_QUANTIZED;
+  
+  // Create the correct class
+  if(mModelCode & OPC_NO_LEAF)
+  {
+    if(mModelCode & OPC_QUANTIZED)	mTree = new AABBQuantizedNoLeafTree;
+    else							mTree = new AABBNoLeafTree;
+  }
+  else
+  {
+    if(mModelCode & OPC_QUANTIZED)	mTree = new AABBQuantizedTree;
+    else							mTree = new AABBCollisionTree;
+  }
+  CHECKALLOC(mTree);
+  
+  return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +135,9 @@ bool BaseModel::CreateTree(bool no_leaf, bool quantized)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool BaseModel::Refit()
 {
-	// Refit the optimized tree
-	return mTree->Refit(mIMesh);
-
+  // Refit the optimized tree
+  return mTree->Refit(mIMesh);
+  
 // Old code kept for reference : refit the source tree then rebuild !
 //	if(!mSource)	return false;
 //	// Ouch...

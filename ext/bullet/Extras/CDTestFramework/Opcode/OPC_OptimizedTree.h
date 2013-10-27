@@ -1,13 +1,13 @@
 /*
  *	OPCODE - Optimized Collision Detection
  * http://www.codercorner.com/Opcode.htm
- * 
+ *
  * Copyright (c) 2001-2008 Pierre Terdiman,  pierre@codercorner.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -29,8 +29,8 @@ subject to the following restrictions:
 #ifndef __OPC_OPTIMIZEDTREE_H__
 #define __OPC_OPTIMIZEDTREE_H__
 
-	//! Common interface for a node of an implicit tree
-	#define IMPLEMENT_IMPLICIT_NODE(base_class, volume)														\
+//! Common interface for a node of an implicit tree
+#define IMPLEMENT_IMPLICIT_NODE(base_class, volume)														\
 		public:																								\
 		/* Constructor / Destructor */																		\
 		inline_								base_class() : mData(0)	{}										\
@@ -47,8 +47,8 @@ subject to the following restrictions:
 						volume				mAABB;															\
 						udword				mData;
 
-	//! Common interface for a node of a no-leaf tree
-	#define IMPLEMENT_NOLEAF_NODE(base_class, volume)														\
+//! Common interface for a node of a no-leaf tree
+#define IMPLEMENT_NOLEAF_NODE(base_class, volume)														\
 		public:																								\
 		/* Constructor / Destructor */																		\
 		inline_								base_class() : mPosData(0), mNegData(0)	{}						\
@@ -68,58 +68,64 @@ subject to the following restrictions:
 						udword				mPosData;														\
 						udword				mNegData;
 
-	class OPCODE_API AABBCollisionNode
-	{
-		IMPLEMENT_IMPLICIT_NODE(AABBCollisionNode, CollisionAABB)
+class OPCODE_API AABBCollisionNode
+{
+  IMPLEMENT_IMPLICIT_NODE(AABBCollisionNode, CollisionAABB)
+  
+  inline_			float				GetVolume()		const
+  {
+    return mAABB.mExtents.x * mAABB.mExtents.y * mAABB.mExtents.z;
+  }
+  inline_			float				GetSize()		const
+  {
+    return mAABB.mExtents.SquareMagnitude();
+  }
+  inline_			udword				GetRadius()		const
+  {
+    udword* Bits = (udword*)&mAABB.mExtents.x;
+    udword Max = Bits[0];
+    if(Bits[1] > Max)	Max = Bits[1];
+    if(Bits[2] > Max)	Max = Bits[2];
+    return Max;
+  }
+  
+  // NB: using the square-magnitude or the true volume of the box, seems to yield better results
+  // (assuming UNC-like informed traversal methods). I borrowed this idea from PQP. The usual "size"
+  // otherwise, is the largest box extent. In SOLID that extent is computed on-the-fly each time it's
+  // needed (the best approach IMHO). In RAPID the rotation matrix is permuted so that Extent[0] is
+  // always the greatest, which saves looking for it at runtime. On the other hand, it yields matrices
+  // whose determinant is not 1, i.e. you can't encode them anymore as unit quaternions. Not a very
+  // good strategy.
+};
 
-		inline_			float				GetVolume()		const	{ return mAABB.mExtents.x * mAABB.mExtents.y * mAABB.mExtents.z;	}
-		inline_			float				GetSize()		const	{ return mAABB.mExtents.SquareMagnitude();	}
-		inline_			udword				GetRadius()		const
-											{
-												udword* Bits = (udword*)&mAABB.mExtents.x;
-												udword Max = Bits[0];
-												if(Bits[1]>Max)	Max = Bits[1];
-												if(Bits[2]>Max)	Max = Bits[2];
-												return Max;
-											}
+class OPCODE_API AABBQuantizedNode
+{
+  IMPLEMENT_IMPLICIT_NODE(AABBQuantizedNode, QuantizedAABB)
+  
+  inline_			uword				GetSize()		const
+  {
+    const uword* Bits = mAABB.mExtents;
+    uword Max = Bits[0];
+    if(Bits[1] > Max)	Max = Bits[1];
+    if(Bits[2] > Max)	Max = Bits[2];
+    return Max;
+  }
+  // NB: for quantized nodes I don't feel like computing a square-magnitude with integers all
+  // over the place.......!
+};
 
-		// NB: using the square-magnitude or the true volume of the box, seems to yield better results
-		// (assuming UNC-like informed traversal methods). I borrowed this idea from PQP. The usual "size"
-		// otherwise, is the largest box extent. In SOLID that extent is computed on-the-fly each time it's
-		// needed (the best approach IMHO). In RAPID the rotation matrix is permuted so that Extent[0] is
-		// always the greatest, which saves looking for it at runtime. On the other hand, it yields matrices
-		// whose determinant is not 1, i.e. you can't encode them anymore as unit quaternions. Not a very
-		// good strategy.
-	};
+class OPCODE_API AABBNoLeafNode
+{
+  IMPLEMENT_NOLEAF_NODE(AABBNoLeafNode, CollisionAABB)
+};
 
-	class OPCODE_API AABBQuantizedNode
-	{
-		IMPLEMENT_IMPLICIT_NODE(AABBQuantizedNode, QuantizedAABB)
+class OPCODE_API AABBQuantizedNoLeafNode
+{
+  IMPLEMENT_NOLEAF_NODE(AABBQuantizedNoLeafNode, QuantizedAABB)
+};
 
-		inline_			uword				GetSize()		const
-											{
-												const uword* Bits = mAABB.mExtents;
-												uword Max = Bits[0];
-												if(Bits[1]>Max)	Max = Bits[1];
-												if(Bits[2]>Max)	Max = Bits[2];
-												return Max;
-											}
-		// NB: for quantized nodes I don't feel like computing a square-magnitude with integers all
-		// over the place.......!
-	};
-
-	class OPCODE_API AABBNoLeafNode
-	{
-		IMPLEMENT_NOLEAF_NODE(AABBNoLeafNode, CollisionAABB)
-	};
-
-	class OPCODE_API AABBQuantizedNoLeafNode
-	{
-		IMPLEMENT_NOLEAF_NODE(AABBQuantizedNoLeafNode, QuantizedAABB)
-	};
-
-	//! Common interface for a collision tree
-	#define IMPLEMENT_COLLISION_TREE(base_class, node)																\
+//! Common interface for a collision tree
+#define IMPLEMENT_COLLISION_TREE(base_class, node)																\
 		public:																										\
 		/* Constructor / Destructor */																				\
 													base_class();													\
@@ -137,79 +143,82 @@ subject to the following restrictions:
 		private:																									\
 									node*			mNodes;
 
-	typedef		bool				(*GenericWalkingCallback)	(const void* current, void* user_data);
+typedef		bool	(*GenericWalkingCallback)(const void* current, void* user_data);
 
-	class OPCODE_API AABBOptimizedTree
-	{
-		public:
-		// Constructor / Destructor
-											AABBOptimizedTree() :
-												mNbNodes	(0)
-																							{}
-		virtual								~AABBOptimizedTree()							{}
+class OPCODE_API AABBOptimizedTree
+{
+public:
+  // Constructor / Destructor
+  AABBOptimizedTree() :
+    mNbNodes(0)
+  {}
+  virtual								~AABBOptimizedTree()							{}
+  
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /**
+   *	Builds the collision tree from a generic AABB tree.
+   *	\param		tree			[in] generic AABB tree
+   *	\return		true if success
+   */
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  virtual			bool				Build(AABBTree* tree)											= 0;
+  
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /**
+   *	Refits the collision tree after vertices have been modified.
+   *	\param		mesh_interface	[in] mesh interface for current model
+   *	\return		true if success
+   */
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  virtual			bool				Refit(const MeshInterface* mesh_interface)						= 0;
+  
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /**
+   *	Walks the tree and call the user back for each node.
+   *	\param		callback	[in] walking callback
+   *	\param		user_data	[in] callback's user data
+   *	\return		true if success
+   */
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  virtual			bool				Walk(GenericWalkingCallback callback, void* user_data) const	= 0;
+  
+  // Data access
+  virtual			udword				GetUsedBytes()		const										= 0;
+  inline_			udword				GetNbNodes()		const
+  {
+    return mNbNodes;
+  }
+  
+protected:
+  udword				mNbNodes;
+};
 
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/**
-		 *	Builds the collision tree from a generic AABB tree.
-		 *	\param		tree			[in] generic AABB tree
-		 *	\return		true if success
-		 */
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		virtual			bool				Build(AABBTree* tree)											= 0;
+class OPCODE_API AABBCollisionTree : public AABBOptimizedTree
+{
+  IMPLEMENT_COLLISION_TREE(AABBCollisionTree, AABBCollisionNode)
+};
 
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/**
-		 *	Refits the collision tree after vertices have been modified.
-		 *	\param		mesh_interface	[in] mesh interface for current model
-		 *	\return		true if success
-		 */
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		virtual			bool				Refit(const MeshInterface* mesh_interface)						= 0;
+class OPCODE_API AABBNoLeafTree : public AABBOptimizedTree
+{
+  IMPLEMENT_COLLISION_TREE(AABBNoLeafTree, AABBNoLeafNode)
+};
 
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/**
-		 *	Walks the tree and call the user back for each node.
-		 *	\param		callback	[in] walking callback
-		 *	\param		user_data	[in] callback's user data
-		 *	\return		true if success
-		 */
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		virtual			bool				Walk(GenericWalkingCallback callback, void* user_data) const	= 0;
+class OPCODE_API AABBQuantizedTree : public AABBOptimizedTree
+{
+  IMPLEMENT_COLLISION_TREE(AABBQuantizedTree, AABBQuantizedNode)
+  
+public:
+  Point				mCenterCoeff;
+  Point				mExtentsCoeff;
+};
 
-		// Data access
-		virtual			udword				GetUsedBytes()		const										= 0;
-		inline_			udword				GetNbNodes()		const						{ return mNbNodes;	}
-
-		protected:
-						udword				mNbNodes;
-	};
-
-	class OPCODE_API AABBCollisionTree : public AABBOptimizedTree
-	{
-		IMPLEMENT_COLLISION_TREE(AABBCollisionTree, AABBCollisionNode)
-	};
-
-	class OPCODE_API AABBNoLeafTree : public AABBOptimizedTree
-	{
-		IMPLEMENT_COLLISION_TREE(AABBNoLeafTree, AABBNoLeafNode)
-	};
-
-	class OPCODE_API AABBQuantizedTree : public AABBOptimizedTree
-	{
-		IMPLEMENT_COLLISION_TREE(AABBQuantizedTree, AABBQuantizedNode)
-
-		public:
-						Point				mCenterCoeff;
-						Point				mExtentsCoeff;
-	};
-
-	class OPCODE_API AABBQuantizedNoLeafTree : public AABBOptimizedTree
-	{
-		IMPLEMENT_COLLISION_TREE(AABBQuantizedNoLeafTree, AABBQuantizedNoLeafNode)
-
-		public:
-						Point				mCenterCoeff;
-						Point				mExtentsCoeff;
-	};
+class OPCODE_API AABBQuantizedNoLeafTree : public AABBOptimizedTree
+{
+  IMPLEMENT_COLLISION_TREE(AABBQuantizedNoLeafTree, AABBQuantizedNoLeafNode)
+  
+public:
+  Point				mCenterCoeff;
+  Point				mExtentsCoeff;
+};
 
 #endif // __OPC_OPTIMIZEDTREE_H__

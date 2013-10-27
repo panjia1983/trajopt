@@ -16,14 +16,14 @@
 //	if(condition)	ASSERT()
 
 #ifndef ASSERT
-	#if defined( _DEBUG )
-		FUNCTION ICECORE_API bool CustomAssertFunction(int, char*, int, char*, bool&);
+#if defined( _DEBUG )
+FUNCTION ICECORE_API bool CustomAssertFunction(int, char*, int, char*, bool&);
 
-		//! Custom ASSERT function. Various usages:
-		//! ASSERT(condition)
-		//! ASSERT(!"Not implemented")
-		//! ASSERT(condition && "error text")
-		#define ASSERT(exp)																		\
+//! Custom ASSERT function. Various usages:
+//! ASSERT(condition)
+//! ASSERT(!"Not implemented")
+//! ASSERT(condition && "error text")
+#define ASSERT(exp)																		\
 		{																						\
 			static bool IgnoreAlways = false;													\
 			if(!IgnoreAlways)																	\
@@ -34,15 +34,15 @@
 				}																				\
 			}																					\
 		}
-	#else
-		#define ASSERT(exp)	{}
-	#endif
+#else
+#define ASSERT(exp)	{}
+#endif
 #endif
 
 #ifndef assert
-	#define assert	ASSERT
+#define assert	ASSERT
 #endif
 
-	#define ICE_COMPILE_TIME_ASSERT(exp)	extern char ICE_Dummy[ (exp) ? 1 : -1 ]
+#define ICE_COMPILE_TIME_ASSERT(exp)	extern char ICE_Dummy[ (exp) ? 1 : -1 ]
 
 #endif // ICEASSERT_H

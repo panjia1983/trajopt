@@ -31,41 +31,41 @@
 
 
 #ifdef __cplusplus
-extern "C" { 
+extern "C" {
 #endif
-    
-    /*********************
-     *      Timing       *
-     *********************/
-    extern int gReportNanoseconds;
 
-    uint64_t ReadTicks( void );
-    double  TicksToCycles( uint64_t delta );        // Performance data should be reported in cycles most of the time.
-    double  TicksToSeconds( uint64_t delta );
-
-    
-    /*********************
-     *    Guard Heap     *
-     *********************/
-    // return buffer containing count objects of size size, with guard pages in betweeen.
-    // The stride between one object and the next is given by objectStride. 
-    // objectStride may be NULL. Objects so created are freed with GuardFree
-    void *GuardCalloc( size_t count, size_t size, size_t *objectStride );
-    void GuardFree( void * );
-    // mark the contents of a guard buffer read-only or write-only. Return 0 on success.
-    int GuardMarkReadOnly( void *);
-    int GuardMarkWriteOnly( void *);
-    int GuardMarkReadWrite( void *);
-    
-    /*********************
-     *    Printing       *
-     *********************/
-    #define vlog( ... )        printf( __VA_ARGS__  )
-    uint32_t random_number32(void);    
-    uint64_t random_number64(void);
-    
+  /*********************
+   *      Timing       *
+   *********************/
+  extern int gReportNanoseconds;
+  
+  uint64_t ReadTicks(void);
+  double  TicksToCycles(uint64_t delta);          // Performance data should be reported in cycles most of the time.
+  double  TicksToSeconds(uint64_t delta);
+  
+  
+  /*********************
+   *    Guard Heap     *
+   *********************/
+  // return buffer containing count objects of size size, with guard pages in betweeen.
+  // The stride between one object and the next is given by objectStride.
+  // objectStride may be NULL. Objects so created are freed with GuardFree
+  void *GuardCalloc(size_t count, size_t size, size_t *objectStride);
+  void GuardFree(void *);
+  // mark the contents of a guard buffer read-only or write-only. Return 0 on success.
+  int GuardMarkReadOnly(void *);
+  int GuardMarkWriteOnly(void *);
+  int GuardMarkReadWrite(void *);
+  
+  /*********************
+   *    Printing       *
+   *********************/
+#define vlog( ... )        printf( __VA_ARGS__  )
+  uint32_t random_number32(void);
+  uint64_t random_number64(void);
+  
 #ifdef __cplusplus
-    }
+}
 #endif
 
 

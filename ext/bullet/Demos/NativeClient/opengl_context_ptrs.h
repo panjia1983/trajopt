@@ -10,7 +10,8 @@
 
 #include <tr1/memory>
 
-namespace tumbler {
+namespace tumbler
+{
 
 class OpenGLContext;
 

@@ -9,7 +9,8 @@
 
 #include <GLES2/gl2.h>
 
-namespace shader_util {
+namespace shader_util
+{
 
 // Load and compile a shader.  |type| can be one of GL_VERTEX_SHADER or
 // GL_FRAGMENT_SHADER.  Returns a non-0 value representing the compiled
@@ -22,8 +23,8 @@ GLuint CreateShaderOfType(GLenum type, const char *shader_src);
 // success or 0 on failure.  The caller is responsible for deleting the
 // returned program using glDeleteProgram().
 GLuint CreateProgramFromVertexAndFragmentShaders(
-    const char *vertex_shader_src, const char *fragment_shader_src);
-
+  const char *vertex_shader_src, const char *fragment_shader_src);
+  
 }  // namespace shader_util
 
 #endif  // EXAMPLES_TUMBLER_SHADER_UTIL_H_

@@ -6,11 +6,11 @@
 CPPUNIT_NS_BEGIN
 
 
-DynamicLibraryManager::DynamicLibraryManager( const std::string &libraryFileName )
-    : m_libraryHandle( NULL )
-    , m_libraryName( libraryFileName )
+DynamicLibraryManager::DynamicLibraryManager(const std::string &libraryFileName)
+  : m_libraryHandle(NULL)
+  , m_libraryName(libraryFileName)
 {
-  loadLibrary( libraryFileName );
+  loadLibrary(libraryFileName);
 }
 
 
@@ -20,50 +20,50 @@ DynamicLibraryManager::~DynamicLibraryManager()
 }
 
 
-DynamicLibraryManager::Symbol 
-DynamicLibraryManager::findSymbol( const std::string &symbol )
+DynamicLibraryManager::Symbol
+DynamicLibraryManager::findSymbol(const std::string &symbol)
 {
   try
   {
-    Symbol symbolPointer = doFindSymbol( symbol );
-    if ( symbolPointer != NULL )
+    Symbol symbolPointer = doFindSymbol(symbol);
+    if(symbolPointer != NULL)
       return symbolPointer;
   }
-  catch ( ... )
+  catch(...)
   {
   }
-
-  throw DynamicLibraryManagerException( m_libraryName, 
-                                        symbol,
-                                        DynamicLibraryManagerException::symbolNotFound );
+  
+  throw DynamicLibraryManagerException(m_libraryName,
+                                       symbol,
+                                       DynamicLibraryManagerException::symbolNotFound);
   return NULL;    // keep compiler happy
 }
 
 
 void
-DynamicLibraryManager::loadLibrary( const std::string &libraryName )
+DynamicLibraryManager::loadLibrary(const std::string &libraryName)
 {
   try
   {
     releaseLibrary();
-    m_libraryHandle = doLoadLibrary( libraryName );
-    if ( m_libraryHandle != NULL )
+    m_libraryHandle = doLoadLibrary(libraryName);
+    if(m_libraryHandle != NULL)
       return;
   }
-  catch (...)
+  catch(...)
   {
   }
-
-  throw DynamicLibraryManagerException( m_libraryName,
-                                        getLastErrorDetail(),
-                                        DynamicLibraryManagerException::loadingFailed );
+  
+  throw DynamicLibraryManagerException(m_libraryName,
+                                       getLastErrorDetail(),
+                                       DynamicLibraryManagerException::loadingFailed);
 }
 
 
-void 
+void
 DynamicLibraryManager::releaseLibrary()
 {
-  if ( m_libraryHandle != NULL )
+  if(m_libraryHandle != NULL)
   {
     doReleaseLibrary();
     m_libraryHandle = NULL;

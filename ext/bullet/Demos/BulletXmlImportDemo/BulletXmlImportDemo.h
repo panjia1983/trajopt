@@ -5,8 +5,8 @@ Copyright (c) 2003-2010 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -38,49 +38,49 @@ class btDefaultCollisionConfiguration;
 class BulletXmlImportDemo : public PlatformDemoApplication
 {
 
-	//keep the collision shapes, for deletion/cleanup
-	btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
+  //keep the collision shapes, for deletion/cleanup
+  btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
+  
+  btBroadphaseInterface*	m_broadphase;
+  
+  btCollisionDispatcher*	m_dispatcher;
+  
+  btConstraintSolver*	m_solver;
+  
+  btDefaultCollisionConfiguration* m_collisionConfiguration;
+  
+  class btBulletWorldImporter*		m_fileLoader;
+  
+public:
 
-	btBroadphaseInterface*	m_broadphase;
-
-	btCollisionDispatcher*	m_dispatcher;
-
-	btConstraintSolver*	m_solver;
-
-	btDefaultCollisionConfiguration* m_collisionConfiguration;
-
-	class btBulletWorldImporter*		m_fileLoader;
-
-	public:
-
-	BulletXmlImportDemo()
-	{
-		//m_idle=true;
-		setCameraDistance(btScalar(30.));
-	}
-	virtual ~BulletXmlImportDemo();
-
-	virtual void clientResetScene();
-
-	void	initPhysics();
-
-	void	setupEmptyDynamicsWorld();
-
-	void	exitPhysics();
-
-	virtual void clientMoveAndDisplay();
-
-	virtual void displayCallback();
-	
-	static DemoApplication* Create()
-	{
-		BulletXmlImportDemo* demo = new BulletXmlImportDemo;
-		demo->myinit();
-		demo->initPhysics();
-		return demo;
-	}
-
-	
+  BulletXmlImportDemo()
+  {
+    //m_idle=true;
+    setCameraDistance(btScalar(30.));
+  }
+  virtual ~BulletXmlImportDemo();
+  
+  virtual void clientResetScene();
+  
+  void	initPhysics();
+  
+  void	setupEmptyDynamicsWorld();
+  
+  void	exitPhysics();
+  
+  virtual void clientMoveAndDisplay();
+  
+  virtual void displayCallback();
+  
+  static DemoApplication* Create()
+  {
+    BulletXmlImportDemo* demo = new BulletXmlImportDemo;
+    demo->myinit();
+    demo->initPhysics();
+    return demo;
+  }
+  
+  
 };
 
 #endif //SERIALIZE_DEMO_H

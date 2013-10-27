@@ -1,5 +1,5 @@
 /****************************************************************************
-  
+
   GLUI User Interface Toolkit
   ---------------------------
 
@@ -44,19 +44,21 @@ GLUI_String& glui_format_str(GLUI_String& str, const char* fmt, ...)
   char *buf = stackbuf;
   str = "";
   va_list arg;
-  while (1) {
+  while(1)
+  {
     va_start(arg, fmt);
-    int ret = vsnprintf(buf,299,fmt,arg);
+    int ret = vsnprintf(buf, 299, fmt, arg);
     va_end(arg);
-    if (ret>=0) {
+    if(ret >= 0)
+    {
       break;
     }
     // else make a bigger buf, try again
     bufsz <<= 1;
-    if (buf==stackbuf) buf = (char*)malloc(sizeof(char)*bufsz);
-    else buf = (char*)realloc(buf, sizeof(char)*bufsz);
+    if(buf == stackbuf) buf = (char*)malloc(sizeof(char) * bufsz);
+    else buf = (char*)realloc(buf, sizeof(char) * bufsz);
   }
-  if (buf!=stackbuf) free(buf);
-  str=buf;
+  if(buf != stackbuf) free(buf);
+  str = buf;
   return str;
 }

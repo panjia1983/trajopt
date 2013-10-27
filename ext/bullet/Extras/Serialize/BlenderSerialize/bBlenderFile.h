@@ -19,45 +19,46 @@ subject to the following restrictions:
 
 #include "bFile.h"
 
-namespace bParse {
+namespace bParse
+{
 
-	// ----------------------------------------------------- //
-	class bBlenderFile : public bFile
-	{
+// ----------------------------------------------------- //
+class bBlenderFile : public bFile
+{
 
-	protected:
-		bMain*				mMain;
+protected:
+  bMain*				mMain;
+  
+  bStructHandle*		m_glob;
+  
+  
+public:
 
-		bStructHandle*		m_glob;
-
-		
-	public:
-
-		bBlenderFile(const char* fileName);
-
-		bBlenderFile(char *memoryBuffer, int len);
-
-		virtual ~bBlenderFile();
-
-		bMain* getMain();
-
-		virtual	void	addDataBlock(char* dataBlock);
-
-		bStructHandle*		getFileGlobal()
-		{
-			return m_glob;
-		}
-
-		// experimental
-		virtual int		write(const char* fileName, bool fixupPointers = false);
-
-		virtual	void	parse(int verboseMode);
-
-		virtual	void parseData();
-
-		virtual	void	writeDNA(FILE* fp);
-
-	};
+  bBlenderFile(const char* fileName);
+  
+  bBlenderFile(char *memoryBuffer, int len);
+  
+  virtual ~bBlenderFile();
+  
+  bMain* getMain();
+  
+  virtual	void	addDataBlock(char* dataBlock);
+  
+  bStructHandle*		getFileGlobal()
+  {
+    return m_glob;
+  }
+  
+  // experimental
+  virtual int		write(const char* fileName, bool fixupPointers = false);
+  
+  virtual	void	parse(int verboseMode);
+  
+  virtual	void parseData();
+  
+  virtual	void	writeDNA(FILE* fp);
+  
+};
 };
 
 #endif //B_BLENDER_FILE_H

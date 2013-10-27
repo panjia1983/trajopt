@@ -7,15 +7,15 @@ CPPUNIT_NS_BEGIN
 
 
 #if CPPUNIT_HAVE_RTTI
-TestNamer::TestNamer( const std::type_info &typeInfo )
+TestNamer::TestNamer(const std::type_info &typeInfo)
 {
-  m_fixtureName = TypeInfoHelper::getClassName( typeInfo );
+  m_fixtureName = TypeInfoHelper::getClassName(typeInfo);
 }
 #endif
 
 
-TestNamer::TestNamer( const std::string &fixtureName )
-  : m_fixtureName( fixtureName )
+TestNamer::TestNamer(const std::string &fixtureName)
+  : m_fixtureName(fixtureName)
 {
 }
 
@@ -25,15 +25,15 @@ TestNamer::~TestNamer()
 }
 
 
-std::string 
+std::string
 TestNamer::getFixtureName() const
 {
   return m_fixtureName;
 }
 
 
-std::string 
-TestNamer::getTestNameFor( const std::string &testMethodName ) const
+std::string
+TestNamer::getTestNameFor(const std::string &testMethodName) const
 {
   return getFixtureName() + "::" + testMethodName;
 }

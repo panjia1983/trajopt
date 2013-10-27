@@ -28,24 +28,24 @@ class CPPUNIT_API XmlDocument
 {
 public:
   /*! \brief Constructs a XmlDocument object.
-   * \param encoding Encoding used in the XML file (default is Latin-1, ISO-8859-1 ). 
+   * \param encoding Encoding used in the XML file (default is Latin-1, ISO-8859-1 ).
    * \param styleSheet Name of the XSL style sheet file used. If empty then no
    *                   style sheet will be specified in the output.
    */
-  XmlDocument( const std::string &encoding = "",
-               const std::string &styleSheet = "" );
-
+  XmlDocument(const std::string &encoding = "",
+              const std::string &styleSheet = "");
+              
   /// Destructor.
   virtual ~XmlDocument();
-
+  
   std::string encoding() const;
-  void setEncoding( const std::string &encoding = "" );
+  void setEncoding(const std::string &encoding = "");
   
   std::string styleSheet() const;
-  void setStyleSheet( const std::string &styleSheet = "" );
-
+  void setStyleSheet(const std::string &styleSheet = "");
+  
   bool standalone() const;
-
+  
   /*! \brief set the output document as standalone or not.
    *
    *  For the output document, specify wether it's a standalone XML
@@ -54,20 +54,20 @@ public:
    *  \param standalone if true, the output will be specified as standalone.
    *         if false, it will be not.
    */
-  void setStandalone( bool standalone );
- 
-  void setRootElement( XmlElement *rootElement );
+  void setStandalone(bool standalone);
+  
+  void setRootElement(XmlElement *rootElement);
   XmlElement &rootElement() const;
-
+  
   std::string toString() const;
-
+  
 private:
   /// Prevents the use of the copy constructor.
-  XmlDocument( const XmlDocument &copy );
-
+  XmlDocument(const XmlDocument &copy);
+  
   /// Prevents the use of the copy operator.
-  void operator =( const XmlDocument &copy );
-
+  void operator =(const XmlDocument &copy);
+  
 protected:
   std::string m_encoding;
   std::string m_styleSheet;

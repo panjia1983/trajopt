@@ -22,12 +22,17 @@ using namespace trajopt;
   }
 #endif
 
-class CostInfoA : public CostInfo {
+class CostInfoA : public CostInfo
+{
   int a;
   double b;
   string c;
-  CostPtr hatch() {return CostPtr();}
-  virtual bool fromJson(const Value& v) {
+  CostPtr hatch()
+  {
+    return CostPtr();
+  }
+  virtual bool fromJson(const Value& v)
+  {
     bool ok = true;
     ok &= CostInfo::fromJson(v);
     FAIL_IF_FALSE(v.isMember("params"));
@@ -38,37 +43,39 @@ class CostInfoA : public CostInfo {
     return ok;
   }
 };
-CostInfoPtr createCostInfoA() {
+CostInfoPtr createCostInfoA()
+{
   return CostInfoPtr(new CostInfoA());
 }
 
-TEST(json,  prob) {
+TEST(json,  prob)
+{
   ProblemConstructionInfo pci;
-
+  
   {
     cout << "test1" << endl;
     Json::Value v;
     EXPECT_FALSE(pci.fromJson(v));
   }
-
+  
   {
     cout << "test2" << endl;
     Json::Value v;
     v["basic_info"]["n_steps"] = 2;
     v["basic_info"]["manip"] = "leftarm";
     EXPECT_TRUE(pci.fromJson(v));
-
+    
     cout << "test3" << endl;
     Json::Value vcost;
     vcost["type"] = "cost_a";
     v["costs"].append(vcost);
     CostInfo::RegisterMaker("cost_a", &createCostInfoA);
     EXPECT_FALSE(pci.fromJson(v));
-
+    
     cout << "test4" << endl;
     v["costs"][0]["params"];
     EXPECT_FALSE(pci.fromJson(v));
-
+    
     cout << "test5" << endl;
     v["costs"][0]["params"]["a"] = 10;
     v["costs"][0]["params"]["b"] = 10;

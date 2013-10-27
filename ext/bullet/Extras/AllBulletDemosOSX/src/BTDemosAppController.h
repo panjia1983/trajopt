@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -18,37 +18,48 @@ subject to the following restrictions:
 #import "BTSimulationParameters.h"
 #import "BTDemo.h"
 
-@interface BTDemosAppController : NSObject {
+@interface BTDemosAppController :
+NSObject
+{
 
-	IBOutlet BTOpenGLView* _glView;
-	IBOutlet BTSimulationParameters *_parameters;
-
-	BTDemo *_currentDemo;
-	BOOL _showParameters;
+  IBOutlet BTOpenGLView* _glView;
+  IBOutlet BTSimulationParameters *_parameters;
+  
+  BTDemo *_currentDemo;
+  BOOL _showParameters;
 }
 
 ///////////////////////////////////////////////////////////////////////
 // Public API
 
-- (void) setFullscreen: (BOOL) fullscreen;
+- (void) setFullscreen:
+(BOOL) fullscreen;
 - (BOOL) fullscreen;
 
-- (void) setShowParameters: (BOOL) showParameters;
+- (void) setShowParameters:
+(BOOL) showParameters;
 - (BOOL) showParameters;
 
 - (NSArray*) demos;
 
-- (void) setDemo: (NSString*) demoName;
+- (void) setDemo:
+(NSString*) demoName;
 - (NSString*) demo;
 
 ///////////////////////////////////////////////////////////////////////
 // IBActions
 
-- (IBAction) nextDemo: (id) sender;
-- (IBAction) previousDemo: (id) sender;
-- (IBAction) toggleFullscreen: (id) sender;
-- (IBAction) toggleParameters: (id) sender;
-- (IBAction) resetDemo: (id) sender;
-- (IBAction) nullMenuTarget: (id) sender;
+- (IBAction) nextDemo:
+(id) sender;
+- (IBAction) previousDemo:
+(id) sender;
+- (IBAction) toggleFullscreen:
+(id) sender;
+- (IBAction) toggleParameters:
+(id) sender;
+- (IBAction) resetDemo:
+(id) sender;
+- (IBAction) nullMenuTarget:
+(id) sender;
 
 @end

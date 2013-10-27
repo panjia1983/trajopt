@@ -22,24 +22,24 @@ public:
   enum Cause
   {
     /// Failed to load the dynamic library
-    loadingFailed =0,
+    loadingFailed = 0,
     /// Symbol not found in the dynamic library
     symbolNotFound
   };
-
+  
   /// Failed to load the dynamic library or Symbol not found in the dynamic library.
-  DynamicLibraryManagerException( const std::string &libraryName,
-                                  const std::string &errorDetail,
-                                  Cause cause );
-
+  DynamicLibraryManagerException(const std::string &libraryName,
+                                 const std::string &errorDetail,
+                                 Cause cause);
+                                 
   ~DynamicLibraryManagerException() throw()
   {
   }
-
+  
   Cause getCause() const;
-
+  
   const char *what() const throw();
-
+  
 private:
   std::string m_message;
   Cause m_cause;

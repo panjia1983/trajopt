@@ -8,7 +8,7 @@ CPPUNIT_NS_BEGIN
 
 
 BriefTestProgressListener::BriefTestProgressListener()
-    : m_lastTestFailed( false )
+  : m_lastTestFailed(false)
 {
 }
 
@@ -18,28 +18,28 @@ BriefTestProgressListener::~BriefTestProgressListener()
 }
 
 
-void 
-BriefTestProgressListener::startTest( Test *test )
+void
+BriefTestProgressListener::startTest(Test *test)
 {
   stdCOut() << test->getName();
   stdCOut().flush();
-
+  
   m_lastTestFailed = false;
 }
 
 
-void 
-BriefTestProgressListener::addFailure( const TestFailure &failure )
+void
+BriefTestProgressListener::addFailure(const TestFailure &failure)
 {
   stdCOut() << " : " << (failure.isError() ? "error" : "assertion");
   m_lastTestFailed  = true;
 }
 
 
-void 
-BriefTestProgressListener::endTest( Test * )
+void
+BriefTestProgressListener::endTest(Test *)
 {
-  if ( !m_lastTestFailed )
+  if(!m_lastTestFailed)
     stdCOut()  <<  " : OK";
   stdCOut() << "\n";
 }

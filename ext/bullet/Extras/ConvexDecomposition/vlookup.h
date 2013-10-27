@@ -111,7 +111,7 @@ typedef void * VertexLookup;
 VertexLookup  Vl_createVertexLookup(void);
 void          Vl_releaseVertexLookup(VertexLookup vlook);
 
-unsigned int  Vl_getIndex(VertexLookup vlook,const float *pos);  // get index.
+unsigned int  Vl_getIndex(VertexLookup vlook, const float *pos); // get index.
 const float * Vl_getVertices(VertexLookup vlook);
 unsigned int  Vl_getVcount(VertexLookup vlook);
 

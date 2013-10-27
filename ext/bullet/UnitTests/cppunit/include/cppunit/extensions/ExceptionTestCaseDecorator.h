@@ -21,7 +21,7 @@ CPPUNIT_NS_BEGIN
  *
  * \code
  *
- * class NetworkErrorTestCaseDecorator : 
+ * class NetworkErrorTestCaseDecorator :
  *           public ExceptionTestCaseDecorator<NetworkError>
  * {
  * public:
@@ -39,21 +39,21 @@ CPPUNIT_NS_BEGIN
  * };
  * \endcode
  *
- */ 
+ */
 template<class ExpectedException>
 class ExceptionTestCaseDecorator : public TestCaseDecorator
 {
 public:
   typedef ExpectedException ExpectedExceptionType;
-
+  
   /*! \brief Decorates the specified test.
    * \param test TestCase to decorate. Assumes ownership of the test.
    */
-  ExceptionTestCaseDecorator( TestCase *test )
-      : TestCaseDecorator( test )
+  ExceptionTestCaseDecorator(TestCase *test)
+    : TestCaseDecorator(test)
   {
   }
-
+  
   /*! \brief Checks that the expected exception is thrown by the decorated test.
    * is thrown.
    *
@@ -68,31 +68,31 @@ public:
     {
       TestCaseDecorator::runTest();
     }
-    catch ( ExpectedExceptionType &e )
+    catch(ExpectedExceptionType &e)
     {
-      checkException( e );
+      checkException(e);
       return;
     }
-
+    
     // Moved outside the try{} statement to handle the case where the
     // expected exception type is Exception (expecting assertion failure).
 #if CPPUNIT_USE_TYPEINFO_NAME
-      throw Exception( Message(
-                         "expected exception not thrown",
-                         "Expected exception type: " + 
-                           TypeInfoHelper::getClassName( 
-                               typeid( ExpectedExceptionType ) ) ) );
+    throw Exception(Message(
+                      "expected exception not thrown",
+                      "Expected exception type: " +
+                      TypeInfoHelper::getClassName(
+                        typeid(ExpectedExceptionType))));
 #else
-      throw Exception( Message("expected exception not thrown") );
+    throw Exception(Message("expected exception not thrown"));
 #endif
   }
-
+  
 private:
   /*! \brief Called when the exception is caught.
    *
    * Should be overriden to check the exception.
    */
-  virtual void checkException( ExpectedExceptionType & )
+  virtual void checkException(ExpectedExceptionType &)
   {
   }
 };

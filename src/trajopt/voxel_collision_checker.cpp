@@ -7,19 +7,20 @@
 typedef boost::multi_array<float, 3> array_type;
 typedef array_type::index index;
 
-class  VoxelCollisionChecker : public CollisionChecker {
+class  VoxelCollisionChecker : public CollisionChecker
+{
 public:
 
   /** check everything vs everything else */
-  virtual void AllVsAll(vector<Collision>& collisions)=0;
+  virtual void AllVsAll(vector<Collision>& collisions) = 0;
   /** check link vs everything else */
-  virtual void LinkVsAll(const KinBody::Link& link, vector<Collision>& collisions)=0;
-  virtual void LinksVsAll(const vector<KinBody::LinkPtr>& links, vector<Collision>& collisions)=0;
-
+  virtual void LinkVsAll(const KinBody::Link& link, vector<Collision>& collisions) = 0;
+  virtual void LinksVsAll(const vector<KinBody::LinkPtr>& links, vector<Collision>& collisions) = 0;
+  
   /** contacts of distance < (arg) will be returned */
   virtual void SetContactDistance(float distance)  = 0;
-  virtual double GetContactDistance() = 0;  
-
+  virtual double GetContactDistance() = 0;
+  
   ~VoxelCollisionChecker() {}
   static boost::shared_ptr<CollisionChecker> GetOrCreate(OR::EnvironmentBase& env);
 };

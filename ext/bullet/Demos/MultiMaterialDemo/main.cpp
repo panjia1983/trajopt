@@ -8,15 +8,15 @@
 
 GLDebugDrawer	gDebugDrawer;
 
-int main(int argc,char** argv)
+int main(int argc, char** argv)
 {
 
-        MultiMaterialDemo* multiMaterialDemo = new MultiMaterialDemo();
-        multiMaterialDemo->initPhysics();
-        multiMaterialDemo->setCameraDistance(30.f);
-        
-        multiMaterialDemo->getDynamicsWorld()->setDebugDrawer(&gDebugDrawer);
-
-        return glutmain(argc, argv,640,480,"Multimaterial Mesh Demo",multiMaterialDemo);
+  MultiMaterialDemo* multiMaterialDemo = new MultiMaterialDemo();
+  multiMaterialDemo->initPhysics();
+  multiMaterialDemo->setCameraDistance(30.f);
+  
+  multiMaterialDemo->getDynamicsWorld()->setDebugDrawer(&gDebugDrawer);
+  
+  return glutmain(argc, argv, 640, 480, "Multimaterial Mesh Demo", multiMaterialDemo);
 }
 

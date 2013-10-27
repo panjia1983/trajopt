@@ -25,8 +25,10 @@ add_library(trajopt
 	collision_checker.cpp
 	plot_callback.cpp
 	bullet_unity.cpp
+    traj_feature.cpp
+    traj_feature_utils.cpp
 )
-target_link_libraries(trajopt ${OpenRAVE_BOTH_LIBRARIES} ${Boost_SYSTEM_LIBRARY} sco utils json osgviewer)
+target_link_libraries(trajopt ${OpenRAVE_BOTH_LIBRARIES} ${Boost_SYSTEM_LIBRARY} sco utils json osgviewer sht)
 
 add_subdirectory(test)
 

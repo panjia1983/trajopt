@@ -63,14 +63,14 @@ email: projectileman@yahoo.com
 
 enum GIM_SCALAR_TYPES
 {
-	G_STYPE_REAL =0,
-	G_STYPE_REAL2,
-	G_STYPE_SHORT,
-	G_STYPE_USHORT,
-	G_STYPE_INT,
-	G_STYPE_UINT,
-	G_STYPE_INT64,
-	G_STYPE_UINT64
+  G_STYPE_REAL = 0,
+  G_STYPE_REAL2,
+  G_STYPE_SHORT,
+  G_STYPE_USHORT,
+  G_STYPE_INT,
+  G_STYPE_UINT,
+  G_STYPE_INT64,
+  G_STYPE_UINT64
 };
 
 
@@ -115,7 +115,7 @@ enum GIM_SCALAR_TYPES
     b = a-b; \
     a = a-b; \
 }\
-
+ 
 #define GIM_INV_SQRT(va,isva)\
 {\
     if(va<=0.0000001f)\
@@ -130,26 +130,26 @@ enum GIM_SCALAR_TYPES
         isva  = isva * ( 1.5f - ( _x * isva * isva ) );\
     }\
 }\
-
+ 
 #define GIM_SQRT(va,sva)\
 {\
     GIM_INV_SQRT(va,sva);\
     sva = 1.0f/sva;\
 }\
-
+ 
 //! Computes 1.0f / sqrtf(x). Comes from Quake3. See http://www.magic-software.com/3DGEDInvSqrt.html
 inline GREAL gim_inv_sqrt(GREAL f)
 {
-    GREAL r;
-    GIM_INV_SQRT(f,r);
-    return r;
+  GREAL r;
+  GIM_INV_SQRT(f, r);
+  return r;
 }
 
 inline GREAL gim_sqrt(GREAL f)
 {
-    GREAL r;
-    GIM_SQRT(f,r);
-    return r;
+  GREAL r;
+  GIM_SQRT(f, r);
+  return r;
 }
 
 

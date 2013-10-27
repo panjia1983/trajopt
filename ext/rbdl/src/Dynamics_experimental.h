@@ -15,11 +15,13 @@
 
 #include "Model.h"
 
-namespace RigidBodyDynamics {
+namespace RigidBodyDynamics
+{
 
 /** \brief Namespace for experimental code that is not thoroughly tested
  */
-namespace Experimental {
+namespace Experimental
+{
 
 }
 

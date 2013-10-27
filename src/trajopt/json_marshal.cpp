@@ -4,7 +4,8 @@
 using namespace Json;
 using namespace std;
 
-namespace json_marshal {
+namespace json_marshal
+{
 
 #define IMPLEMENT_READ_PRIMITIVE(T, jsonT, cvtFunc)\
     void fromJson(const Json::Value& v, T& ref) {\

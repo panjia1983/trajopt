@@ -18,12 +18,12 @@ CPPUNIT_NS_BEGIN
  *
  * Here is an example of usage:
  * \code
- * 
+ *
  *   void checkStringEquals( const std::string &expected,
  *                          const std::string &actual,
  *                           const CppUnit::SourceLine &sourceLine,
  *                           const CppUnit::AdditionalMessage &message );
- *  
+ *
  *   #define XTLUT_ASSERT_STRING_EQUAL_MESSAGE( expected, actual, message )  \
  *     ::XtlUt::Impl::checkStringEquals( ::Xtl::toString(expected),        \
  *                                       ::Xtl::toString(actual),          \
@@ -40,31 +40,31 @@ class CPPUNIT_API AdditionalMessage : public Message
 {
 public:
   typedef Message SuperClass;
-
+  
   /// Constructs an empty Message.
   AdditionalMessage();
-
+  
   /*! \brief Constructs a Message with the specified detail string.
    * \param detail1 Detail string of the message. If empty, then it is not added.
    */
-  AdditionalMessage( const std::string &detail1 );
-
+  AdditionalMessage(const std::string &detail1);
+  
   /*! \brief Constructs a Message with the specified detail string.
    * \param detail1 Detail string of the message. If empty, then it is not added.
    */
-  AdditionalMessage( const char *detail1 );
-
+  AdditionalMessage(const char *detail1);
+  
   /*! \brief Constructs a copy of the specified message.
    * \param other Message to copy.
    */
-  AdditionalMessage( const Message &other );
-
+  AdditionalMessage(const Message &other);
+  
   /*! \brief Assignment operator.
    * \param other Message to copy.
    * \return Reference on this object.
    */
-  AdditionalMessage &operator =( const Message &other );
-
+  AdditionalMessage &operator =(const Message &other);
+  
 private:
 };
 

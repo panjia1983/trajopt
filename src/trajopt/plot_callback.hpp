@@ -1,7 +1,8 @@
 #pragma once
 #include "sco/optimizers.hpp"
 #include "trajopt/common.hpp"
-namespace trajopt {
+namespace trajopt
+{
 class TrajOptProb;
 
 /**

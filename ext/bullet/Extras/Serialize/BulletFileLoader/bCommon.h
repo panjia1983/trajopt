@@ -22,17 +22,21 @@ subject to the following restrictions:
 #include "LinearMath/btAlignedObjectArray.h"
 #include "LinearMath/btHashMap.h"
 
-namespace bParse {
+namespace bParse
+{
 
-	class bMain;
-	class bFileData;
-	class bFile;
-	class bDNA;
+class bMain;
+class bFileData;
+class bFile;
+class bDNA;
 
-	// delete void* undefined
-	typedef struct bStructHandle {int unused;}bStructHandle;
-	typedef btAlignedObjectArray<bStructHandle*>	bListBasePtr;
-	typedef btHashMap<btHashPtr, bStructHandle*> bPtrMap;
+// delete void* undefined
+typedef struct bStructHandle
+{
+  int unused;
+} bStructHandle;
+typedef btAlignedObjectArray<bStructHandle*>	bListBasePtr;
+typedef btHashMap<btHashPtr, bStructHandle*> bPtrMap;
 }
 
 

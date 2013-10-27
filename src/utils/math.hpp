@@ -1,10 +1,12 @@
 #pragma once
 #include <cmath>
 
-namespace util {
+namespace util
+{
 
-float randf() {
-  return (float)rand()/(float)RAND_MAX;
+float randf()
+{
+  return (float)rand() / (float)RAND_MAX;
 }
 
 
