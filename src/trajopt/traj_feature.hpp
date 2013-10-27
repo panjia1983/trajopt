@@ -163,12 +163,22 @@ RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, DblVec& 
 // [features for link 1][features for link 2] ...
 std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
 
+// 
+std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+
+//
+std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, DblVec& x, DblVec& y, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg, double perturb_rotation_angle);
+std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg);
 
 
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg, double perturb_rotation_angle);
+std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg);
+
+
+
+
 
 
 

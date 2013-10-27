@@ -125,7 +125,87 @@ std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, D
   return features;
 }
 
-std::vector<double> computeRobotSphericalHarmonicShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg, double perturb_rotation_angle)
+
+std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+{
+  std::vector<double> signedDistanceFeature = computeRobotSignedDistanceFeature(config, x, quantizer, perturb_rotation_angle);
+
+ 
+  std::vector<OR::KinBody::LinkPtr> links;
+  std::vector<int> inds;
+  config->GetAffectedLinks(links, true, inds);
+  
+  // reconstruct link to id map
+  std::map<const KinBody::Link*, int> link_to_id_map = mapLinkToId(links);
+
+  int n_quantize_step = quantizer.Dim();
+
+  std::vector<double> features;
+  
+  for(std::map<const KinBody::Link*, int>::const_iterator it = link_to_id_map.begin();
+      it != link_to_id_map.end();
+      ++it)
+  {
+    const KinBody::Link* link = it->first;
+    int id = it->second;
+
+    std::vector<KinBody::LinkPtr> parent_links;
+    link->GetParentLinks(parent_links);
+
+    for(std::size_t i = 0; i < parent_links.size(); ++i)
+    {
+      const KinBody::Link* p_link = parent_links[i].get();
+      if(!p_link) continue;
+
+      std::map<const KinBody::Link*, int>::const_iterator search_it = link_to_id_map.find(p_link);
+      if(search_it != link_to_id_map.end())
+      {
+        int p_id = search_it->second;
+
+        double f = 0;
+        int id_begin = id * n_quantize_step;
+        int p_id_begin = p_id * n_quantize_step;
+        for(std::size_t j = 0; j < n_quantize_step; ++j)
+        {
+          // well, currently only count inconsistent dot-products (< 0).. 
+          if(signedDistanceFeature[id_begin + j] * signedDistanceFeature[p_id_begin + j] < 0)
+            f += signedDistanceFeature[id_begin + j] * signedDistanceFeature[p_id_begin + j];
+        }
+
+        features.push_back(f);
+      }
+    }
+  }
+
+  return features;
+}
+
+std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, DblVec& x, DblVec& y, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+{
+  std::vector<double> features_waypoint1 = computeRobotSignedDistanceFeature(config, x, quantizer, perturb_rotation_angle);
+  std::vector<double> features_waypoint2 = computeRobotSignedDistanceFeature(config, y, quantizer, perturb_rotation_angle);
+
+  std::vector<double> features;
+  int n_quantize_step = quantizer.Dim();
+
+  for(std::size_t i = 0; i < features_waypoint1.size(); i += n_quantize_step)
+  {
+    double f = 0;
+    for(std::size_t j = i; j < i + n_quantize_step; ++j)
+    {
+      // well, currently only count inconsistent dot-products (< 0)..
+      if(features_waypoint1[j] * features_waypoint2[j] < 0)
+        f += features_waypoint1[j] * features_waypoint2[j];
+    }
+
+    features.push_back(f);
+  }
+
+  return features;
+}
+
+
+std::vector<double> computeRobotSphericalHarmonicShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg)
 {
   RobotSignedDistance rsd = computeRobotSignedDistance(config, x);
   int n_links = rsd.size();
@@ -174,7 +254,7 @@ std::vector<double> computeRobotSphericalHarmonicShortFeature(ConfigurationPtr c
   return features;
 }
 
-std::vector<double> computeRobotSphericalHarmonicLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg, double perturb_rotation_angle)
+std::vector<double> computeRobotSphericalHarmonicLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg)
 {
   RobotSignedDistance rsd = computeRobotSignedDistance(config, x);
   int n_links = rsd.size();
