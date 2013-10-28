@@ -1,5 +1,6 @@
-#include "traj_plotter.hpp"
-#include "traj_feature.h"
+#include "traj_collecter.hpp"
+#include "traj_feature.hpp"
+#include <boost/foreach.hpp>
 
 using namespace OpenRAVE;
 
@@ -48,6 +49,7 @@ void TrajCollecter::OptimizerCallback(OptProb* prob, DblVec& x, OptStepResults& 
   rtraj.traj = traj;
 
   // get optimization internal conditions
+  std::vector<GraphHandlePtr> handles; // empty, not plotting anything
   BOOST_FOREACH(PlotterPtr& plotter, m_plotters)
   {
     plotter->Plot(x, *m_env, handles);
@@ -74,7 +76,7 @@ void TrajCollecter::OptimizerCallback(OptProb* prob, DblVec& x, OptStepResults& 
 
   rtraj.costs = costs;
   rtraj.constraints = constraints;
-  rtraj.time_to_convergence = stepres.time_since_start; // need post-processing
+  rtraj.time_to_converge = stepres.time_since_start; // need post-processing
   rtraj.iter_id = stepres.step_id;
 
   if(stepres.is_converged != OPTS_UNKNOWN) // final step of one optimization
@@ -92,7 +94,7 @@ void TrajCollecter::OptimizerCallback(OptProb* prob, DblVec& x, OptStepResults& 
     double entire_opt_time = stepres.time_since_start;
     for(std::size_t i = 0; i < m_trajs.size(); ++i)
     {
-      m_trajs[i].time_to_convergence = entire_opt_time - m_trajs[i].time_to_convergence;
+      m_trajs[i].time_to_converge = entire_opt_time - m_trajs[i].time_to_converge;
     }
   }
 }

@@ -27,6 +27,7 @@ add_library(trajopt
 	bullet_unity.cpp
     traj_feature.cpp
     traj_feature_utils.cpp
+    traj_collecter.cpp
 )
 target_link_libraries(trajopt ${OpenRAVE_BOTH_LIBRARIES} ${Boost_SYSTEM_LIBRARY} sco utils json osgviewer sht)
 

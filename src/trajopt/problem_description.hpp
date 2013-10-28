@@ -3,6 +3,7 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 #include "traj_plotter.hpp"
+#include "traj_collecter.hpp"
 
 namespace sco
 {
@@ -95,6 +96,11 @@ public:
   {
     return m_trajplotter;
   }
+
+  TrajCollecterPtr GetCollecter()
+  {
+    return m_trajcollecter;
+  }
   
   friend TrajOptProbPtr ConstructProblem(const ProblemConstructionInfo&);
   
@@ -103,9 +109,12 @@ private:
   ConfigurationPtr m_rad;
   TrajArray m_init_traj;
   TrajPlotterPtr m_trajplotter;
+  TrajCollecterPtr m_trajcollecter;
 };
 
 void TRAJOPT_API SetupPlotting(TrajOptProb& prob, Optimizer& opt);
+
+void TRAJOPT_API SetupCollecter(TrajOptProb& prob, Optimizer& opt);
 
 struct TRAJOPT_API TrajOptResult
 {

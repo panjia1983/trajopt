@@ -294,6 +294,12 @@ TrajOptResultPtr OptimizeProblem(TrajOptProbPtr prob, bool plot)
   {
     SetupPlotting(*prob, opt);
   }
+
+  // setup collecter for trajectory learning
+  SetupCollecter(*prob, opt);
+
+  
+  
   opt.initialize(trajToDblVec(prob->GetInitTraj()));
   opt.optimize();
   return TrajOptResultPtr(new TrajOptResult(opt.results(), *prob));
@@ -382,6 +388,7 @@ TrajOptProb::TrajOptProb(int n_steps, ConfigurationPtr rad) : m_rad(rad)
   m_traj_vars = VarArray(n_steps, n_dof, trajvarvec.data());
   
   m_trajplotter.reset(new TrajPlotter(m_rad->GetEnv(), m_rad, m_traj_vars));
+  m_trajcollecter.reset(new TrajCollecter(m_rad->GetEnv(), m_rad, m_traj_vars));
   
 }
 
@@ -396,6 +403,14 @@ void SetupPlotting(TrajOptProb& prob, Optimizer& opt)
   plotter->Add(prob.getCosts());
   plotter->Add(prob.getConstraints());
   opt.addCallback(boost::bind(&TrajPlotter::OptimizerCallback, *plotter, _1, _2, _3));
+}
+
+void SetupCollecter(TrajOptProb& prob, Optimizer& opt)
+{
+  TrajCollecterPtr collecter = prob.GetCollecter();
+  collecter->Add(prob.getCosts());
+  collecter->Add(prob.getConstraints());
+  opt.addCallback(boost::bind(&TrajCollecter::OptimizerCallback, *collecter, _1, _2, _3));
 }
 
 

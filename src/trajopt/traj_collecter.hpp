@@ -3,6 +3,8 @@
 #include "trajopt/collision_checker.hpp"
 #include "trajopt/collision_terms.hpp"
 #include "utils/timer.hpp"
+#include "sco/optimizers.hpp"
+
 #include <iostream>
 #include <vector>
 
@@ -54,5 +56,7 @@ struct TRAJOPT_API TrajCollecter
   // plotters obtain internal information from optimization solver
   std::vector<PlotterPtr> m_plotters;
 };
+
+typedef boost::shared_ptr<TrajCollecter> TrajCollecterPtr;
 
 }
