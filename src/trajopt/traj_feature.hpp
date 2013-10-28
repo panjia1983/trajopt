@@ -158,23 +158,54 @@ struct LinkSignedDistance
 
 typedef std::vector<LinkSignedDistance> RobotSignedDistance;
 
-RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, DblVec& x);
+RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, const DblVec& x);
 
+// signed distance features for the entire robot, for one waypoint x
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, const DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
 
-// 
-std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+// dot product between signed distance features for adjacent links for the entire robot, for one waypoint x
+std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, const DblVec& x, const DirectionQuantizer& quantizer);
 
-//
-std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, DblVec& x, DblVec& y, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+// dot product between signed distance features for the entire robot, for two waypoints x and y
+std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, const DblVec& x, const DblVec& y, const DirectionQuantizer& quantizer);
 
+// spherical harmonics features (short version) for the entire robot, for one waypoint x
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg);
+std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr config, const DblVec& x, const SphericalHarmonicsGrid& shg);
 
-
+// spherical harmonics features (long version) for the entire robot, for one waypoint x
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg);
+std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr config, const DblVec& x, const SphericalHarmonicsGrid& shg);
+
+
+
+
+
+// signed distance features for all waypoints in a trajectory
+// [features for waypoint 1][features for waypoint 2]...
+std::vector<double> computeTrajectorySignedDistanceFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer, double perturb_rotation_angle);
+
+/// signed distance features for all waypoints in a trajectory, with N perturbations
+std::vector<double> computeTrajectorySignedDistanceFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer, std::size_t N);
+
+// dot product between signed distance features for adjacent links, for the entire trajectory
+std::vector<double> computeTrajectorySignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer);
+
+// dot product between signed distance features for the entire robot, for all adjacent waypoints in a trajectory
+std::vector<double> computeTrajectorySignedDistanceDotProductBetweenAdjacentWaypointsFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer);
+
+// spherical harmonics features (short version) for the entire trajectory
+std::vector<double> computeTrajectorySphericalHarmonicsShortFeature(ConfigurationPtr config, const MatrixXd& traj, const SphericalHarmonicsGrid& shg);
+
+// spherical harmonics features (long version) for the entire trajectory
+std::vector<double> computeTrajectorySphericalHarmonicsLongFeature(ConfigurationPtr config, const MatrixXd& traj, const SphericalHarmonicsGrid& shg);
+
+
+
+
+
+
 
 
 

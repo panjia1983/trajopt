@@ -20,7 +20,7 @@ std::map<const KinBody::Link*, int> mapLinkToId(const std::vector<OR::KinBody::L
 }
 
 
-RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, DblVec& x)
+RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, const DblVec& x)
 {
   CollisionCheckerPtr cc = CollisionChecker::GetOrCreate(*(config->GetEnv()));
   std::vector<OR::KinBody::LinkPtr> links;
@@ -87,7 +87,7 @@ RobotSignedDistance computeRobotSignedDistance(ConfigurationPtr config, DblVec& 
 
 
 // [features for link 1][features for link 2] ...
-std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, const DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
 {
   RobotSignedDistance rsd = computeRobotSignedDistance(config, x);
   int n_links = rsd.size();
@@ -126,9 +126,10 @@ std::vector<double> computeRobotSignedDistanceFeature(ConfigurationPtr config, D
 }
 
 
-std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, DblVec& x, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, const DblVec& x, const DirectionQuantizer& quantizer)
 {
-  std::vector<double> signedDistanceFeature = computeRobotSignedDistanceFeature(config, x, quantizer, perturb_rotation_angle);
+  // we don't need to choose perturb_rotation_angle here, because all perturbations will give the same dot-product result
+  std::vector<double> signedDistanceFeature = computeRobotSignedDistanceFeature(config, x, quantizer, 0);
 
  
   std::vector<OR::KinBody::LinkPtr> links;
@@ -180,10 +181,11 @@ std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(Conf
   return features;
 }
 
-std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, DblVec& x, DblVec& y, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(ConfigurationPtr config, const DblVec& x, const DblVec& y, const DirectionQuantizer& quantizer)
 {
-  std::vector<double> features_waypoint1 = computeRobotSignedDistanceFeature(config, x, quantizer, perturb_rotation_angle);
-  std::vector<double> features_waypoint2 = computeRobotSignedDistanceFeature(config, y, quantizer, perturb_rotation_angle);
+  // we don't need to choose perturb_rotation_angle here, because all perturbations will give the same dot-product result
+  std::vector<double> features_waypoint1 = computeRobotSignedDistanceFeature(config, x, quantizer, 0);
+  std::vector<double> features_waypoint2 = computeRobotSignedDistanceFeature(config, y, quantizer, 0);
 
   std::vector<double> features;
   int n_quantize_step = quantizer.Dim();
@@ -205,7 +207,7 @@ std::vector<double> computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeatu
 }
 
 
-std::vector<double> computeRobotSphericalHarmonicShortFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg)
+std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr config, const DblVec& x, const SphericalHarmonicsGrid& shg)
 {
   RobotSignedDistance rsd = computeRobotSignedDistance(config, x);
   int n_links = rsd.size();
@@ -254,7 +256,7 @@ std::vector<double> computeRobotSphericalHarmonicShortFeature(ConfigurationPtr c
   return features;
 }
 
-std::vector<double> computeRobotSphericalHarmonicLongFeature(ConfigurationPtr config, DblVec& x, const SphericalHarmonicsGrid& shg)
+std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr config, const DblVec& x, const SphericalHarmonicsGrid& shg)
 {
   RobotSignedDistance rsd = computeRobotSignedDistance(config, x);
   int n_links = rsd.size();
@@ -298,6 +300,94 @@ std::vector<double> computeRobotSphericalHarmonicLongFeature(ConfigurationPtr co
     std::vector<double> sht_feature = collectShapeSHTFeature(sht_coeffs, sht_bandwidth);
 
     std::copy(sht_feature.begin(), sht_feature.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+
+
+
+
+// signed distance features for all waypoints in a trajectory
+// [features for waypoint 1][features for waypoint 2]...
+std::vector<double> computeTrajectorySignedDistanceFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer, double perturb_rotation_angle)
+{
+  std::vector<double> features;
+  for(int i = 0; i < traj.rows(); ++i)
+  {
+    std::vector<double> f = computeRobotSignedDistanceFeature(config, toDblVec(traj.row(i)), quantizer, perturb_rotation_angle);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+
+/// signed distance features for all waypoints in a trajectory, with N perturbations
+std::vector<double> computeTrajectorySignedDistanceFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer, std::size_t N)
+{
+  std::vector<double> features;
+  
+  double delta_angle = 2 * M_PI / N;
+  for(std::size_t i = 0; i < N; ++i)
+  {
+    double angle = i * delta_angle;
+    std::vector<double> f = computeTrajectorySignedDistanceFeature(config, traj, quantizer, angle);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+
+// dot product between signed distance features for adjacent links, for the entire trajectory
+std::vector<double> computeTrajectorySignedDistanceDotProductBetweenLinksFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer)
+{
+  std::vector<double> features;
+  for(int i = 0; i < traj.rows(); ++i)
+  {
+    std::vector<double> f = computeRobotSignedDistanceDotProductBetweenLinksFeature(config, toDblVec(traj.row(i)), quantizer);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+// dot product between signed distance features for the entire robot, for all adjacent waypoints in a trajectory
+std::vector<double> computeTrajectorySignedDistanceDotProductBetweenAdjacentWaypointsFeature(ConfigurationPtr config, const MatrixXd& traj, const DirectionQuantizer& quantizer)
+{
+  std::vector<double> features;
+  for(int i = 0; i < traj.rows() - 1; ++i)
+  {
+    std::vector<double> f = computeRobotSignedDistanceDotProductBetweenTwoWaypointsFeature(config, toDblVec(traj.row(i)), toDblVec(traj.row(i+1)), quantizer);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+// spherical harmonics features (short version) for the entire trajectory
+std::vector<double> computeTrajectorySphericalHarmonicsShortFeature(ConfigurationPtr config, const MatrixXd& traj, const SphericalHarmonicsGrid& shg)
+{
+  std::vector<double> features;
+  for(int i = 0; i < traj.rows(); ++i)
+  {
+    std::vector<double> f = computeRobotSphericalHarmonicsShortFeature(config, toDblVec(traj.row(i)), shg);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
+  }
+
+  return features;
+}
+
+// spherical harmonics features (long version) for the entire trajectory
+std::vector<double> computeTrajectorySphericalHarmonicsLongFeature(ConfigurationPtr config, const MatrixXd& traj, const SphericalHarmonicsGrid& shg)
+{
+  std::vector<double> features;
+  for(int i = 0; i < traj.rows(); ++i)
+  {
+    std::vector<double> f = computeRobotSphericalHarmonicsLongFeature(config, toDblVec(traj.row(i)), shg);
+    std::copy(f.begin(), f.end(), std::back_inserter(features));
   }
 
   return features;
