@@ -87,11 +87,21 @@ struct SphericalHarmonicsGrid
 {
 private:
   std::vector<std::vector<OR::Vector> > grid_directions;
-  
+  std::size_t effective_bandwidth;
 public:
   std::size_t getBandWidth() const { return grid_directions.size() / 2; }
   std::size_t getGridSize() const { return grid_directions.size(); }
   std::size_t getDim() const { return grid_directions.size(); }
+
+  std::size_t getEffectiveBandWidth() const
+  {
+    return effective_bandwidth;
+  }
+
+  void setEffectiveBandWidth(std::size_t effective_bandwidth_)
+  {
+    effective_bandwidth = std::min(effective_bandwidth_, getBandWidth());
+  }
 
   SphericalHarmonicsGrid(std::size_t n)
   {
@@ -110,6 +120,8 @@ public:
         grid_directions[i][j] = OR::Vector(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
       }
     }
+
+    effective_bandwidth = getBandWidth();
   }
 
   const std::vector<std::vector<OR::Vector> >& getDirections() const

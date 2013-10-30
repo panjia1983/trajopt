@@ -159,7 +159,7 @@ std::vector<double> computeRobotSignedDistanceDotProductBetweenLinksFeature(Conf
       if(!p_link) continue;
 
       std::map<const KinBody::Link*, int>::const_iterator search_it = link_to_id_map.find(p_link);
-      if(search_it != link_to_id_map.end())
+      if(search_it != link_to_id_map.end()) // should always be true
       {
         int p_id = search_it->second;
 
@@ -247,7 +247,7 @@ std::vector<double> computeRobotSphericalHarmonicsShortFeature(ConfigurationPtr 
 
     // compute spherical harmonics coeffcients
     std::vector<std::vector<std::complex<double> > > sht_coeffs = SHT(samples);
-    int sht_bandwidth = sht_coeffs.size(); // can change to smaller value
+    int sht_bandwidth = shg.getEffectiveBandWidth();
     std::vector<double> sht_feature = collectGlobalSHTFeature(sht_coeffs, sht_bandwidth);
 
     std::copy(sht_feature.begin(), sht_feature.end(), std::back_inserter(features));
@@ -296,8 +296,7 @@ std::vector<double> computeRobotSphericalHarmonicsLongFeature(ConfigurationPtr c
 
     // compute spherical harmonics coeffcients
     std::vector<std::vector<std::complex<double> > > sht_coeffs = SHT(samples);
-    int sht_bandwidth = sht_coeffs.size(); // can change to smaller value
-    std::vector<double> sht_feature = collectShapeSHTFeature(sht_coeffs, sht_bandwidth);
+    std::vector<double> sht_feature = collectShapeSHTFeature(sht_coeffs, shg.getEffectiveBandWidth());
 
     std::copy(sht_feature.begin(), sht_feature.end(), std::back_inserter(features));
   }
