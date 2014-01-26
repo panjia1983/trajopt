@@ -5,8 +5,7 @@
 #include <string>
 #include <Eigen/Core>
 #include "macros.h"
-namespace cloudproc
-{
+namespace cloudproc {
 
 typedef Eigen::Matrix<bool, Eigen::Dynamic, 1> VectorXb;
 
@@ -30,6 +29,12 @@ TRAJOPT_API pcl::PolygonMesh::Ptr loadMesh(const std::string& fname);
 /////// Misc processing /////////
 template <class T>
 TRAJOPT_API typename pcl::PointCloud<T>::Ptr downsampleCloud(typename pcl::PointCloud<T>::ConstPtr in, float vsize);
+template <class T>
+TRAJOPT_API typename pcl::PointCloud<T>::Ptr removeOutliers(typename pcl::PointCloud<T>::ConstPtr in, float thresh=1, int k=15); 
+template <class T>
+TRAJOPT_API typename pcl::PointCloud<T>::Ptr getBiggestCluster(typename pcl::PointCloud<T>::ConstPtr in, float tol);
+template <class T>
+TRAJOPT_API typename pcl::PointCloud<T>::Ptr clusterFilter(typename pcl::PointCloud<T>::ConstPtr in, float tol, int minSize);
 
 TRAJOPT_API std::vector<int> getNearestNeighborIndices(pcl::PointCloud<pcl::PointXYZ>::Ptr src, pcl::PointCloud<pcl::PointXYZ>::Ptr targ);
 
@@ -49,9 +54,9 @@ TRAJOPT_API typename pcl::PointCloud<pcl::PointXYZ>::Ptr toXYZ(typename pcl::Poi
 template <class T>
 TRAJOPT_API typename pcl::PointCloud<T>::Ptr medianFilter(typename pcl::PointCloud<T>::ConstPtr in, int windowSize, float maxAllowedMovement); // instantiate: pcl::PointXYZ
 /**
-sigmaS: standard deviation of the Gaussian used by the bilateral filter for the spatial neighborhood/window.
+sigmaS: standard deviation of the Gaussian used by the bilateral filter for the spatial neighborhood/window. 
 PCL default: 15
-sigmaR: standard deviation of the Gaussian used to control how much an adjacent pixel is downweighted because of the intensity difference (depth in our case).
+sigmaR: standard deviation of the Gaussian used to control how much an adjacent pixel is downweighted because of the intensity difference (depth in our case). 
 PCL default: .05
 */
 template <class T>
@@ -96,18 +101,16 @@ TRAJOPT_API VectorXb boxMask(typename pcl::PointCloud<T>::ConstPtr, float xmin, 
 Return points in box
 */
 template <class T>
-TRAJOPT_API typename pcl::PointCloud<T>::Ptr boxFilter(typename pcl::PointCloud<T>::ConstPtr in, float xmin, float ymin, float zmin, float xmax, float ymax, float zmax, bool keep_organized)
-{
-  return maskFilter<T>(in, boxMask<T>(in, xmin, ymin, zmin, xmax, ymax, zmax), keep_organized);
+TRAJOPT_API typename pcl::PointCloud<T>::Ptr boxFilter(typename pcl::PointCloud<T>::ConstPtr in, float xmin, float ymin, float zmin, float xmax, float ymax, float zmax, bool keep_organized) {
+  return maskFilter<T>(in, boxMask<T>(in, xmin,ymin,zmin,xmax,ymax,zmax), keep_organized);
 }
 
 /**
 Return points not in box
 */
 template <class T>
-TRAJOPT_API typename pcl::PointCloud<T>::Ptr boxFilterNegative(typename pcl::PointCloud<T>::ConstPtr in, float xmin, float ymin, float zmin, float xmax, float ymax, float zmax,  bool keep_organized)
-{
-  return maskFilter<T>(in, 1 - boxMask<T>(in, xmin, ymin, zmin, xmax, ymax, zmax).array(), keep_organized);
+TRAJOPT_API typename pcl::PointCloud<T>::Ptr boxFilterNegative(typename pcl::PointCloud<T>::ConstPtr in, float xmin, float ymin, float zmin, float xmax, float ymax, float zmax,  bool keep_organized) {
+  return maskFilter<T>(in, 1 - boxMask<T>(in, xmin,ymin,zmin,xmax,ymax,zmax).array(), keep_organized);
 }
 
 
